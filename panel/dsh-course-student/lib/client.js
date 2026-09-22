@@ -194,15 +194,25 @@ window.__ModuleLoader__.load({
     }
 
     // ── 公开问答：老师策展后给全班看的那一份 ──
-    function PublicQA({ st, set, onOpen }) {
+    function PublicQA({ st, set, onOpen, onSync }) {
       const idx = st.publicIdx
       if (!idx) return h('div', { className: 'k21' }, '公开问答加载中…')
       const items = idx.items || []
+      const s = st.syncResult
       return h('div', { className: 'k46' },
         h('div', { className: 'k64' }, '老师公开给全班的问题（' + items.length + ' 条）'),
         h('div', { className: 'k57' }, '来源：' + idx.source + (idx.generatedAt ? (' · 生成于 ' + String(idx.generatedAt).slice(0, 19)) : '')
           + ' · 其中 ' + (idx.withTeacherAnswer || 0) + ' 条有教师答复'),
         h('div', { className: 'k57' }, '这份清单只含老师审核后公开的问题。别人私有的提问不在其中，也不会出现在这个仓库的任何地方。'),
+        // 老师公开了新内容、推上去了，本地这份不会自动变 —— 要有拉取动作，
+        // 否则「学生能看到老师公开的问答」只是理论上的。
+        h('div', { className: 'k60' },
+          h('button', { className: 'k42', disabled: st.busy, onClick: onSync }, st.busy ? '拉取中…' : '从远端拉取更新'),
+          h('span', { className: 'k57' }, '只做 git pull --ff-only：快进合并，不会产生 merge commit，也不会动你自己的提问与作业（它们在 .gitignore 里）')),
+        s ? h('div', { className: 'k56' },
+          h('div', { className: 'k64' }, s.ok ? (s.changed ? ('已更新 ' + s.before + ' → ' + s.after) : '已经是最新的') : ('拉取失败：' + s.error)),
+          s.hint ? h('div', { className: 'k57' }, s.hint) : null,
+          s.detail ? h('pre', { className: 'k63', style: { maxHeight: '160px', overflow: 'auto' } }, s.detail) : null) : null,
         items.length ? items.map((it) => h('div', {
           key: it.path, className: 'k45', onClick: () => onOpen(it.path),
         },
@@ -341,6 +351,14 @@ window.__ModuleLoader__.load({
           if (r.path) await openThread(r.path)
         } catch (err) { set({ asking: false, error: '提问失败：' + ((err && err.message) || String(err)) }) }
       }, [loadThreads, openThread])
+      const onSync = React.useCallback(async () => {
+        set({ busy: true, error: '', syncResult: null })
+        try {
+          const r = await api('sync', {})
+          set({ busy: false, syncResult: r, notice: r.ok ? (r.changed ? '已拉取课程更新' : '已经是最新的') : ('拉取失败：' + r.error) })
+          if (r.ok) { await loadThreads() }
+        } catch (err) { set({ busy: false, error: '拉取失败：' + ((err && err.message) || String(err)) }) }
+      }, [loadThreads])
       const onFollowup = React.useCallback(async (path, q) => {
         set({ asking: true, error: '' })
         try {
@@ -411,7 +429,7 @@ window.__ModuleLoader__.load({
               h('div', { className: 'k57' }, '你的问题默认只有你能看到。老师审核后会把值得全班看的放进「公开问答」—— 避免个别问题占用所有人的注意力。老师若直接答复了你，会在「我的提问」里标出「教师已答复」。')) : null,
             st.view === 'slides' ? h('div', null, h(Slides, { st, set }), h(AskBar, { st, set, onAsk })) : null,
             st.view === 'threads' ? h(ThreadList, { st, set, onOpen: openThread }) : null,
-            st.view === 'public' ? h(PublicQA, { st, set, onOpen: openThread }) : null,
+            st.view === 'public' ? h(PublicQA, { st, set, onOpen: openThread, onSync }) : null,
             st.view === 'thread' ? h(ThreadView, { st, set, onFollowup }) : null,
             st.view === 'homework' ? h(Homework, { st, set, onGrade }) : null,
             st.view === 'usage' ? h(Usage, { st }) : null)))

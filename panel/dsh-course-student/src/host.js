@@ -129,6 +129,46 @@ export async function apply(ctx) {
     async 'public.index'() {
       return await publicIndex()
     },
+
+    /**
+     * 从远端拉取课程更新（老师新公开的问答、新发布的教案）。
+     *
+     * 为什么要有这个：面板读的是**本机工作区**。老师公开了新内容、推上去了，
+     * 学生本地那份不会自动变 —— 没有这个动作，「学生能看到老师公开的问答」
+     * 只是理论上的。只做 `git pull --ff-only`：快进合并，绝不产生 merge commit，
+     * 也绝不碰学生自己的东西（他的提问在 .gitignore 里，pull 不会动）。
+     */
+    async sync(args) {
+      const input = args && typeof args === 'object' ? args : {}
+      const fs = await import('node:fs')
+      const pathMod = await import('node:path')
+      if (!fs.existsSync(pathMod.join(core.WORKSPACE, '.git'))) {
+        return { ok: false, error: '当前工作区不是一个 git 仓库（' + core.WORKSPACE + '），无法拉取更新' }
+      }
+      const { spawnSync } = await import('node:child_process')
+      const run = (cmdArgs) => spawnSync('git', cmdArgs, { cwd: core.WORKSPACE, encoding: 'utf8', timeout: 120000 })
+      // 先看远端有没有新东西，避免每次都白跑一次 pull
+      const before = run(['rev-parse', '--short', 'HEAD'])
+      const r = run(['pull', '--ff-only'])
+      const after = run(['rev-parse', '--short', 'HEAD'])
+      const out = ((r.stdout || '') + (r.stderr || '')).trim()
+      const changed = before.status === 0 && after.status === 0 && before.stdout.trim() !== after.stdout.trim()
+      if (r.status !== 0) {
+        // 本地有改动、或历史分叉时 pull 会失败。要说清楚怎么办，而不是只报 exit code。
+        return {
+          ok: false, error: '拉取失败（可能是本地有未提交的改动，或历史分叉）',
+          detail: out.slice(-1500),
+          hint: '在 ' + core.WORKSPACE + ' 里执行 git status 看看；你自己的提问与作业已被 .gitignore 忽略，通常可以直接 git checkout -- . 后重试',
+        }
+      }
+      void input
+      return {
+        ok: true, changed,
+        before: before.status === 0 ? before.stdout.trim() : '', after: after.status === 0 ? after.stdout.trim() : '',
+        output: out.slice(-1500),
+        hint: changed ? '已更新。重新打开面板或点「刷新」看新内容。' : '已经是最新的。',
+      }
+    },
     /** 读一条：md 全文 + 结构化线程 */
     async thread(args) {
       const p = args && typeof args.path === 'string' ? args.path : ''
