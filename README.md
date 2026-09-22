@@ -74,12 +74,15 @@
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-它会依次做四件事：
+它会依次做这些事：
 
-1. 检查 Node.js（>= 20）
-2. 检查 DSH，没装就装
-3. 从**本仓自带的** `panel/dsh-course-panel-*.tgz` 安装面板插件
-4. 指引你配置自己的 API Key，然后启动
+1. 确认本仓完整（课程数据与插件都在）
+2. 检查 Node.js（>= 20）
+3. 检查 DSH，没装就装
+4. 从**本仓自带的** `panel/dsh-course-student` 与 `panel/dsh-course-core` 安装面板插件
+   （学生端 + 共享内核两个包；教师端那个包在老师机器上，你不用装）
+5. 把「课程工作区」指向你 clone 下来的这个目录，并说明你的学生身份名
+6. 指引你配置自己的 API Key，然后启动
 
 **想先看它要做什么、不实际改动**：
 
@@ -87,8 +90,8 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -DryRun
 ```
 
-脚本**不下载任何第三方代码**，只调用 `npm` 和 `dsh`。插件包就在本仓 `panel/` 里，
-你可以自己解开检查（`tar -tzf panel/*.tgz`）。
+脚本**不下载任何第三方代码**，只调用 `npm` 和 `dsh`。插件就在本仓 `panel/` 下，
+是纯文本 JS，你可以自己打开逐行看它做了什么。
 
 ---
 

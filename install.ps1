@@ -1,4 +1,4 @@
-﻿<#
+<#
   课程环境一键装置 —— 学生端
   ================================================================
   你在课程的公开仓里，这个脚本把剩下的事全做完：
@@ -17,7 +17,8 @@
 
   关于权限：
     · 脚本不下载任何第三方代码，只调用 npm / dsh
-    · 插件就在本仓 panel/dsh-course-panel/，是纯文本 JS，你可以自己打开看
+    · 插件就在本仓 panel/ 下（dsh-course-student + dsh-course-core 两个包），
+      是纯文本 JS，你可以自己打开看
     · 它只读写下面这个目录（也就是本仓），不碰你机器上的别处
 
   第 4 步为什么必要：
@@ -53,7 +54,8 @@ if ($DryRun) { Warn "DryRun 模式：只显示操作，不做任何改动" }
 Step "0/6  确认仓库完整"
 $need = @(
   (Join-Path $RepoRoot '课程中心\课程结构索引.json'),
-  (Join-Path $RepoRoot 'panel\dsh-course-panel\package.json')
+  (Join-Path $RepoRoot 'panel\dsh-course-student\package.json'),
+  (Join-Path $RepoRoot 'panel\dsh-course-core\package.json')
 )
 $missing = @()
 foreach ($p in $need) { if (-not (Test-Path $p)) { $missing += $p } }
@@ -144,26 +146,37 @@ $binPath = if ($dsh -and $dsh.How.Count -ge 2) { $dsh.How[1] } else { 'dsh' }
 
 # ── 3. 面板插件 ───────────────────────────────────────────────
 Step "3/6  安装「课程问题池」面板插件"
-$pluginDir = Join-Path $RepoRoot 'panel\dsh-course-panel'
-if (-not (Test-Path (Join-Path $pluginDir 'package.json'))) {
-  Bad "在 $pluginDir 里找不到 package.json"
-  Say "        这个目录应该随仓库一起 clone 下来。请确认 clone 完整。"
-  exit 1
-}
-Ok "插件源：panel\dsh-course-panel（纯 JS，可自行查看）"
-
-if ($DryRun) {
-  Say "        [DryRun] 将执行：dsh plugin --profile $Profile add `"$pluginDir`""
-} else {
-  Say "        执行：dsh plugin --profile $Profile add <面板插件目录>"
-  Invoke-Dsh -DshHow $dsh.How -DshArgs @('plugin', '--profile', $Profile, 'add', $pluginDir)
-  if ($LASTEXITCODE -ne 0) {
-    Bad "插件安装失败"
-    Say "        常见原因：pnpm 没装。可先执行：npm i -g pnpm"
-    Say "        然后把上面的完整报错发到 issue。"
+# 学生端与教师端是两个独立插件，共享一个内核，三个都要装。
+# 内核是「按相对位置算绝对路径」装载的，所以三个包必须并排放在 panel\ 下 ——
+# 装的时候也只装目录，不要把某个包单独挪走。
+$pluginDirs = @(
+  (Join-Path $RepoRoot 'panel\dsh-course-student'),
+  (Join-Path $RepoRoot 'panel\dsh-course-core')
+)
+foreach ($d in $pluginDirs) {
+  if (-not (Test-Path (Join-Path $d 'package.json'))) {
+    Bad "在 $d 里找不到 package.json"
+    Say "        这些目录应该随仓库一起 clone 下来。请确认 clone 完整。"
     exit 1
   }
-  Ok "插件已装入 profile「$Profile」"
+}
+Ok "插件源：panel\（学生端 + 共享内核，纯 JS，可自行查看）"
+
+if ($DryRun) {
+  foreach ($d in $pluginDirs) { Say "        [DryRun] 将执行：dsh plugin --profile $Profile add `"$d`"" }
+} else {
+  foreach ($d in $pluginDirs) {
+    Say "        执行：dsh plugin --profile $Profile add $(Split-Path -Leaf $d)"
+    Invoke-Dsh -DshHow $dsh.How -DshArgs @('plugin', '--profile', $Profile, 'add', $d)
+    if ($LASTEXITCODE -ne 0) {
+      Bad "插件安装失败（$(Split-Path -Leaf $d)）"
+      Say "        常见原因：pnpm 没装。可先执行：npm i -g pnpm"
+      Say "        然后把上面的完整报错发到 issue。"
+      exit 1
+    }
+  }
+  Ok "插件已装入 profile「$Profile」（学生端 + 内核）"
+  Say "        你是学生端，所以只装这两个；教师端插件在老师的机器上。"
 }
 
 # ── 4. 课程工作区 ─────────────────────────────────────────────
@@ -186,6 +199,16 @@ if ($DryRun) {
   [System.IO.File]::WriteAllLines($wsFile, $lines, $enc)
   Ok "已写入 $wsFile"
 }
+
+# ── 4b. 你的学生身份 ──────────────────────────────────────────
+# 提问与作业会归到这个名字下。老师那边看到的是「谁问的」，
+# 所以别写「anonymous」——不然老师汇总共性问题时分不清是几个学生。
+Step "4b   你的学生身份"
+$stu = $env:CIP_STUDENT
+if (-not $stu) { $stu = $env:USERNAME }
+Say "  默认用你的系统用户名：$stu"
+Say "  想换（例如用学号），随时设环境变量 CIP_STUDENT 后重启面板。"
+Say "  它只用于把提问/作业归到你名下，不影响任何权限。"
 
 # ── 5. 你自己的私有数据目录 ───────────────────────────────────
 Step "5/6  建好你的私有数据目录"
