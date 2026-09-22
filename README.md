@@ -64,7 +64,31 @@
 - 提问消耗的是**你自己的额度**，不经过老师的服务器
 - 老师看不到你的 Key，也看不到你没提交的对话
 
-安装与配置步骤见 `docs/学生端安装.md`（老师会随课程进度更新）。
+安装与配置步骤见 `docs/学生端接入.md`。
+
+### 一键装置（推荐）
+
+在本仓根目录打开 PowerShell，跑一条就够：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+```
+
+它会依次做四件事：
+
+1. 检查 Node.js（>= 20）
+2. 检查 DSH，没装就装
+3. 从**本仓自带的** `panel/dsh-course-panel-*.tgz` 安装面板插件
+4. 指引你配置自己的 API Key，然后启动
+
+**想先看它要做什么、不实际改动**：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -DryRun
+```
+
+脚本**不下载任何第三方代码**，只调用 `npm` 和 `dsh`。插件包就在本仓 `panel/` 里，
+你可以自己解开检查（`tar -tzf panel/*.tgz`）。
 
 ---
 
