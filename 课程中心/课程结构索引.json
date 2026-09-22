@@ -1,0 +1,96 @@
+{
+  "_note": "课程结构索引。从 教学大纲-优化版.md 派生，供插件读取，避免运行时解析 Markdown。改动大纲时请同步本文件。",
+  "course": "从机器学习基础到深度学习入门，再到计算机视觉实战与 Vibe Coding 工作流",
+  "totalLessons": 30,
+  "modules": [
+    {
+      "id": "M1",
+      "name": "模块一",
+      "dir": "模块一_基础与工程化入门",
+      "range": "课时 1-6",
+      "theme": "基础与工程化入门",
+      "planDir": "详细教案",
+      "lessons": [
+        { "no": 1, "title": "课程启动、环境搭建与云端开发规范", "plan": "" },
+        { "no": 2, "title": "Prompt Engineering for Code 与代码审查习惯", "plan": "" },
+        { "no": 3, "title": "从统计学习理论到深度学习的矩阵化重构", "plan": "课时3_统计学习理论到深度学习矩阵化重构.md" },
+        { "no": 4, "title": "实验可重复性背后的系统级随机性破解", "plan": "课时4_实验可重复性的系统级随机性破解.md" },
+        { "no": 5, "title": "高维张量拓扑、连续内存布局与 Einops 魔法", "plan": "课时5_高维张量拓扑与Einops重构.md" },
+        { "no": 6, "title": "高性能数据管道与学术级统计可视化", "plan": "课时6_高性能数据管道与学术级统计可视化.md" }
+      ]
+    },
+    {
+      "id": "M2",
+      "name": "模块二",
+      "dir": "模块二_PyTorch与深度学习训练闭环",
+      "range": "课时 7-12",
+      "theme": "PyTorch 与深度学习训练闭环",
+      "planDir": "详细教案",
+      "lessons": [
+        { "no": 7, "title": "从仿射变换到连续非线性空间的映射（MLP 实战）", "plan": "课时7_仿射变换到动态计算图的MLP实战.md" },
+        { "no": 8, "title": "损失曲面几何学与优化器推导", "plan": "课时8_损失曲面几何与优化器推导.md" },
+        { "no": 9, "title": "Vibe Coding 构建工业级训练模板", "plan": "课时9_VibeCoding构建工业级训练模板.md" },
+        { "no": 10, "title": "算力压榨：混合精度（AMP）与性能 Profiling", "plan": "课时10_混合精度与性能Profiling.md" },
+        { "no": 11, "title": "泛化理论与高维特征解耦（正则化）", "plan": "课时11_泛化理论与病态Loss诊断.md" },
+        { "no": 12, "title": "阶段实战一：土木 / 工程类数据集端到端跑通", "plan": "课时12_工程类分类任务端到端实战.md" }
+      ]
+    },
+    {
+      "id": "M3",
+      "name": "模块三",
+      "dir": "模块三_计算机视觉分类与检测",
+      "range": "课时 13-18",
+      "theme": "计算机视觉分类与检测",
+      "planDir": "详细教案",
+      "lessons": [
+        { "no": 13, "title": "卷积算子的傅里叶视角与空间拓扑", "plan": "课时13_卷积算子的傅里叶视角与空间拓扑.md" },
+        { "no": 14, "title": "现代 Backbone 演进与特征提取", "plan": "课时14_现代Backbone演进与特征提取.md" },
+        { "no": 15, "title": "仿射变换矩阵与高阶数据增强", "plan": "课时15_仿射变换矩阵与高阶数据增强.md" },
+        { "no": 16, "title": "目标检测代数几何：二分匹配与指标陷阱", "plan": "课时16_目标检测代数几何与指标陷阱.md" },
+        { "no": 17, "title": "YOLO 工程化微调与 Hard Case 分析", "plan": "课时17_YOLO工程化微调与HardCase分析.md" },
+        { "no": 18, "title": "阶段实战二：学术级消融实验（Ablation Study）复盘", "plan": "课时18_学术级消融实验复盘.md" }
+      ]
+    },
+    {
+      "id": "M4",
+      "name": "模块四",
+      "dir": "模块四_分割_Transformer_3D与多模态",
+      "range": "课时 19-24",
+      "theme": "分割、Transformer、3D 与多模态",
+      "planDir": "详细教案",
+      "missingPlans": true,
+      "lessons": [
+        { "no": 19, "title": "像素级语义空间建模与 U-Net 架构", "plan": "" },
+        { "no": 20, "title": "分割指标的绝对瓶颈与损失函数调优", "plan": "" },
+        { "no": 21, "title": "自注意力机制：从线性代数到 Vision Transformer", "plan": "" },
+        { "no": 22, "title": "3D 视觉基础与 BEV（鸟瞰图）视角变换矩阵", "plan": "" },
+        { "no": 23, "title": "LiDAR 与 Camera 多模态融合初探", "plan": "" },
+        { "no": 24, "title": "大语言 / 视觉模型（VLM / SAM）的降维打击", "plan": "" }
+      ]
+    },
+    {
+      "id": "M5",
+      "name": "模块五",
+      "dir": "模块五_Capstone项目实战",
+      "range": "课时 25-30",
+      "theme": "Capstone 项目实战",
+      "planDir": "详细教案",
+      "missingPlans": true,
+      "lessons": [
+        { "no": 25, "title": "课题定义与 AI 架构设计（Proposal）", "plan": "" },
+        { "no": 26, "title": "数据资产的高并发清洗与转换", "plan": "" },
+        { "no": 27, "title": "云端算力集群调度与灾备方案", "plan": "" },
+        { "no": 28, "title": "模型诊断、Bad Case 挖掘与边界测试", "plan": "" },
+        { "no": 29, "title": "学术级数据可视化与顶刊图表直出", "plan": "" },
+        { "no": 30, "title": "工程全貌与开源闭环（Final Review）", "plan": "" }
+      ]
+    }
+  ],
+  "gradingDimensions": [
+    { "key": "correctness", "name": "行为正确性", "desc": "代码是否真的按教案要求工作；能否复现教案里的验收标准" },
+    { "key": "alignment", "name": "教案对齐度", "desc": "是否用了本课时要求的方法与视角，而不是绕开它用现成库" },
+    { "key": "mechanism", "name": "机制理解", "desc": "能否看出学生理解了原理，而不是照抄；关键处有无推导或注释" },
+    { "key": "reproducibility", "name": "可复现性", "desc": "随机种子、确定性、输出产物是否可复现" },
+    { "key": "engineering", "name": "工程规范", "desc": "命名、结构、错误处理、是否留下可验收的产物" }
+  ]
+}

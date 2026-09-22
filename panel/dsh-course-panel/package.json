@@ -1,0 +1,37 @@
+{
+  "name": "dsh-course-panel",
+  "version": "0.3.0",
+  "description": "DSH Profile Bundle：深度学习课程问题池面板（学生/教师双角色 / 自解析课程工作区 / 章节选择 / 课件框选提问 / 作业按教案批改 / 问题审计）",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": {
+      "default": "./src/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
+    }
+  },
+  "files": [
+    "src",
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

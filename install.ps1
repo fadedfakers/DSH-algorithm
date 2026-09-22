@@ -1,11 +1,13 @@
 ﻿<#
   课程环境一键装置 —— 学生端
   ================================================================
-  你在公开仓里，这个脚本把剩下的事全做完：
-    1. 检查 / 安装 DSH
-    2. 从本仓自带的 tarball 安装「课程问题池」面板插件
-    3. 指引你配置自己的 API Key（key 只存你本机，不经过老师）
-    4. 启动 dsh web
+  你在课程的公开仓里，这个脚本把剩下的事全做完：
+    1. 检查 Node.js
+    2. 检查 / 安装 DSH
+    3. 从本仓 panel/ 安装「课程问题池」面板插件
+    4. 把「课程工作区」指向你 clone 下来的这个目录
+    5. 建好你自己的私有数据目录
+    6. 指引你配置自己的 API Key
 
   用法（在本仓根目录打开 PowerShell）：
       powershell -ExecutionPolicy Bypass -File .\install.ps1
@@ -13,8 +15,16 @@
   想先看看会做什么、不实际改动：
       powershell -ExecutionPolicy Bypass -File .\install.ps1 -DryRun
 
-  关于权限：脚本不下载任何第三方代码，只调用 npm / dsh。
-  插件包就是本仓内的 panel/dsh-course-panel-*.tgz，你可以自己解开检查。
+  关于权限：
+    · 脚本不下载任何第三方代码，只调用 npm / dsh
+    · 插件就在本仓 panel/dsh-course-panel/，是纯文本 JS，你可以自己打开看
+    · 它只读写下面这个目录（也就是本仓），不碰你机器上的别处
+
+  第 4 步为什么必要：
+    插件要靠「课程工作区」找到课程数据和你的提问记录。工作区里必须有
+    一个 课程中心 目录（本仓自带）。学生把仓 clone 到哪台机器的哪个位置
+    都可能，所以这个路径必须由安装脚本写下来告诉插件 —— 否则面板会
+    打开一片空白，还不报错，很难查。
 #>
 
 [CmdletBinding()]
@@ -31,7 +41,6 @@ function Ok   { param([string]$m) Write-Host "  [OK]   $m" -ForegroundColor Gree
 function Warn { param([string]$m) Write-Host "  [注意] $m" -ForegroundColor Yellow }
 function Bad  { param([string]$m) Write-Host "  [失败] $m" -ForegroundColor Red }
 function Step { param([string]$m) Write-Host "`n== $m ==" -ForegroundColor Cyan }
-
 function Have { param([string]$cmd) return [bool](Get-Command $cmd -ErrorAction SilentlyContinue) }
 
 Say ""
@@ -40,8 +49,24 @@ Say "  ------------------------------------------------------------"
 Say "  仓库：$RepoRoot"
 if ($DryRun) { Warn "DryRun 模式：只显示操作，不做任何改动" }
 
+# ── 0. 先确认自己在正确的目录 ─────────────────────────────────
+Step "0/6  确认仓库完整"
+$need = @(
+  (Join-Path $RepoRoot '课程中心\课程结构索引.json'),
+  (Join-Path $RepoRoot 'panel\dsh-course-panel\package.json')
+)
+$missing = @()
+foreach ($p in $need) { if (-not (Test-Path $p)) { $missing += $p } }
+if ($missing.Count) {
+  Bad "本仓缺少这些文件，clone 可能不完整："
+  foreach ($m in $missing) { Say "        $m" }
+  Say "        请在仓库根目录重跑，或重新 clone。"
+  exit 1
+}
+Ok "课程数据与插件都在"
+
 # ── 1. Node.js ────────────────────────────────────────────────
-Step "1/4  检查 Node.js"
+Step "1/6  检查 Node.js"
 if (Have node) {
   $nodeVer = (& node --version) -replace '^v',''
   $major = [int]($nodeVer -split '\.')[0]
@@ -65,14 +90,14 @@ if (Have node) {
 #   所以按「命令名 → 常见 shim 路径 → 包内 bin.js」三层依次找，最后一层最稳。
 function Resolve-Dsh {
   $c = Get-Command dsh -ErrorAction SilentlyContinue
-  if ($c) { return @{ How = $c.Source; Show = $c.Source } }
+  if ($c) { return @{ How = @($c.Source); Show = $c.Source } }
 
   $shims = @(
     (Join-Path $env:APPDATA 'npm\dsh.cmd'),
     (Join-Path $env:LOCALAPPDATA 'pnpm\dsh.cmd'),
     (Join-Path $env:ProgramFiles 'nodejs\dsh.cmd')
   )
-  foreach ($s in $shims) { if (Test-Path $s) { return @{ How = $s; Show = $s } } }
+  foreach ($s in $shims) { if (Test-Path $s) { return @{ How = @($s); Show = $s } } }
 
   $bins = @(
     (Join-Path $env:APPDATA 'npm\node_modules\@deepseek-ai\dsh\lib\bin.js'),
@@ -90,7 +115,7 @@ function Invoke-Dsh {
   else { & $DshHow[0] $DshHow[1] @DshArgs }
 }
 
-Step "2/4  检查 DSH"
+Step "2/6  检查 DSH"
 $dsh = Resolve-Dsh
 if ($dsh) {
   Ok "dsh 已安装（$($dsh.Show)）"
@@ -118,22 +143,20 @@ if ($dsh) {
 $binPath = if ($dsh -and $dsh.How.Count -ge 2) { $dsh.How[1] } else { 'dsh' }
 
 # ── 3. 面板插件 ───────────────────────────────────────────────
-Step "3/4  安装「课程问题池」面板插件"
-$panelDir = Join-Path $RepoRoot 'panel'
-$tgz = Get-ChildItem $panelDir -Filter 'dsh-course-panel-*.tgz' -ErrorAction SilentlyContinue |
-       Sort-Object Name -Descending | Select-Object -First 1
-if (-not $tgz) {
-  Bad "在 $panelDir 里找不到 dsh-course-panel-*.tgz"
-  Say "        这个文件应该随仓库一起 clone 下来。请确认你 clone 完整，或重新 clone。"
+Step "3/6  安装「课程问题池」面板插件"
+$pluginDir = Join-Path $RepoRoot 'panel\dsh-course-panel'
+if (-not (Test-Path (Join-Path $pluginDir 'package.json'))) {
+  Bad "在 $pluginDir 里找不到 package.json"
+  Say "        这个目录应该随仓库一起 clone 下来。请确认 clone 完整。"
   exit 1
 }
-Ok "插件包：$($tgz.Name)（$([math]::Round($tgz.Length/1KB,1)) KB）"
+Ok "插件源：panel\dsh-course-panel（纯 JS，可自行查看）"
 
 if ($DryRun) {
-  Say "        [DryRun] 将执行：dsh plugin --profile $Profile add `"$($tgz.FullName)`""
+  Say "        [DryRun] 将执行：dsh plugin --profile $Profile add `"$pluginDir`""
 } else {
-  Say "        执行：dsh plugin --profile $Profile add <tarball>"
-  Invoke-Dsh -DshHow $dsh.How -DshArgs @('plugin', '--profile', $Profile, 'add', $tgz.FullName)
+  Say "        执行：dsh plugin --profile $Profile add <面板插件目录>"
+  Invoke-Dsh -DshHow $dsh.How -DshArgs @('plugin', '--profile', $Profile, 'add', $pluginDir)
   if ($LASTEXITCODE -ne 0) {
     Bad "插件安装失败"
     Say "        常见原因：pnpm 没装。可先执行：npm i -g pnpm"
@@ -143,8 +166,49 @@ if ($DryRun) {
   Ok "插件已装入 profile「$Profile」"
 }
 
-# ── 4. 你自己的 API Key ───────────────────────────────────────
-Step "4/4  配置你自己的模型 API Key"
+# ── 4. 课程工作区 ─────────────────────────────────────────────
+Step "4/6  把课程工作区指向本仓"
+$wsFile = Join-Path $env:USERPROFILE '.dsh\cip-workspace.txt'
+Say "  工作区 = 你 clone 下来的这个目录："
+Say "        $RepoRoot"
+Say "  插件会读它下面的 课程中心\（课件与结构）和 课程问题池\（你的提问）。"
+if ($DryRun) {
+  Say "        [DryRun] 将写入：$wsFile"
+} else {
+  $dshHome = Join-Path $env:USERPROFILE '.dsh'
+  if (-not (Test-Path $dshHome)) { New-Item -ItemType Directory -Force -Path $dshHome | Out-Null }
+  $lines = @(
+    '# 课程工作区路径 —— 由 install.ps1 写入，供「课程问题池」面板插件读取。',
+    '# 想换位置（比如把仓挪走了），改这一行即可；也可以用环境变量 CIP_WORKSPACE 覆盖。',
+    $RepoRoot
+  )
+  $enc = New-Object System.Text.UTF8Encoding($false)
+  [System.IO.File]::WriteAllLines($wsFile, $lines, $enc)
+  Ok "已写入 $wsFile"
+}
+
+# ── 5. 你自己的私有数据目录 ───────────────────────────────────
+Step "5/6  建好你的私有数据目录"
+$dirs = @(
+  (Join-Path $RepoRoot '课程问题池\问题条目'),
+  (Join-Path $RepoRoot '课程问题池\FAQ'),
+  (Join-Path $RepoRoot '作业提交')
+)
+if ($DryRun) {
+  foreach ($d in $dirs) { Say "        [DryRun] 将创建：$d" }
+} else {
+  foreach ($d in $dirs) {
+    if (Test-Path $d) { Ok "已存在：$(Split-Path -Leaf (Split-Path -Parent $d))\$([System.IO.Path]::GetFileName($d))" }
+    else { New-Item -ItemType Directory -Force -Path $d | Out-Null; Ok "已创建：$d" }
+  }
+}
+Say ""
+Say "  这三个目录里只放你自己的东西：你的提问、AI 给你的回答、你交的作业。"
+Say "  它们不会被提交、不会上传给老师 —— 除非你自己把某次提问整理成 issue 发出去。"
+Say "  （本仓的 .gitignore 已经把这些目录忽略掉了，不会误提交。）"
+
+# ── 6. 你自己的 API Key ───────────────────────────────────────
+Step "6/6  配置你自己的模型 API Key"
 $cred = Join-Path $env:USERPROFILE '.dsh\.credentials.yaml'
 if (Test-Path $cred) {
   Ok "已找到 $cred"
@@ -180,6 +244,7 @@ Say ""
 Say "  你的问题默认只属于你自己：老师看到后决定哪些值得共享给全班。"
 Say "  这样能避免「某个人脑子短路」的问题占用所有人的注意力。"
 Say ""
-Say "  提问请走本仓 Issues（模板：课程提问）。细则见 docs/学生端接入.md"
+Say "  想让老师看到某个问题，请走本仓 Issues（模板：课程提问）。"
+Say "  细则见 docs/学生端接入.md"
 Say ""
 if ($DryRun) { Warn "以上是 DryRun，什么都没改。去掉 -DryRun 真正执行。" }

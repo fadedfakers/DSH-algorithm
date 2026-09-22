@@ -1,0 +1,5853 @@
+{
+ "source": "第一章.pptx",
+ "slideWidth": 1280.0,
+ "slideHeight": 720.0,
+ "slideCount": 58,
+ "slides": [
+  {
+   "index": 1,
+   "part": "ppt/slides/slide1.xml",
+   "text": "模块零：基础与工程化入门\nvibecoding从入门到入土\n主讲人：利群他爹\n这是利群",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "模块零：基础与工程化入门",
+     "x": 133.47,
+     "y": 83.0,
+     "w": 1028.8,
+     "h": 123.0,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "vibecoding从入门到入土",
+     "x": 133.46,
+     "y": 238.8,
+     "w": 1028.79,
+     "h": 154.58,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "主讲人：利群他爹",
+     "x": 581.07,
+     "y": 321.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "这是利群",
+     "x": 735.6,
+     "y": 475.33,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "part": "ppt/slides/slide2.xml",
+   "text": "如果说做项目是让你得出屎的不同成分对味道的影响\n你该想的不应该是减少吃屎的痛苦，因为AI能给出对屎的味道的描述，也能给出屎的成分，你要想的是怎么将味道和成分建立联系。因为当AI吃屎的时候他已经过载了，如果你不想让AI给你一份屎一样的报告，就不要把你的工作丢给AI。\n为什么选用Gemini+Trae的组合\n因为你们的学长已经吃过很多屎了（从GPT3到GLM3-6B再到Claude），这一套组合能在花最少钱的前提下让AI吃更多的屎。\n完了牢gem是个老吃家，trea补足了在跨文件域的协调问题",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "如果说做项目是让你得出屎的不同成分对味道的影响\n你该想的不应该是减少吃屎的痛苦，因为AI能给出对屎的味道的描述，也能给出屎的成分，你要想的是怎么将味道和成分建立联系。因为当AI吃屎的时候他已经过载了，如果你不想让AI给你一份屎一样的报告，就不要把你的工作丢给AI。",
+     "x": 63.87,
+     "y": 137.93,
+     "w": 1151.6,
+     "h": 174.6,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "为什么选用Gemini+Trae的组合",
+     "x": 63.87,
+     "y": 312.54,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "因为你们的学长已经吃过很多屎了（从GPT3到GLM3-6B再到Claude），这一套组合能在花最少钱的前提下让AI吃更多的屎。\n完了牢gem是个老吃家，trea补足了在跨文件域的协调问题",
+     "x": 63.87,
+     "y": 407.27,
+     "w": 1151.6,
+     "h": 174.6,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 900.47,
+     "y": 483.87,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 900.47,
+     "y": 483.87,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "part": "ppt/slides/slide3.xml",
+   "text": "简单来说，在任何一个步骤上出问题，项目中就会产生屎，既然产生屎了，那就要避免屎从胖次渗到秋裤上，那我们就需要将每一层隔离（比如项目环境到电脑主机环境，又或者Trae的沙盒环境）\n在我们的开发过程中，会有很多层级的环境，比如全局环境和项目环境。\n同时，请注意，我们的依赖包（俗称库），实际上是大佬们完成并完善的封装后的整套代码，能接受用户的调用。\n但是，事实上，世界上没有一条能完美兜住所有人腚的裤衩，所以我们要考虑环境的配置（比如说有些包因为发行的很晚所以只能支持Python12.X+，有些包因为缺乏维护，只能用老版本的Python）\n本课程为了避免频繁调试环境，统一了开发环境（见群文件），直接甩给Trae让他配就行",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "简单来说，在任何一个步骤上出问题，项目中就会产生屎，既然产生屎了，那就要避免屎从胖次渗到秋裤上，那我们就需要将每一层隔离（比如项目环境到电脑主机环境，又或者Trae的沙盒环境）\n在我们的开发过程中，会有很多层级的环境，比如全局环境和项目环境。",
+     "x": 63.87,
+     "y": 156.47,
+     "w": 1151.6,
+     "h": 178.0,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "同时，请注意，我们的依赖包（俗称库），实际上是大佬们完成并完善的封装后的整套代码，能接受用户的调用。\n但是，事实上，世界上没有一条能完美兜住所有人腚的裤衩，所以我们要考虑环境的配置（比如说有些包因为发行的很晚所以只能支持Python12.X+，有些包因为缺乏维护，只能用老版本的Python）\n本课程为了避免频繁调试环境，统一了开发环境（见群文件），直接甩给Trae让他配就行",
+     "x": 634.0,
+     "y": 353.0,
+     "w": 621.0,
+     "h": 338.8,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image5.png",
+     "name": "image5.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 334.47,
+     "w": 547.47,
+     "h": 375.0,
+     "grouped": false,
+     "file": "slide003_image5.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image6.png",
+     "name": "image6.png",
+     "ext": ".png",
+     "x": 957.53,
+     "y": 236.53,
+     "w": 250.0,
+     "h": 123.47,
+     "grouped": false,
+     "file": "slide003_image6.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image5.png",
+     "name": "image5.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 334.47,
+     "w": 547.47,
+     "h": 375.0,
+     "grouped": false,
+     "file": "slide003_image5.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image6.png",
+     "name": "image6.png",
+     "ext": ".png",
+     "x": 957.53,
+     "y": 236.53,
+     "w": 250.0,
+     "h": 123.47,
+     "grouped": false,
+     "file": "slide003_image6.png"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "part": "ppt/slides/slide4.xml",
+   "text": "第二个概念——提示词\n我们不放拆解一下，你提问，AI回答这一过程，\nAI内置提示词\nAIAPI调用\n输出\n提示词\n那么好，这个过程就叫提示词优化，trae基于Gemini进行的提示词优化\nAI工具调用\n通俗来讲，我们塞给大模型的问题和文件就是你本轮对话的提示词\n按理说，每一个模型都有最适配的prompt，每个编译环境都有最适配的prompt（依旧裤衩兜腚理论）",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "第二个概念——提示词",
+     "x": 56.34,
+     "y": 26.07,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "我们不放拆解一下，你提问，AI回答这一过程，",
+     "x": 69.27,
+     "y": 132.07,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "AI内置提示词",
+     "x": 223.93,
+     "y": 199.8,
+     "w": 167.4,
+     "h": 55.07,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "AIAPI调用",
+     "x": 223.93,
+     "y": 265.73,
+     "w": 167.4,
+     "h": 55.07,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "输出",
+     "x": 495.93,
+     "y": 269.47,
+     "w": 83.2,
+     "h": 55.07,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "提示词",
+     "x": 47.47,
+     "y": 274.6,
+     "w": 83.2,
+     "h": 55.07,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那么好，这个过程就叫提示词优化，trae基于Gemini进行的提示词优化",
+     "x": 792.0,
+     "y": 302.87,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "AI工具调用",
+     "x": 223.93,
+     "y": 341.13,
+     "w": 167.4,
+     "h": 55.07,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "通俗来讲，我们塞给大模型的问题和文件就是你本轮对话的提示词",
+     "x": 69.27,
+     "y": 436.4,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "按理说，每一个模型都有最适配的prompt，每个编译环境都有最适配的prompt（依旧裤衩兜腚理论）",
+     "x": 69.27,
+     "y": 515.2,
+     "w": 426.67,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image7.png",
+     "name": "image7.png",
+     "ext": ".png",
+     "x": 606.2,
+     "y": 6.93,
+     "w": 89.8,
+     "h": 89.8,
+     "grouped": false,
+     "file": "slide004_image7.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image8.png",
+     "name": "image8.png",
+     "ext": ".png",
+     "x": 638.4,
+     "y": 107.87,
+     "w": 569.6,
+     "h": 161.6,
+     "grouped": false,
+     "file": "slide004_image8.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image9.png",
+     "name": "image9.png",
+     "ext": ".png",
+     "x": 638.4,
+     "y": 395.87,
+     "w": 557.6,
+     "h": 306.4,
+     "grouped": false,
+     "file": "slide004_image9.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image10.png",
+     "name": "image10.png",
+     "ext": ".png",
+     "x": 696.0,
+     "y": 284.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide004_image10.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image12.png",
+     "name": "image12.png",
+     "ext": ".png",
+     "x": 130.67,
+     "y": 265.73,
+     "w": 71.13,
+     "h": 71.13,
+     "grouped": false,
+     "file": "slide004_image12.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image12.png",
+     "name": "image12.png",
+     "ext": ".png",
+     "x": 413.47,
+     "y": 258.53,
+     "w": 71.13,
+     "h": 71.13,
+     "grouped": false,
+     "file": "slide004_image12.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image7.png",
+     "name": "image7.png",
+     "ext": ".png",
+     "x": 606.2,
+     "y": 6.93,
+     "w": 89.8,
+     "h": 89.8,
+     "grouped": false,
+     "file": "slide004_image7.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image8.png",
+     "name": "image8.png",
+     "ext": ".png",
+     "x": 638.4,
+     "y": 107.87,
+     "w": 569.6,
+     "h": 161.6,
+     "grouped": false,
+     "file": "slide004_image8.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image9.png",
+     "name": "image9.png",
+     "ext": ".png",
+     "x": 638.4,
+     "y": 395.87,
+     "w": 557.6,
+     "h": 306.4,
+     "grouped": false,
+     "file": "slide004_image9.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image10.png",
+     "name": "image10.png",
+     "ext": ".png",
+     "x": 696.0,
+     "y": 284.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide004_image10.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image12.png",
+     "name": "image12.png",
+     "ext": ".png",
+     "x": 130.67,
+     "y": 265.73,
+     "w": 71.13,
+     "h": 71.13,
+     "grouped": false,
+     "file": "slide004_image12.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image12.png",
+     "name": "image12.png",
+     "ext": ".png",
+     "x": 413.47,
+     "y": 258.53,
+     "w": 71.13,
+     "h": 71.13,
+     "grouped": false,
+     "file": "slide004_image12.png"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "part": "ppt/slides/slide5.xml",
+   "text": "Output Format（交付格式）：从“排版好看”升华为“工业/学术级交付标准”\n常规写法： 用 Markdown 输出，包含注释。\n学术/工程写法： 要求类型提示（Type Hints）、异常处理、符合 PEP8 规范、甚至要求附带可以直接运行的 Dummy Tensor 测试模块。\nConstraints（边界约束）：从“不要做某事”升华为“物理与数学限制”\n常规写法： 不要用太复杂的词。\n学术/工程写法： 限制时间/空间复杂度（如禁止 for 循环，必须使用张量向量化操作）、指定内存管理机制（如防 OOM）、限定禁止引入的外部依赖。\nCheckpoint（中断机制）：明确 AI 的“自治权限”\n常规写法： 懂了吗？\n学术/工程写法： 赋予模型在遇到数学矛盾、维度无法对齐（Shape Mismatch）、或缺乏关键前置参数时抛出异常并停机询问的权利；否则，一镜到底生成完整代码。\nContext（背景）：从“我在做啥”升华为“系统全局拓扑”\n常规写法： 我在做一个图像分割模型，想提高精度。\n学术/工程写法： 交代当前模块在整体 Pipeline 中的位置、数据流向、以及当前的性能瓶颈（比如 mIoU 卡在多少、是不是遭遇了物理或理论上限）。",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "Output Format（交付格式）：从“排版好看”升华为“工业/学术级交付标准”\n常规写法： 用 Markdown 输出，包含注释。\n学术/工程写法： 要求类型提示（Type Hints）、异常处理、符合 PEP8 规范、甚至要求附带可以直接运行的 Dummy Tensor 测试模块。\nConstraints（边界约束）：从“不要做某事”升华为“物理与数学限制”\n常规写法： 不要用太复杂的词。\n学术/工程写法： 限制时间/空间复杂度（如禁止 for 循环，必须使用张量向量化操作）、指定内存管理机制（如防 OOM）、限定禁止引入的外部依赖。",
+     "x": 430.47,
+     "y": 301.4,
+     "w": 471.8,
+     "h": 423.2,
+     "maxPt": 16.0,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "Checkpoint（中断机制）：明确 AI 的“自治权限”\n常规写法： 懂了吗？\n学术/工程写法： 赋予模型在遇到数学矛盾、维度无法对齐（Shape Mismatch）、或缺乏关键前置参数时抛出异常并停机询问的权利；否则，一镜到底生成完整代码。",
+     "x": 902.27,
+     "y": 301.4,
+     "w": 348.0,
+     "h": 323.33,
+     "maxPt": 16.0,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "Context（背景）：从“我在做啥”升华为“系统全局拓扑”\n常规写法： 我在做一个图像分割模型，想提高精度。\n学术/工程写法： 交代当前模块在整体 Pipeline 中的位置、数据流向、以及当前的性能瓶颈（比如 mIoU 卡在多少、是不是遭遇了物理或理论上限）。",
+     "x": -6.73,
+     "y": 461.8,
+     "w": 455.6,
+     "h": 229.73,
+     "maxPt": 16.0,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image14.png",
+     "name": "image14.png",
+     "ext": ".png",
+     "x": 54.47,
+     "y": 271.6,
+     "w": 362.4,
+     "h": 176.8,
+     "grouped": false,
+     "file": "slide005_image14.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image15.png",
+     "name": "image15.png",
+     "ext": ".png",
+     "x": 1076.2,
+     "y": 548.93,
+     "w": 139.27,
+     "h": 151.47,
+     "grouped": false,
+     "file": "slide005_image15.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image7.png",
+     "name": "image7.png",
+     "ext": ".png",
+     "x": 713.93,
+     "y": 36.8,
+     "w": 89.8,
+     "h": 89.8,
+     "grouped": false,
+     "file": "slide004_image7.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image14.png",
+     "name": "image14.png",
+     "ext": ".png",
+     "x": 54.47,
+     "y": 271.6,
+     "w": 362.4,
+     "h": 176.8,
+     "grouped": false,
+     "file": "slide005_image14.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image15.png",
+     "name": "image15.png",
+     "ext": ".png",
+     "x": 1076.2,
+     "y": 548.93,
+     "w": 139.27,
+     "h": 151.47,
+     "grouped": false,
+     "file": "slide005_image15.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image7.png",
+     "name": "image7.png",
+     "ext": ".png",
+     "x": 713.93,
+     "y": 36.8,
+     "w": 89.8,
+     "h": 89.8,
+     "grouped": false,
+     "file": "slide004_image7.png"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "part": "ppt/slides/slide6.xml",
+   "text": "实战示例：多模态铁路远距离障碍物检测\n假设学生正在处理远距离钢轨分割 mIoU 遭遇 50% 硬瓶颈的问题（这在 250 米以上的细长目标检测中非常典型），想要用 Vibe Coding 让 AI 写一个专门的混合损失函数。\n我想到了一段绝妙的prompt,奈何这里的空白太小了，写不下，见md文档",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "实战示例：多模态铁路远距离障碍物检测\n假设学生正在处理远距离钢轨分割 mIoU 遭遇 50% 硬瓶颈的问题（这在 250 米以上的细长目标检测中非常典型），想要用 Vibe Coding 让 AI 写一个专门的混合损失函数。",
+     "x": 45.33,
+     "y": 168.73,
+     "w": 1138.4,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "我想到了一段绝妙的prompt,奈何这里的空白太小了，写不下，见md文档",
+     "x": 491.4,
+     "y": 289.0,
+     "w": 679.33,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image16.png",
+     "name": "image16.png",
+     "ext": ".png",
+     "x": 349.67,
+     "y": 30.6,
+     "w": 179.07,
+     "h": 114.67,
+     "grouped": false,
+     "file": "slide006_image16.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image14.png",
+     "name": "image14.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 296.33,
+     "w": 362.4,
+     "h": 176.8,
+     "grouped": false,
+     "file": "slide005_image14.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image17.png",
+     "name": "image17.png",
+     "ext": ".png",
+     "x": 508.93,
+     "y": 356.73,
+     "w": 618.0,
+     "h": 350.13,
+     "grouped": false,
+     "file": "slide006_image17.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image16.png",
+     "name": "image16.png",
+     "ext": ".png",
+     "x": 349.67,
+     "y": 30.6,
+     "w": 179.07,
+     "h": 114.67,
+     "grouped": false,
+     "file": "slide006_image16.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image14.png",
+     "name": "image14.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 296.33,
+     "w": 362.4,
+     "h": 176.8,
+     "grouped": false,
+     "file": "slide005_image14.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image17.png",
+     "name": "image17.png",
+     "ext": ".png",
+     "x": 508.93,
+     "y": 356.73,
+     "w": 618.0,
+     "h": 350.13,
+     "grouped": false,
+     "file": "slide006_image17.png"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "part": "ppt/slides/slide7.xml",
+   "text": "大兵团作战和牢蒋微操（workflow和prompt）\n宏观架构设计（项目流）与微观工程实现（代码流）\n我的经验告诉我，大模型天然趋向于项目流开发（因为有完整度要求），那也就是说就算你写了屎一样的提示词，聪明的AI大人也会给你一个大致能看得过去的项目（当然了这是一块用巧克力包装包装的变量名混乱，极难 Debug的屎）。\n那也就是这两种开发的提示词，我们是一定要交叉切换的使用的，那对我们也就提出了新的要求：\n全局理解\n文档驱动\n项目管理\n迭代优化",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "大兵团作战和牢蒋微操（workflow和prompt）",
+     "x": 63.87,
+     "y": 13.14,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "宏观架构设计（项目流）与微观工程实现（代码流）\n我的经验告诉我，大模型天然趋向于项目流开发（因为有完整度要求），那也就是说就算你写了屎一样的提示词，聪明的AI大人也会给你一个大致能看得过去的项目（当然了这是一块用巧克力包装包装的变量名混乱，极难 Debug的屎）。",
+     "x": 63.87,
+     "y": 87.21,
+     "w": 1151.62,
+     "h": 499.65,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那也就是这两种开发的提示词，我们是一定要交叉切换的使用的，那对我们也就提出了新的要求：\n全局理解\n文档驱动\n项目管理\n迭代优化",
+     "x": 813.33,
+     "y": 257.2,
+     "w": 426.67,
+     "h": 213.13,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image18.png",
+     "name": "image18.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 257.2,
+     "w": 728.8,
+     "h": 205.6,
+     "grouped": false,
+     "file": "slide007_image18.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image19.png",
+     "name": "image19.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 470.6,
+     "w": 728.87,
+     "h": 221.6,
+     "grouped": false,
+     "file": "slide007_image19.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image20.png",
+     "name": "image20.png",
+     "ext": ".png",
+     "x": 870.93,
+     "y": 470.6,
+     "w": 356.07,
+     "h": 241.07,
+     "grouped": false,
+     "file": "slide007_image20.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image18.png",
+     "name": "image18.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 257.2,
+     "w": 728.8,
+     "h": 205.6,
+     "grouped": false,
+     "file": "slide007_image18.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image19.png",
+     "name": "image19.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 470.6,
+     "w": 728.87,
+     "h": 221.6,
+     "grouped": false,
+     "file": "slide007_image19.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image20.png",
+     "name": "image20.png",
+     "ext": ".png",
+     "x": 870.93,
+     "y": 470.6,
+     "w": 356.07,
+     "h": 241.07,
+     "grouped": false,
+     "file": "slide007_image20.png"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "part": "ppt/slides/slide8.xml",
+   "text": "我的工作流\n“先写技术路线 -> 细化 -> 代码落盘 -> 审查 -> 优化路线 -> 再次落盘”的工作流，本质上是软件工程中 TDD（测试驱动开发）与 DDD（领域驱动设计）在 AI 时代的进化版。我将其称为 “文档驱动的 Vibe 螺旋迭代流” (Doc-Driven AI Spiral)。\n那也就是说不管是数模、项目或论文写作高低得整好这三点：\n我是为了满足需求去找技术或创造新技术，而不是先有技术再找需求\nAI不会对你的成果负责，你觉得自己搞不定的事千万别问AI\n务必做好项目的层级管理（这玩意你也可以让AI帮你做，但你不说，他就会瞎几把整）\n永远保证文档先行，更改留痕，避免代码自动繁殖\n知道要什么，知道放哪，\n知道哪些事该自己做\nMD，这页好像没地方放利群了",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "我的工作流",
+     "x": 48.74,
+     "y": 8.74,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "“先写技术路线 -> 细化 -> 代码落盘 -> 审查 -> 优化路线 -> 再次落盘”的工作流，本质上是软件工程中 TDD（测试驱动开发）与 DDD（领域驱动设计）在 AI 时代的进化版。我将其称为 “文档驱动的 Vibe 螺旋迭代流” (Doc-Driven AI Spiral)。",
+     "x": 48.73,
+     "y": 92.73,
+     "w": 1151.6,
+     "h": 131.33,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那也就是说不管是数模、项目或论文写作高低得整好这三点：\n我是为了满足需求去找技术或创造新技术，而不是先有技术再找需求\nAI不会对你的成果负责，你觉得自己搞不定的事千万别问AI\n务必做好项目的层级管理（这玩意你也可以让AI帮你做，但你不说，他就会瞎几把整）",
+     "x": 559.53,
+     "y": 218.53,
+     "w": 453.6,
+     "h": 271.33,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "永远保证文档先行，更改留痕，避免代码自动繁殖",
+     "x": 36.87,
+     "y": 519.8,
+     "w": 481.53,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "知道要什么，知道放哪，\n知道哪些事该自己做",
+     "x": 953.73,
+     "y": 587.53,
+     "w": 288.4,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "MD，这页好像没地方放利群了",
+     "x": 56.93,
+     "y": 634.27,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image21.png",
+     "name": "image21.png",
+     "ext": ".png",
+     "x": 36.87,
+     "y": 218.53,
+     "w": 481.6,
+     "h": 280.0,
+     "grouped": false,
+     "file": "slide008_image21.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image22.png",
+     "name": "image22.png",
+     "ext": ".png",
+     "x": 1013.13,
+     "y": 218.53,
+     "w": 244.53,
+     "h": 354.4,
+     "grouped": false,
+     "file": "slide008_image22.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image23.png",
+     "name": "image23.png",
+     "ext": ".png",
+     "x": 510.4,
+     "y": 489.87,
+     "w": 424.4,
+     "h": 217.2,
+     "grouped": false,
+     "file": "slide008_image23.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image21.png",
+     "name": "image21.png",
+     "ext": ".png",
+     "x": 36.87,
+     "y": 218.53,
+     "w": 481.6,
+     "h": 280.0,
+     "grouped": false,
+     "file": "slide008_image21.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image22.png",
+     "name": "image22.png",
+     "ext": ".png",
+     "x": 1013.13,
+     "y": 218.53,
+     "w": 244.53,
+     "h": 354.4,
+     "grouped": false,
+     "file": "slide008_image22.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image23.png",
+     "name": "image23.png",
+     "ext": ".png",
+     "x": 510.4,
+     "y": 489.87,
+     "w": 424.4,
+     "h": 217.2,
+     "grouped": false,
+     "file": "slide008_image23.png"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "part": "ppt/slides/slide9.xml",
+   "text": "针对Trae的高阶拓展\n手搓Agent与SKill下载与创建\n从IDE到SOLO模式\n宏观架构设计（项目流）与微观工程实现（代码流）",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "针对Trae的高阶拓展",
+     "x": 63.87,
+     "y": 18.54,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "手搓Agent与SKill下载与创建",
+     "x": 590.8,
+     "y": 108.27,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "从IDE到SOLO模式",
+     "x": 61.53,
+     "y": 109.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "宏观架构设计（项目流）与微观工程实现（代码流）",
+     "x": 56.47,
+     "y": 355.53,
+     "w": 426.67,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image24.png",
+     "name": "image24.png",
+     "ext": ".png",
+     "x": 573.67,
+     "y": 188.93,
+     "w": 522.93,
+     "h": 499.67,
+     "grouped": false,
+     "file": "slide009_image24.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image25.png",
+     "name": "image25.png",
+     "ext": ".png",
+     "x": 83.4,
+     "y": 148.0,
+     "w": 372.8,
+     "h": 170.4,
+     "grouped": false,
+     "file": "slide009_image25.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image26.png",
+     "name": "image26.png",
+     "ext": ".png",
+     "x": 61.53,
+     "y": 452.33,
+     "w": 421.6,
+     "h": 176.8,
+     "grouped": false,
+     "file": "slide009_image26.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image24.png",
+     "name": "image24.png",
+     "ext": ".png",
+     "x": 573.67,
+     "y": 188.93,
+     "w": 522.93,
+     "h": 499.67,
+     "grouped": false,
+     "file": "slide009_image24.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image25.png",
+     "name": "image25.png",
+     "ext": ".png",
+     "x": 83.4,
+     "y": 148.0,
+     "w": 372.8,
+     "h": 170.4,
+     "grouped": false,
+     "file": "slide009_image25.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image26.png",
+     "name": "image26.png",
+     "ext": ".png",
+     "x": 61.53,
+     "y": 452.33,
+     "w": 421.6,
+     "h": 176.8,
+     "grouped": false,
+     "file": "slide009_image26.png"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "part": "ppt/slides/slide10.xml",
+   "text": "模块一：从机器学习到深度学习\n用线性代数勒死自己（logits模型为例）\n主讲人：利群他爹\n这是利群",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "模块一：从机器学习到深度学习",
+     "x": 74.13,
+     "y": 83.0,
+     "w": 1088.13,
+     "h": 123.0,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "用线性代数勒死自己（logits模型为例）",
+     "x": 133.46,
+     "y": 238.8,
+     "w": 1028.79,
+     "h": 154.58,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "主讲人：利群他爹",
+     "x": 581.07,
+     "y": 321.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "这是利群",
+     "x": 735.6,
+     "y": 475.33,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "part": "ppt/slides/slide11.xml",
+   "text": "CPU 做数值计算时，真正慢的往往不是算，而是拿数据。连续内存会极大提升数据吞吐效率。\n一般形式计算(Python for 循环):就像雇了10,000个骑电瓶车的外卖小哥，每个人去仓库拿一块砖，看一眼地图，然后骑车送到工地。中间充满了交通拥堵、按门铃、等电梯的开销(Type Checking,GIL,指针跳转)。\n矩阵运算（Vectorization/向量化）： 就像一列带有 10,000 节车厢的重载货运列车。指令下达一次，整列火车沿着铺好的铁轨轰鸣而过，瞬间将所有砖块倾泻在工地（SIMD 指令集，连续内存读取）。",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "CPU 做数值计算时，真正慢的往往不是算，而是拿数据。连续内存会极大提升数据吞吐效率。",
+     "x": 616.53,
+     "y": 177.73,
+     "w": 556.33,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "一般形式计算(Python for 循环):就像雇了10,000个骑电瓶车的外卖小哥，每个人去仓库拿一块砖，看一眼地图，然后骑车送到工地。中间充满了交通拥堵、按门铃、等电梯的开销(Type Checking,GIL,指针跳转)。",
+     "x": 27.2,
+     "y": 323.0,
+     "w": 589.33,
+     "h": 125.87,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "矩阵运算（Vectorization/向量化）： 就像一列带有 10,000 节车厢的重载货运列车。指令下达一次，整列火车沿着铺好的铁轨轰鸣而过，瞬间将所有砖块倾泻在工地（SIMD 指令集，连续内存读取）。",
+     "x": 37.4,
+     "y": 477.37,
+     "w": 533.33,
+     "h": 155.0,
+     "maxPt": 18.0,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image28.png",
+     "name": "image28.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 147.0,
+     "w": 339.27,
+     "h": 129.13,
+     "grouped": false,
+     "file": "slide011_image28.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image29.png",
+     "name": "image29.png",
+     "ext": ".png",
+     "x": 675.47,
+     "y": 276.13,
+     "w": 438.53,
+     "h": 420.07,
+     "grouped": false,
+     "file": "slide011_image29.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image30.png",
+     "name": "image30.png",
+     "ext": ".png",
+     "x": 978.0,
+     "y": 45.6,
+     "w": 194.87,
+     "h": 132.13,
+     "grouped": false,
+     "file": "slide011_image30.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image28.png",
+     "name": "image28.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 147.0,
+     "w": 339.27,
+     "h": 129.13,
+     "grouped": false,
+     "file": "slide011_image28.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image29.png",
+     "name": "image29.png",
+     "ext": ".png",
+     "x": 675.47,
+     "y": 276.13,
+     "w": 438.53,
+     "h": 420.07,
+     "grouped": false,
+     "file": "slide011_image29.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image30.png",
+     "name": "image30.png",
+     "ext": ".png",
+     "x": 978.0,
+     "y": 45.6,
+     "w": 194.87,
+     "h": 132.13,
+     "grouped": false,
+     "file": "slide011_image30.png"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "part": "ppt/slides/slide12.xml",
+   "text": "偏置吸收与符号约定\n假设你要根据 学习时间（x_1）和 睡眠时间（x_2）来预测学生能否通过考试。我们假设有个分数Z\n分数=学习时间x重要程度+睡眠时间x重要程度+一个基础分\n线性模型\nw1,w2是权重(重要性)，比如w1=0.8表示学习时间很重要。\nb是偏置(基础分)，哪怕你不学习不睡觉，也可能有个底分。\n现在如果我有N个学生(N个样本)，我要把所有人的分数一起算出来。我可以写N个式子:\n矩阵化\n这个逼是难搞的",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "偏置吸收与符号约定",
+     "x": 63.87,
+     "y": 28.74,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "假设你要根据 学习时间（x_1）和 睡眠时间（x_2）来预测学生能否通过考试。我们假设有个分数Z\n分数=学习时间x重要程度+睡眠时间x重要程度+一个基础分",
+     "x": 14.87,
+     "y": 102.8,
+     "w": 1200.6,
+     "h": 553.33,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "线性模型",
+     "x": 817.87,
+     "y": 230.27,
+     "w": 208.47,
+     "h": 65.4,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "w1,w2是权重(重要性)，比如w1=0.8表示学习时间很重要。\nb是偏置(基础分)，哪怕你不学习不睡觉，也可能有个底分。",
+     "x": 77.67,
+     "y": 297.07,
+     "w": 1180.53,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "现在如果我有N个学生(N个样本)，我要把所有人的分数一起算出来。我可以写N个式子:",
+     "x": 63.87,
+     "y": 384.2,
+     "w": 1006.07,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "矩阵化",
+     "x": 474.2,
+     "y": 618.0,
+     "w": 208.47,
+     "h": 65.4,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "这个逼是难搞的",
+     "x": 41.73,
+     "y": 631.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image31.png",
+     "name": "image31.png",
+     "ext": ".png",
+     "x": 355.93,
+     "y": 209.07,
+     "w": 444.93,
+     "h": 92.13,
+     "grouped": false,
+     "file": "slide012_image31.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image32.png",
+     "name": "image32.png",
+     "ext": ".png",
+     "x": 22.4,
+     "y": 457.13,
+     "w": 469.47,
+     "h": 148.27,
+     "grouped": false,
+     "file": "slide012_image32.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image33.png",
+     "name": "image33.png",
+     "ext": ".png",
+     "x": 626.4,
+     "y": 435.47,
+     "w": 606.53,
+     "h": 169.93,
+     "grouped": false,
+     "file": "slide012_image33.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image34.png",
+     "name": "image34.png",
+     "ext": ".png",
+     "x": 499.4,
+     "y": 453.13,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide012_image34.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 1081.8,
+     "y": 559.07,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image31.png",
+     "name": "image31.png",
+     "ext": ".png",
+     "x": 355.93,
+     "y": 209.07,
+     "w": 444.93,
+     "h": 92.13,
+     "grouped": false,
+     "file": "slide012_image31.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image32.png",
+     "name": "image32.png",
+     "ext": ".png",
+     "x": 22.4,
+     "y": 457.13,
+     "w": 469.47,
+     "h": 148.27,
+     "grouped": false,
+     "file": "slide012_image32.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image33.png",
+     "name": "image33.png",
+     "ext": ".png",
+     "x": 626.4,
+     "y": 435.47,
+     "w": 606.53,
+     "h": 169.93,
+     "grouped": false,
+     "file": "slide012_image33.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image34.png",
+     "name": "image34.png",
+     "ext": ".png",
+     "x": 499.4,
+     "y": 453.13,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide012_image34.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 1081.8,
+     "y": 559.07,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "part": "ppt/slides/slide13.xml",
+   "text": "那我现在，我的线性方程组可变为纯矩阵运算\n那么对于一个线性方程组，我们有",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "那我现在，我的线性方程组可变为纯矩阵运算",
+     "x": 63.87,
+     "y": 340.67,
+     "w": 908.73,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那么对于一个线性方程组，我们有",
+     "x": 213.33,
+     "y": 520.0,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image36.png",
+     "name": "image36.png",
+     "ext": ".png",
+     "x": 99.2,
+     "y": 263.6,
+     "w": 540.8,
+     "h": 77.6,
+     "grouped": false,
+     "file": "slide013_image36.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image37.png",
+     "name": "image37.png",
+     "ext": ".png",
+     "x": 679.73,
+     "y": 330.0,
+     "w": 149.4,
+     "h": 49.33,
+     "grouped": false,
+     "file": "slide013_image37.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image38.png",
+     "name": "image38.png",
+     "ext": ".png",
+     "x": 127.07,
+     "y": 407.2,
+     "w": 375.4,
+     "h": 105.07,
+     "grouped": false,
+     "file": "slide013_image38.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image39.png",
+     "name": "image39.png",
+     "ext": ".png",
+     "x": 957.0,
+     "y": 9.93,
+     "w": 248.8,
+     "h": 273.87,
+     "grouped": false,
+     "file": "slide013_image39.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image40.png",
+     "name": "image40.png",
+     "ext": ".png",
+     "x": 241.6,
+     "y": 582.07,
+     "w": 235.13,
+     "h": 67.2,
+     "grouped": false,
+     "file": "slide013_image40.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image41.png",
+     "name": "image41.png",
+     "ext": ".png",
+     "x": 829.13,
+     "y": 379.33,
+     "w": 398.4,
+     "h": 340.27,
+     "grouped": false,
+     "file": "slide013_image41.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image36.png",
+     "name": "image36.png",
+     "ext": ".png",
+     "x": 99.2,
+     "y": 263.6,
+     "w": 540.8,
+     "h": 77.6,
+     "grouped": false,
+     "file": "slide013_image36.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image37.png",
+     "name": "image37.png",
+     "ext": ".png",
+     "x": 679.73,
+     "y": 330.0,
+     "w": 149.4,
+     "h": 49.33,
+     "grouped": false,
+     "file": "slide013_image37.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image38.png",
+     "name": "image38.png",
+     "ext": ".png",
+     "x": 127.07,
+     "y": 407.2,
+     "w": 375.4,
+     "h": 105.07,
+     "grouped": false,
+     "file": "slide013_image38.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image39.png",
+     "name": "image39.png",
+     "ext": ".png",
+     "x": 957.0,
+     "y": 9.93,
+     "w": 248.8,
+     "h": 273.87,
+     "grouped": false,
+     "file": "slide013_image39.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image40.png",
+     "name": "image40.png",
+     "ext": ".png",
+     "x": 241.6,
+     "y": 582.07,
+     "w": 235.13,
+     "h": 67.2,
+     "grouped": false,
+     "file": "slide013_image40.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image41.png",
+     "name": "image41.png",
+     "ext": ".png",
+     "x": 829.13,
+     "y": 379.33,
+     "w": 398.4,
+     "h": 340.27,
+     "grouped": false,
+     "file": "slide013_image41.png"
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "part": "ppt/slides/slide14.xml",
+   "text": "我们整的是概率模型，也就是我们意淫出来的这个Z不能直接告诉我这学生能否通过考试，我们实际标签y只有0/1（不通过/通过），那我们就需要进行转化，显然通过与否的概率在【0-1】范围内连续分布\n那么好，我就完成了机器学习中最基本的线性回归模型的基本框架",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "我们整的是概率模型，也就是我们意淫出来的这个Z不能直接告诉我这学生能否通过考试，我们实际标签y只有0/1（不通过/通过），那我们就需要进行转化，显然通过与否的概率在【0-1】范围内连续分布",
+     "x": 416.27,
+     "y": 208.67,
+     "w": 799.13,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那么好，我就完成了机器学习中最基本的线性回归模型的基本框架",
+     "x": 406.27,
+     "y": 376.2,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image42.png",
+     "name": "image42.png",
+     "ext": ".png",
+     "x": 92.27,
+     "y": 208.67,
+     "w": 216.93,
+     "h": 46.67,
+     "grouped": false,
+     "file": "slide014_image42.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image43.png",
+     "name": "image43.png",
+     "ext": ".png",
+     "x": 92.27,
+     "y": 276.4,
+     "w": 237.27,
+     "h": 83.47,
+     "grouped": false,
+     "file": "slide014_image43.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image44.png",
+     "name": "image44.png",
+     "ext": ".png",
+     "x": 22.93,
+     "y": 443.93,
+     "w": 393.33,
+     "h": 125.47,
+     "grouped": false,
+     "file": "slide014_image44.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image45.png",
+     "name": "image45.png",
+     "ext": ".png",
+     "x": 863.87,
+     "y": 322.4,
+     "w": 316.0,
+     "h": 369.6,
+     "grouped": false,
+     "file": "slide014_image45.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image46.png",
+     "name": "image46.png",
+     "ext": ".png",
+     "x": 575.93,
+     "y": 462.53,
+     "w": 223.8,
+     "h": 238.93,
+     "grouped": false,
+     "file": "slide014_image46.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image42.png",
+     "name": "image42.png",
+     "ext": ".png",
+     "x": 92.27,
+     "y": 208.67,
+     "w": 216.93,
+     "h": 46.67,
+     "grouped": false,
+     "file": "slide014_image42.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image43.png",
+     "name": "image43.png",
+     "ext": ".png",
+     "x": 92.27,
+     "y": 276.4,
+     "w": 237.27,
+     "h": 83.47,
+     "grouped": false,
+     "file": "slide014_image43.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image44.png",
+     "name": "image44.png",
+     "ext": ".png",
+     "x": 22.93,
+     "y": 443.93,
+     "w": 393.33,
+     "h": 125.47,
+     "grouped": false,
+     "file": "slide014_image44.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image45.png",
+     "name": "image45.png",
+     "ext": ".png",
+     "x": 863.87,
+     "y": 322.4,
+     "w": 316.0,
+     "h": 369.6,
+     "grouped": false,
+     "file": "slide014_image45.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image46.png",
+     "name": "image46.png",
+     "ext": ".png",
+     "x": 575.93,
+     "y": 462.53,
+     "w": 223.8,
+     "h": 238.93,
+     "grouped": false,
+     "file": "slide014_image46.png"
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "part": "ppt/slides/slide15.xml",
+   "text": "从伯努利似然到交叉熵损失\n上集说到我们通过损失去控制模型的优化，但为什么可以这样，很多人提溜个蒜瓣脑袋想不明白，来今天带你们挖挖祖师爷的坟。\n我们用损失来描述模型有多垃圾，错的有多离谱\n假设学生A的真实情况是通过了(y=1)，你的模型预测他通过的概率是=0.9。\n显然这个模型很准。但怎么用数学表达“这个模型很准”?\n对于标签y=1的样本，我们希望y越大越好。反过来，对于标签y=0的样本，我们希望越小越好，也就是(1一y)越大越好。\n有没有一个公式能统一这两种情况?有的兄弟有的\n伯努利分布的概率质量函数正好能充当这个“开关”:\n那么好，至此我们有了对单个样本的描述——似然（likelihood），并且下一步从单样本走向所有样本",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "从伯努利似然到交叉熵损失",
+     "x": 57.47,
+     "y": 14.81,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "上集说到我们通过损失去控制模型的优化，但为什么可以这样，很多人提溜个蒜瓣脑袋想不明白，来今天带你们挖挖祖师爷的坟。\n我们用损失来描述模型有多垃圾，错的有多离谱",
+     "x": 57.47,
+     "y": 88.87,
+     "w": 1151.62,
+     "h": 499.65,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "假设学生A的真实情况是通过了(y=1)，你的模型预测他通过的概率是=0.9。\n显然这个模型很准。但怎么用数学表达“这个模型很准”?\n对于标签y=1的样本，我们希望y越大越好。反过来，对于标签y=0的样本，我们希望越小越好，也就是(1一y)越大越好。\n有没有一个公式能统一这两种情况?有的兄弟有的\n伯努利分布的概率质量函数正好能充当这个“开关”:",
+     "x": 66.13,
+     "y": 234.13,
+     "w": 1104.0,
+     "h": 242.2,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那么好，至此我们有了对单个样本的描述——似然（likelihood），并且下一步从单样本走向所有样本",
+     "x": 581.87,
+     "y": 440.93,
+     "w": 634.53,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image47.png",
+     "name": "image47.png",
+     "ext": ".png",
+     "x": 73.6,
+     "y": 426.0,
+     "w": 468.6,
+     "h": 212.67,
+     "grouped": false,
+     "file": "slide015_image47.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image48.png",
+     "name": "image48.png",
+     "ext": ".png",
+     "x": 542.2,
+     "y": 516.67,
+     "w": 337.6,
+     "h": 181.6,
+     "grouped": false,
+     "file": "slide015_image48.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image7.png",
+     "name": "image7.png",
+     "ext": ".png",
+     "x": 1008.27,
+     "y": 547.67,
+     "w": 115.47,
+     "h": 115.47,
+     "grouped": false,
+     "file": "slide004_image7.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image47.png",
+     "name": "image47.png",
+     "ext": ".png",
+     "x": 73.6,
+     "y": 426.0,
+     "w": 468.6,
+     "h": 212.67,
+     "grouped": false,
+     "file": "slide015_image47.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image48.png",
+     "name": "image48.png",
+     "ext": ".png",
+     "x": 542.2,
+     "y": 516.67,
+     "w": 337.6,
+     "h": 181.6,
+     "grouped": false,
+     "file": "slide015_image48.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image7.png",
+     "name": "image7.png",
+     "ext": ".png",
+     "x": 1008.27,
+     "y": 547.67,
+     "w": 115.47,
+     "h": 115.47,
+     "grouped": false,
+     "file": "slide004_image7.png"
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "part": "ppt/slides/slide16.xml",
+   "text": "乘积与独立同分布\n我们有N个学生，每个学生都是一个独立事件。假设抛硬币，第一次正面概率0.5，第二次正面概率0.5，那么两次都正面的概率是0.5x0.5=0.25。\n同理，整个数据集出现的总似然，就是每个样本似然的连乘积:\n也就是说二分类问题中，0/1的两种情况，y值都是越大越好（正数），那我们这个连乘的值也是越大越好\n取对数\n乘积有个大毛病:N可能成百上千，每个j都是0到1的小数，几百个小数乘起来，计算机直接给你变成0(下溢)。乘积变求和:log(axb)=loga+logb。\n同时，对数函数单调上升，最大化连乘积和最大化连乘积的对数完全等效\n变形后得",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "乘积与独立同分布",
+     "x": 64.21,
+     "y": 28.67,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "我们有N个学生，每个学生都是一个独立事件。假设抛硬币，第一次正面概率0.5，第二次正面概率0.5，那么两次都正面的概率是0.5x0.5=0.25。\n同理，整个数据集出现的总似然，就是每个样本似然的连乘积:",
+     "x": 63.87,
+     "y": 102.67,
+     "w": 1151.6,
+     "h": 130.13,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "也就是说二分类问题中，0/1的两种情况，y值都是越大越好（正数），那我们这个连乘的值也是越大越好",
+     "x": 768.53,
+     "y": 237.87,
+     "w": 426.67,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "取对数\n乘积有个大毛病:N可能成百上千，每个j都是0到1的小数，几百个小数乘起来，计算机直接给你变成0(下溢)。乘积变求和:log(axb)=loga+logb。\n同时，对数函数单调上升，最大化连乘积和最大化连乘积的对数完全等效",
+     "x": 77.33,
+     "y": 376.0,
+     "w": 1128.47,
+     "h": 125.87,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "变形后得",
+     "x": 500.53,
+     "y": 519.73,
+     "w": 117.33,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image49.png",
+     "name": "image49.png",
+     "ext": ".png",
+     "x": 447.2,
+     "y": 232.87,
+     "w": 357.93,
+     "h": 101.8,
+     "grouped": false,
+     "file": "slide016_image49.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image50.png",
+     "name": "image50.png",
+     "ext": ".png",
+     "x": 256.27,
+     "y": 237.87,
+     "w": 145.07,
+     "h": 154.07,
+     "grouped": false,
+     "file": "slide016_image50.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image51.png",
+     "name": "image51.png",
+     "ext": ".png",
+     "x": 84.53,
+     "y": 527.07,
+     "w": 387.47,
+     "h": 83.47,
+     "grouped": false,
+     "file": "slide016_image51.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image52.png",
+     "name": "image52.png",
+     "ext": ".png",
+     "x": 678.67,
+     "y": 530.0,
+     "w": 447.07,
+     "h": 80.53,
+     "grouped": false,
+     "file": "slide016_image52.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image49.png",
+     "name": "image49.png",
+     "ext": ".png",
+     "x": 447.2,
+     "y": 232.87,
+     "w": 357.93,
+     "h": 101.8,
+     "grouped": false,
+     "file": "slide016_image49.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image50.png",
+     "name": "image50.png",
+     "ext": ".png",
+     "x": 256.27,
+     "y": 237.87,
+     "w": 145.07,
+     "h": 154.07,
+     "grouped": false,
+     "file": "slide016_image50.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image51.png",
+     "name": "image51.png",
+     "ext": ".png",
+     "x": 84.53,
+     "y": 527.07,
+     "w": 387.47,
+     "h": 83.47,
+     "grouped": false,
+     "file": "slide016_image51.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image52.png",
+     "name": "image52.png",
+     "ext": ".png",
+     "x": 678.67,
+     "y": 530.0,
+     "w": 447.07,
+     "h": 80.53,
+     "grouped": false,
+     "file": "slide016_image52.png"
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "part": "ppt/slides/slide17.xml",
+   "text": "损失函数与二元交叉熵（CBE）\n机器学习习惯上都是最小化一个“损失”或“代价”。所以很自然地把对数似然加个负号，变成负对数似然(NLL)\n这我们就连起来了，也就是NLL越小，模型越好。但是我们也注意到：如果样本数不一样，NLL的数值范围会大变。比如100个样本的NLL大概会是10个样本的10倍。为了能公平比较不同实验、不同batch的损失，我们除以N，得到平均损失:\n那么好，这玩意就是我们的二元交叉熵损失(BinaryCross-Entropy)",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "损失函数与二元交叉熵（CBE）",
+     "x": 63.87,
+     "y": 31.87,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "机器学习习惯上都是最小化一个“损失”或“代价”。所以很自然地把对数似然加个负号，变成负对数似然(NLL)",
+     "x": 63.87,
+     "y": 105.93,
+     "w": 1151.6,
+     "h": 550.2,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "这我们就连起来了，也就是NLL越小，模型越好。但是我们也注意到：如果样本数不一样，NLL的数值范围会大变。比如100个样本的NLL大概会是10个样本的10倍。为了能公平比较不同实验、不同batch的损失，我们除以N，得到平均损失:",
+     "x": 76.27,
+     "y": 294.93,
+     "w": 1108.2,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那么好，这玩意就是我们的二元交叉熵损失(BinaryCross-Entropy)",
+     "x": 93.6,
+     "y": 505.47,
+     "w": 1058.13,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image53.png",
+     "name": "image53.png",
+     "ext": ".png",
+     "x": 343.6,
+     "y": 173.2,
+     "w": 558.13,
+     "h": 106.4,
+     "grouped": false,
+     "file": "slide017_image53.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image54.png",
+     "name": "image54.png",
+     "ext": ".png",
+     "x": 309.6,
+     "y": 407.07,
+     "w": 626.13,
+     "h": 98.4,
+     "grouped": false,
+     "file": "slide017_image54.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image6.png",
+     "name": "image6.png",
+     "ext": ".png",
+     "x": 983.13,
+     "y": 505.47,
+     "w": 168.6,
+     "h": 170.47,
+     "grouped": false,
+     "file": "slide003_image6.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image53.png",
+     "name": "image53.png",
+     "ext": ".png",
+     "x": 343.6,
+     "y": 173.2,
+     "w": 558.13,
+     "h": 106.4,
+     "grouped": false,
+     "file": "slide017_image53.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image54.png",
+     "name": "image54.png",
+     "ext": ".png",
+     "x": 309.6,
+     "y": 407.07,
+     "w": 626.13,
+     "h": 98.4,
+     "grouped": false,
+     "file": "slide017_image54.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image6.png",
+     "name": "image6.png",
+     "ext": ".png",
+     "x": 983.13,
+     "y": 505.47,
+     "w": 168.6,
+     "h": 170.47,
+     "grouped": false,
+     "file": "slide003_image6.png"
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "part": "ppt/slides/slide18.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image55.png",
+     "name": "image55.png",
+     "ext": ".png",
+     "x": 91.33,
+     "y": 137.93,
+     "w": 348.6,
+     "h": 53.0,
+     "grouped": false,
+     "file": "slide018_image55.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image54.png",
+     "name": "image54.png",
+     "ext": ".png",
+     "x": 72.8,
+     "y": 176.67,
+     "w": 626.13,
+     "h": 98.4,
+     "grouped": false,
+     "file": "slide017_image54.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image56.png",
+     "name": "image56.png",
+     "ext": ".png",
+     "x": 32.87,
+     "y": 345.33,
+     "w": 598.87,
+     "h": 132.73,
+     "grouped": false,
+     "file": "slide018_image56.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image57.png",
+     "name": "image57.png",
+     "ext": ".png",
+     "x": 600.0,
+     "y": 247.93,
+     "w": 471.13,
+     "h": 114.07,
+     "grouped": false,
+     "file": "slide018_image57.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image58.png",
+     "name": "image58.png",
+     "ext": ".png",
+     "x": 668.4,
+     "y": 412.27,
+     "w": 395.47,
+     "h": 213.6,
+     "grouped": false,
+     "file": "slide018_image58.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image15.png",
+     "name": "image15.png",
+     "ext": ".png",
+     "x": 729.53,
+     "y": 63.87,
+     "w": 139.27,
+     "h": 151.47,
+     "grouped": false,
+     "file": "slide005_image15.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image55.png",
+     "name": "image55.png",
+     "ext": ".png",
+     "x": 91.33,
+     "y": 137.93,
+     "w": 348.6,
+     "h": 53.0,
+     "grouped": false,
+     "file": "slide018_image55.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image54.png",
+     "name": "image54.png",
+     "ext": ".png",
+     "x": 72.8,
+     "y": 176.67,
+     "w": 626.13,
+     "h": 98.4,
+     "grouped": false,
+     "file": "slide017_image54.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image56.png",
+     "name": "image56.png",
+     "ext": ".png",
+     "x": 32.87,
+     "y": 345.33,
+     "w": 598.87,
+     "h": 132.73,
+     "grouped": false,
+     "file": "slide018_image56.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image57.png",
+     "name": "image57.png",
+     "ext": ".png",
+     "x": 600.0,
+     "y": 247.93,
+     "w": 471.13,
+     "h": 114.07,
+     "grouped": false,
+     "file": "slide018_image57.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image58.png",
+     "name": "image58.png",
+     "ext": ".png",
+     "x": 668.4,
+     "y": 412.27,
+     "w": 395.47,
+     "h": 213.6,
+     "grouped": false,
+     "file": "slide018_image58.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image15.png",
+     "name": "image15.png",
+     "ext": ".png",
+     "x": 729.53,
+     "y": 63.87,
+     "w": 139.27,
+     "h": 151.47,
+     "grouped": false,
+     "file": "slide005_image15.png"
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "part": "ppt/slides/slide19.xml",
+   "text": "",
+   "shapes": [],
+   "media": [],
+   "images": []
+  },
+  {
+   "index": 20,
+   "part": "ppt/slides/slide20.xml",
+   "text": "梯度会告诉我们：如果我想让损失降得最快，应该把每个参数往哪个方向调，调多大\n那我们就应该沿着这条路径反向进行逐层求导",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "梯度会告诉我们：如果我想让损失降得最快，应该把每个参数往哪个方向调，调多大",
+     "x": 755.73,
+     "y": 263.2,
+     "w": 426.67,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那我们就应该沿着这条路径反向进行逐层求导",
+     "x": 755.73,
+     "y": 447.47,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image45.png",
+     "name": "image45.png",
+     "ext": ".png",
+     "x": 14.8,
+     "y": 221.53,
+     "w": 316.0,
+     "h": 369.6,
+     "grouped": false,
+     "file": "slide014_image45.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image59.png",
+     "name": "image59.png",
+     "ext": ".png",
+     "x": 296.07,
+     "y": 251.57,
+     "w": 426.0,
+     "h": 371.0,
+     "grouped": false,
+     "file": "slide020_image59.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image60.png",
+     "name": "image60.png",
+     "ext": ".png",
+     "x": 832.0,
+     "y": 371.2,
+     "w": 230.2,
+     "h": 50.4,
+     "grouped": false,
+     "file": "slide020_image60.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 948.13,
+     "y": 541.07,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image45.png",
+     "name": "image45.png",
+     "ext": ".png",
+     "x": 14.8,
+     "y": 221.53,
+     "w": 316.0,
+     "h": 369.6,
+     "grouped": false,
+     "file": "slide014_image45.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image59.png",
+     "name": "image59.png",
+     "ext": ".png",
+     "x": 296.07,
+     "y": 251.57,
+     "w": 426.0,
+     "h": 371.0,
+     "grouped": false,
+     "file": "slide020_image59.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image60.png",
+     "name": "image60.png",
+     "ext": ".png",
+     "x": 832.0,
+     "y": 371.2,
+     "w": 230.2,
+     "h": 50.4,
+     "grouped": false,
+     "file": "slide020_image60.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 948.13,
+     "y": 541.07,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ]
+  },
+  {
+   "index": 21,
+   "part": "ppt/slides/slide21.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image61.png",
+     "name": "image61.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 226.93,
+     "w": 523.2,
+     "h": 392.0,
+     "grouped": false,
+     "file": "slide021_image61.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image62.png",
+     "name": "image62.png",
+     "ext": ".png",
+     "x": 671.6,
+     "y": 172.4,
+     "w": 469.0,
+     "h": 467.8,
+     "grouped": false,
+     "file": "slide021_image62.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 432.93,
+     "y": 525.07,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image61.png",
+     "name": "image61.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 226.93,
+     "w": 523.2,
+     "h": 392.0,
+     "grouped": false,
+     "file": "slide021_image61.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image62.png",
+     "name": "image62.png",
+     "ext": ".png",
+     "x": 671.6,
+     "y": 172.4,
+     "w": 469.0,
+     "h": 467.8,
+     "grouped": false,
+     "file": "slide021_image62.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 432.93,
+     "y": 525.07,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ]
+  },
+  {
+   "index": 22,
+   "part": "ppt/slides/slide22.xml",
+   "text": "既然是单个样本，自然省略掉了求和和求均值（那这一步中y-是唯一自变量）\n回到N项，向量化得到一个N*1的向量",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "既然是单个样本，自然省略掉了求和和求均值（那这一步中y-是唯一自变量）",
+     "x": 345.07,
+     "y": 279.0,
+     "w": 765.87,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "回到N项，向量化得到一个N*1的向量",
+     "x": 821.87,
+     "y": 487.8,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image63.png",
+     "name": "image63.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 321.6,
+     "w": 509.87,
+     "h": 61.87,
+     "grouped": false,
+     "file": "slide022_image63.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image54.png",
+     "name": "image54.png",
+     "ext": ".png",
+     "x": 98.73,
+     "y": 203.67,
+     "w": 454.4,
+     "h": 71.4,
+     "grouped": false,
+     "file": "slide017_image54.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image64.png",
+     "name": "image64.png",
+     "ext": ".png",
+     "x": 110.4,
+     "y": 473.2,
+     "w": 72.53,
+     "h": 90.67,
+     "grouped": false,
+     "file": "slide022_image64.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image65.png",
+     "name": "image65.png",
+     "ext": ".png",
+     "x": 291.0,
+     "y": 482.8,
+     "w": 172.2,
+     "h": 81.07,
+     "grouped": false,
+     "file": "slide022_image65.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image66.png",
+     "name": "image66.png",
+     "ext": ".png",
+     "x": 665.07,
+     "y": 321.6,
+     "w": 382.6,
+     "h": 137.93,
+     "grouped": false,
+     "file": "slide022_image66.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image67.png",
+     "name": "image67.png",
+     "ext": ".png",
+     "x": 738.0,
+     "y": 545.73,
+     "w": 338.27,
+     "h": 97.8,
+     "grouped": false,
+     "file": "slide022_image67.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 553.13,
+     "y": 532.53,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image63.png",
+     "name": "image63.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 321.6,
+     "w": 509.87,
+     "h": 61.87,
+     "grouped": false,
+     "file": "slide022_image63.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image54.png",
+     "name": "image54.png",
+     "ext": ".png",
+     "x": 98.73,
+     "y": 203.67,
+     "w": 454.4,
+     "h": 71.4,
+     "grouped": false,
+     "file": "slide017_image54.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image64.png",
+     "name": "image64.png",
+     "ext": ".png",
+     "x": 110.4,
+     "y": 473.2,
+     "w": 72.53,
+     "h": 90.67,
+     "grouped": false,
+     "file": "slide022_image64.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image65.png",
+     "name": "image65.png",
+     "ext": ".png",
+     "x": 291.0,
+     "y": 482.8,
+     "w": 172.2,
+     "h": 81.07,
+     "grouped": false,
+     "file": "slide022_image65.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image66.png",
+     "name": "image66.png",
+     "ext": ".png",
+     "x": 665.07,
+     "y": 321.6,
+     "w": 382.6,
+     "h": 137.93,
+     "grouped": false,
+     "file": "slide022_image66.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image67.png",
+     "name": "image67.png",
+     "ext": ".png",
+     "x": 738.0,
+     "y": 545.73,
+     "w": 338.27,
+     "h": 97.8,
+     "grouped": false,
+     "file": "slide022_image67.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.png",
+     "name": "image4.png",
+     "ext": ".png",
+     "x": 553.13,
+     "y": 532.53,
+     "w": 133.67,
+     "h": 139.93,
+     "grouped": false,
+     "file": "slide002_image4.png"
+    }
+   ]
+  },
+  {
+   "index": 23,
+   "part": "ppt/slides/slide23.xml",
+   "text": "我们可以发现一个有意思的点：sigmoid函数的导数可用原函数表示",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "我们可以发现一个有意思的点：sigmoid函数的导数可用原函数表示",
+     "x": 609.33,
+     "y": 272.0,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image43.png",
+     "name": "image43.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 199.6,
+     "w": 346.4,
+     "h": 121.87,
+     "grouped": false,
+     "file": "slide014_image43.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image68.jpeg",
+     "name": "image68.jpeg",
+     "ext": ".jpeg",
+     "x": 40.73,
+     "y": 331.2,
+     "w": 542.0,
+     "h": 313.53,
+     "grouped": false,
+     "file": "slide023_image68.jpeg"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image69.jpeg",
+     "name": "image69.jpeg",
+     "ext": ".jpeg",
+     "x": 609.33,
+     "y": 370.67,
+     "w": 517.27,
+     "h": 246.4,
+     "grouped": false,
+     "file": "slide023_image69.jpeg"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image70.png",
+     "name": "image70.png",
+     "ext": ".png",
+     "x": 530.0,
+     "y": 176.87,
+     "w": 448.67,
+     "h": 133.8,
+     "grouped": false,
+     "file": "slide023_image70.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image43.png",
+     "name": "image43.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 199.6,
+     "w": 346.4,
+     "h": 121.87,
+     "grouped": false,
+     "file": "slide014_image43.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image68.jpeg",
+     "name": "image68.jpeg",
+     "ext": ".jpeg",
+     "x": 40.73,
+     "y": 331.2,
+     "w": 542.0,
+     "h": 313.53,
+     "grouped": false,
+     "file": "slide023_image68.jpeg"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image69.jpeg",
+     "name": "image69.jpeg",
+     "ext": ".jpeg",
+     "x": 609.33,
+     "y": 370.67,
+     "w": 517.27,
+     "h": 246.4,
+     "grouped": false,
+     "file": "slide023_image69.jpeg"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image70.png",
+     "name": "image70.png",
+     "ext": ".png",
+     "x": 530.0,
+     "y": 176.87,
+     "w": 448.67,
+     "h": 133.8,
+     "grouped": false,
+     "file": "slide023_image70.png"
+    }
+   ]
+  },
+  {
+   "index": 24,
+   "part": "ppt/slides/slide24.xml",
+   "text": "根据链式法则，我们的依赖关系是逐层单一依赖关系，直接连乘\n向量化\n那显然这是一个N*1维的向量",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "根据链式法则，我们的依赖关系是逐层单一依赖关系，直接连乘",
+     "x": 63.87,
+     "y": 144.8,
+     "w": 917.27,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "向量化",
+     "x": 357.33,
+     "y": 361.07,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那显然这是一个N*1维的向量",
+     "x": 451.87,
+     "y": 523.07,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image71.png",
+     "name": "image71.png",
+     "ext": ".png",
+     "x": 784.0,
+     "y": 25.33,
+     "w": 54.13,
+     "h": 119.47,
+     "grouped": false,
+     "file": "slide024_image71.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image72.png",
+     "name": "image72.png",
+     "ext": ".png",
+     "x": 55.33,
+     "y": 195.8,
+     "w": 231.73,
+     "h": 114.93,
+     "grouped": false,
+     "file": "slide024_image72.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image67.png",
+     "name": "image67.png",
+     "ext": ".png",
+     "x": 420.13,
+     "y": 200.6,
+     "w": 338.27,
+     "h": 97.8,
+     "grouped": false,
+     "file": "slide022_image67.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image70.png",
+     "name": "image70.png",
+     "ext": ".png",
+     "x": 758.4,
+     "y": 183.47,
+     "w": 448.67,
+     "h": 133.8,
+     "grouped": false,
+     "file": "slide023_image70.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image67.png",
+     "name": "image67.png",
+     "ext": ".png",
+     "x": 420.13,
+     "y": 212.93,
+     "w": 338.27,
+     "h": 97.8,
+     "grouped": false,
+     "file": "slide022_image67.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image70.png",
+     "name": "image70.png",
+     "ext": ".png",
+     "x": 758.4,
+     "y": 176.93,
+     "w": 448.67,
+     "h": 133.8,
+     "grouped": false,
+     "file": "slide023_image70.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image73.png",
+     "name": "image73.png",
+     "ext": ".png",
+     "x": 114.73,
+     "y": 368.6,
+     "w": 244.47,
+     "h": 102.2,
+     "grouped": false,
+     "file": "slide024_image73.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image74.png",
+     "name": "image74.png",
+     "ext": ".png",
+     "x": 484.8,
+     "y": 362.8,
+     "w": 299.2,
+     "h": 135.2,
+     "grouped": false,
+     "file": "slide024_image74.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image71.png",
+     "name": "image71.png",
+     "ext": ".png",
+     "x": 784.0,
+     "y": 25.33,
+     "w": 54.13,
+     "h": 119.47,
+     "grouped": false,
+     "file": "slide024_image71.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image72.png",
+     "name": "image72.png",
+     "ext": ".png",
+     "x": 55.33,
+     "y": 195.8,
+     "w": 231.73,
+     "h": 114.93,
+     "grouped": false,
+     "file": "slide024_image72.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image67.png",
+     "name": "image67.png",
+     "ext": ".png",
+     "x": 420.13,
+     "y": 200.6,
+     "w": 338.27,
+     "h": 97.8,
+     "grouped": false,
+     "file": "slide022_image67.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image70.png",
+     "name": "image70.png",
+     "ext": ".png",
+     "x": 758.4,
+     "y": 183.47,
+     "w": 448.67,
+     "h": 133.8,
+     "grouped": false,
+     "file": "slide023_image70.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image67.png",
+     "name": "image67.png",
+     "ext": ".png",
+     "x": 420.13,
+     "y": 212.93,
+     "w": 338.27,
+     "h": 97.8,
+     "grouped": false,
+     "file": "slide022_image67.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image70.png",
+     "name": "image70.png",
+     "ext": ".png",
+     "x": 758.4,
+     "y": 176.93,
+     "w": 448.67,
+     "h": 133.8,
+     "grouped": false,
+     "file": "slide023_image70.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image73.png",
+     "name": "image73.png",
+     "ext": ".png",
+     "x": 114.73,
+     "y": 368.6,
+     "w": 244.47,
+     "h": 102.2,
+     "grouped": false,
+     "file": "slide024_image73.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image74.png",
+     "name": "image74.png",
+     "ext": ".png",
+     "x": 484.8,
+     "y": 362.8,
+     "w": 299.2,
+     "h": 135.2,
+     "grouped": false,
+     "file": "slide024_image74.png"
+    }
+   ]
+  },
+  {
+   "index": 25,
+   "part": "ppt/slides/slide25.xml",
+   "text": "根据我们建立的线性模型：\n那求导之后就是一个常数和的多项式，在矩阵视角下来看：\n我们再来品鉴一下这个求导后的结果：w是一个（d+1）*1的向量，X是一个（d+1）*N的张量\n那下一步的组合：这两玩意维度不相容\n目标梯度 一定和W维度（（d+1）*1）保持一致\n刚好这两个式转置后内侧相等，最后的维度是（d+1）*1",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "根据我们建立的线性模型：",
+     "x": 63.87,
+     "y": 156.47,
+     "w": 1151.6,
+     "h": 62.27,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那求导之后就是一个常数和的多项式，在矩阵视角下来看：",
+     "x": 83.13,
+     "y": 263.47,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "我们再来品鉴一下这个求导后的结果：w是一个（d+1）*1的向量，X是一个（d+1）*N的张量",
+     "x": 509.8,
+     "y": 278.0,
+     "w": 426.67,
+     "h": 125.87,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那下一步的组合：这两玩意维度不相容",
+     "x": 509.8,
+     "y": 393.2,
+     "w": 468.8,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "目标梯度 一定和W维度（（d+1）*1）保持一致",
+     "x": 509.8,
+     "y": 440.47,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "刚好这两个式转置后内侧相等，最后的维度是（d+1）*1",
+     "x": 518.07,
+     "y": 520.0,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image75.png",
+     "name": "image75.png",
+     "ext": ".png",
+     "x": 95.8,
+     "y": 206.47,
+     "w": 269.6,
+     "h": 45.6,
+     "grouped": false,
+     "file": "slide025_image75.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image38.png",
+     "name": "image38.png",
+     "ext": ".png",
+     "x": 76.13,
+     "y": 360.0,
+     "w": 375.4,
+     "h": 105.07,
+     "grouped": false,
+     "file": "slide013_image38.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image76.png",
+     "name": "image76.png",
+     "ext": ".png",
+     "x": 457.53,
+     "y": 179.93,
+     "w": 135.67,
+     "h": 83.47,
+     "grouped": false,
+     "file": "slide025_image76.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image77.png",
+     "name": "image77.png",
+     "ext": ".png",
+     "x": 104.13,
+     "y": 479.13,
+     "w": 333.4,
+     "h": 177.0,
+     "grouped": false,
+     "file": "slide025_image77.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image78.png",
+     "name": "image78.png",
+     "ext": ".png",
+     "x": 813.53,
+     "y": 63.87,
+     "w": 416.8,
+     "h": 141.4,
+     "grouped": false,
+     "file": "slide025_image78.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image79.png",
+     "name": "image79.png",
+     "ext": ".png",
+     "x": 944.73,
+     "y": 277.93,
+     "w": 250.07,
+     "h": 82.07,
+     "grouped": false,
+     "file": "slide025_image79.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image75.png",
+     "name": "image75.png",
+     "ext": ".png",
+     "x": 95.8,
+     "y": 206.47,
+     "w": 269.6,
+     "h": 45.6,
+     "grouped": false,
+     "file": "slide025_image75.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image38.png",
+     "name": "image38.png",
+     "ext": ".png",
+     "x": 76.13,
+     "y": 360.0,
+     "w": 375.4,
+     "h": 105.07,
+     "grouped": false,
+     "file": "slide013_image38.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image76.png",
+     "name": "image76.png",
+     "ext": ".png",
+     "x": 457.53,
+     "y": 179.93,
+     "w": 135.67,
+     "h": 83.47,
+     "grouped": false,
+     "file": "slide025_image76.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image77.png",
+     "name": "image77.png",
+     "ext": ".png",
+     "x": 104.13,
+     "y": 479.13,
+     "w": 333.4,
+     "h": 177.0,
+     "grouped": false,
+     "file": "slide025_image77.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image78.png",
+     "name": "image78.png",
+     "ext": ".png",
+     "x": 813.53,
+     "y": 63.87,
+     "w": 416.8,
+     "h": 141.4,
+     "grouped": false,
+     "file": "slide025_image78.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image79.png",
+     "name": "image79.png",
+     "ext": ".png",
+     "x": 944.73,
+     "y": 277.93,
+     "w": 250.07,
+     "h": 82.07,
+     "grouped": false,
+     "file": "slide025_image79.png"
+    }
+   ]
+  },
+  {
+   "index": 26,
+   "part": "ppt/slides/slide26.xml",
+   "text": "梯度下降：SGD\n为什么是减号？ 梯度向量（Gradient）在微积分中的严格定义是“函数值增加最快的方向”。我们要最小化损失（下山），所以必须取负号，朝着梯度的反方向走。\n学习率 η(Learning Rate) 的本质： 它是我们在下山时的“步长”。步子太大（η太大）会直接跨过山谷，甚至在峡谷两边来回震荡爆炸；步子太小（η太小）会走到天荒地老，或者卡在半山腰的局部极小值。\n如果不加正则项，模型为了在训练集上强行拟合几个离群点（Outliers），某些特征的权重 wj 可能会爆炸到无穷大。\n而λW 就像是绑在每个权重参数上的一根橡皮筋，一头连着原点。参数偏离 0 越远，向后拉的“引力”（惩罚）就越大。这迫使模型在拟合数据时，尽量使用均匀、较小的权重，避免对单一特征产生病态的依赖，从而提升泛化能力。",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "梯度下降：SGD",
+     "x": 768.0,
+     "y": 175.27,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "为什么是减号？ 梯度向量（Gradient）在微积分中的严格定义是“函数值增加最快的方向”。我们要最小化损失（下山），所以必须取负号，朝着梯度的反方向走。\n学习率 η(Learning Rate) 的本质： 它是我们在下山时的“步长”。步子太大（η太大）会直接跨过山谷，甚至在峡谷两边来回震荡爆炸；步子太小（η太小）会走到天荒地老，或者卡在半山腰的局部极小值。",
+     "x": 726.87,
+     "y": 313.07,
+     "w": 530.4,
+     "h": 365.07,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "如果不加正则项，模型为了在训练集上强行拟合几个离群点（Outliers），某些特征的权重 wj 可能会爆炸到无穷大。\n而λW 就像是绑在每个权重参数上的一根橡皮筋，一头连着原点。参数偏离 0 越远，向后拉的“引力”（惩罚）就越大。这迫使模型在拟合数据时，尽量使用均匀、较小的权重，避免对单一特征产生病态的依赖，从而提升泛化能力。",
+     "x": 63.87,
+     "y": 456.07,
+     "w": 615.33,
+     "h": 242.2,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image80.png",
+     "name": "image80.png",
+     "ext": ".png",
+     "x": 48.8,
+     "y": 213.93,
+     "w": 224.0,
+     "h": 76.0,
+     "grouped": false,
+     "file": "slide026_image80.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image81.png",
+     "name": "image81.png",
+     "ext": ".png",
+     "x": 48.8,
+     "y": 340.0,
+     "w": 630.4,
+     "h": 82.73,
+     "grouped": false,
+     "file": "slide026_image81.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image82.png",
+     "name": "image82.png",
+     "ext": ".png",
+     "x": 782.8,
+     "y": 213.93,
+     "w": 274.93,
+     "h": 76.0,
+     "grouped": false,
+     "file": "slide026_image82.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image80.png",
+     "name": "image80.png",
+     "ext": ".png",
+     "x": 48.8,
+     "y": 213.93,
+     "w": 224.0,
+     "h": 76.0,
+     "grouped": false,
+     "file": "slide026_image80.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image81.png",
+     "name": "image81.png",
+     "ext": ".png",
+     "x": 48.8,
+     "y": 340.0,
+     "w": 630.4,
+     "h": 82.73,
+     "grouped": false,
+     "file": "slide026_image81.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image82.png",
+     "name": "image82.png",
+     "ext": ".png",
+     "x": 782.8,
+     "y": 213.93,
+     "w": 274.93,
+     "h": 76.0,
+     "grouped": false,
+     "file": "slide026_image82.png"
+    }
+   ]
+  },
+  {
+   "index": 27,
+   "part": "ppt/slides/slide27.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image83.png",
+     "name": "image83.png",
+     "ext": ".png",
+     "x": 828.47,
+     "y": 201.67,
+     "w": 293.2,
+     "h": 505.4,
+     "grouped": false,
+     "file": "slide027_image83.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image83.png",
+     "name": "image83.png",
+     "ext": ".png",
+     "x": 828.47,
+     "y": 201.67,
+     "w": 293.2,
+     "h": 505.4,
+     "grouped": false,
+     "file": "slide027_image83.png"
+    }
+   ]
+  },
+  {
+   "index": 28,
+   "part": "ppt/slides/slide28.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image84.png",
+     "name": "image84.png",
+     "ext": ".png",
+     "x": 76.0,
+     "y": 147.47,
+     "w": 760.0,
+     "h": 264.8,
+     "grouped": false,
+     "file": "slide028_image84.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image85.png",
+     "name": "image85.png",
+     "ext": ".png",
+     "x": 76.0,
+     "y": 421.8,
+     "w": 760.0,
+     "h": 292.0,
+     "grouped": false,
+     "file": "slide028_image85.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image84.png",
+     "name": "image84.png",
+     "ext": ".png",
+     "x": 76.0,
+     "y": 147.47,
+     "w": 760.0,
+     "h": 264.8,
+     "grouped": false,
+     "file": "slide028_image84.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image85.png",
+     "name": "image85.png",
+     "ext": ".png",
+     "x": 76.0,
+     "y": 421.8,
+     "w": 760.0,
+     "h": 292.0,
+     "grouped": false,
+     "file": "slide028_image85.png"
+    }
+   ]
+  },
+  {
+   "index": 29,
+   "part": "ppt/slides/slide29.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image86.png",
+     "name": "image86.png",
+     "ext": ".png",
+     "x": 93.13,
+     "y": 189.07,
+     "w": 890.0,
+     "h": 401.07,
+     "grouped": false,
+     "file": "slide029_image86.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image86.png",
+     "name": "image86.png",
+     "ext": ".png",
+     "x": 93.13,
+     "y": 189.07,
+     "w": 890.0,
+     "h": 401.07,
+     "grouped": false,
+     "file": "slide029_image86.png"
+    }
+   ]
+  },
+  {
+   "index": 30,
+   "part": "ppt/slides/slide30.xml",
+   "text": "模块一：从机器学习到深度学习\n实验可重复性的系统级破解与防弹架构\n主讲人：利群他爹\n这是利群",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "模块一：从机器学习到深度学习",
+     "x": 74.13,
+     "y": 83.0,
+     "w": 1088.13,
+     "h": 123.0,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "实验可重复性的系统级破解与防弹架构",
+     "x": 133.46,
+     "y": 238.8,
+     "w": 1028.79,
+     "h": 154.58,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "主讲人：利群他爹",
+     "x": 581.07,
+     "y": 321.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "这是利群",
+     "x": 735.6,
+     "y": 475.33,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ]
+  },
+  {
+   "index": 31,
+   "part": "ppt/slides/slide31.xml",
+   "text": "就像海拉细胞现在还在实验室疯狂繁殖一样，我们也希望我们的模型，能在相同的条件控制下，能跑出完全一致的结果\n同一份代码、同一份数据、同一组超参数，仍然可能跑出不同结果，常见根源包括： \n\n\n参数初始化和数据打乱带来的显式随机性。\n图像增强、采样器、多进程 `DataLoader` 带来的隐式随机性。\nGPU 并行归约、原子操作与线程调度带来的数值尾差。\n浮点数舍入误差与运算顺序变化带来的非结合性。\n底层算子库自动选择更快实现时带来的算法路径变化。\n海拉细胞：海拉细胞系是源自一位美国黑人妇女海瑞塔‧拉克斯（Henrietta Lacks）的宫颈癌细胞的细胞系。一位外科医生从她的肿瘤上取下组织样本，并在实验室中进行培养，仍被不间断的培养。",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "就像海拉细胞现在还在实验室疯狂繁殖一样，我们也希望我们的模型，能在相同的条件控制下，能跑出完全一致的结果",
+     "x": 491.4,
+     "y": 162.87,
+     "w": 660.0,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "同一份代码、同一份数据、同一组超参数，仍然可能跑出不同结果，常见根源包括： \n\n\n参数初始化和数据打乱带来的显式随机性。\n图像增强、采样器、多进程 `DataLoader` 带来的隐式随机性。\nGPU 并行归约、原子操作与线程调度带来的数值尾差。\n浮点数舍入误差与运算顺序变化带来的非结合性。\n底层算子库自动选择更快实现时带来的算法路径变化。",
+     "x": 491.4,
+     "y": 255.53,
+     "w": 660.0,
+     "h": 329.47,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "海拉细胞：海拉细胞系是源自一位美国黑人妇女海瑞塔‧拉克斯（Henrietta Lacks）的宫颈癌细胞的细胞系。一位外科医生从她的肿瘤上取下组织样本，并在实验室中进行培养，仍被不间断的培养。",
+     "x": 30.93,
+     "y": 428.8,
+     "w": 426.67,
+     "h": 184.07,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image88.png",
+     "name": "image88.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 162.87,
+     "w": 360.8,
+     "h": 238.4,
+     "grouped": false,
+     "file": "slide031_image88.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image88.png",
+     "name": "image88.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 162.87,
+     "w": 360.8,
+     "h": 238.4,
+     "grouped": false,
+     "file": "slide031_image88.png"
+    }
+   ]
+  },
+  {
+   "index": 32,
+   "part": "ppt/slides/slide32.xml",
+   "text": "np库的种子，每次抽取都能抽出同样的数列，从一定程度上保证了可复现性\n当然我们伟大的torch也有随机种子，torch.manual_seed()\n但是我们上页讲到：\n非确定性不是“随机种子没设好”，而是系统级问题，随机种子只能覆盖极小一部分随机性",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "np库的种子，每次抽取都能抽出同样的数列，从一定程度上保证了可复现性",
+     "x": 334.87,
+     "y": 145.13,
+     "w": 426.67,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "当然我们伟大的torch也有随机种子，torch.manual_seed()\n但是我们上页讲到：",
+     "x": 334.87,
+     "y": 268.07,
+     "w": 426.67,
+     "h": 96.8,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "非确定性不是“随机种子没设好”，而是系统级问题，随机种子只能覆盖极小一部分随机性",
+     "x": 376.53,
+     "y": 599.07,
+     "w": 880.07,
+     "h": 27.33,
+     "maxPt": 16.0,
+     "bold": true,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image89.png",
+     "name": "image89.png",
+     "ext": ".png",
+     "x": 54.2,
+     "y": 145.13,
+     "w": 265.6,
+     "h": 492.0,
+     "grouped": false,
+     "file": "slide032_image89.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image90.png",
+     "name": "image90.png",
+     "ext": ".png",
+     "x": 334.87,
+     "y": 375.33,
+     "w": 496.8,
+     "h": 162.4,
+     "grouped": false,
+     "file": "slide032_image90.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image91.png",
+     "name": "image91.png",
+     "ext": ".png",
+     "x": 870.0,
+     "y": 63.87,
+     "w": 345.47,
+     "h": 491.8,
+     "grouped": false,
+     "file": "slide032_image91.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image89.png",
+     "name": "image89.png",
+     "ext": ".png",
+     "x": 54.2,
+     "y": 145.13,
+     "w": 265.6,
+     "h": 492.0,
+     "grouped": false,
+     "file": "slide032_image89.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image90.png",
+     "name": "image90.png",
+     "ext": ".png",
+     "x": 334.87,
+     "y": 375.33,
+     "w": 496.8,
+     "h": 162.4,
+     "grouped": false,
+     "file": "slide032_image90.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image91.png",
+     "name": "image91.png",
+     "ext": ".png",
+     "x": 870.0,
+     "y": 63.87,
+     "w": 345.47,
+     "h": 491.8,
+     "grouped": false,
+     "file": "slide032_image91.png"
+    }
+   ]
+  },
+  {
+   "index": 33,
+   "part": "ppt/slides/slide33.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image92.png",
+     "name": "image92.png",
+     "ext": ".png",
+     "x": 95.4,
+     "y": 314.53,
+     "w": 674.4,
+     "h": 341.6,
+     "grouped": false,
+     "file": "slide033_image92.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image92.png",
+     "name": "image92.png",
+     "ext": ".png",
+     "x": 95.4,
+     "y": 314.53,
+     "w": 674.4,
+     "h": 341.6,
+     "grouped": false,
+     "file": "slide033_image92.png"
+    }
+   ]
+  },
+  {
+   "index": 34,
+   "part": "ppt/slides/slide34.xml",
+   "text": "来看notebook",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "来看notebook",
+     "x": 114.53,
+     "y": 500.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image93.png",
+     "name": "image93.png",
+     "ext": ".png",
+     "x": 628.07,
+     "y": 249.4,
+     "w": 552.47,
+     "h": 457.6,
+     "grouped": false,
+     "file": "slide034_image93.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image93.png",
+     "name": "image93.png",
+     "ext": ".png",
+     "x": 628.07,
+     "y": 249.4,
+     "w": 552.47,
+     "h": 457.6,
+     "grouped": false,
+     "file": "slide034_image93.png"
+    }
+   ]
+  },
+  {
+   "index": 35,
+   "part": "ppt/slides/slide35.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image94.png",
+     "name": "image94.png",
+     "ext": ".png",
+     "x": 33.6,
+     "y": 137.93,
+     "w": 599.47,
+     "h": 464.8,
+     "grouped": false,
+     "file": "slide035_image94.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image95.png",
+     "name": "image95.png",
+     "ext": ".png",
+     "x": 633.07,
+     "y": 137.93,
+     "w": 610.13,
+     "h": 464.87,
+     "grouped": false,
+     "file": "slide035_image95.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image94.png",
+     "name": "image94.png",
+     "ext": ".png",
+     "x": 33.6,
+     "y": 137.93,
+     "w": 599.47,
+     "h": 464.8,
+     "grouped": false,
+     "file": "slide035_image94.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image95.png",
+     "name": "image95.png",
+     "ext": ".png",
+     "x": 633.07,
+     "y": 137.93,
+     "w": 610.13,
+     "h": 464.87,
+     "grouped": false,
+     "file": "slide035_image95.png"
+    }
+   ]
+  },
+  {
+   "index": 36,
+   "part": "ppt/slides/slide36.xml",
+   "text": "模块一：从机器学习到深度学习\n高维张量拓扑、连续内存布局与 Einops 重构\n主讲人：利群他爹\n这是利群",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "模块一：从机器学习到深度学习",
+     "x": 74.13,
+     "y": 83.0,
+     "w": 1088.13,
+     "h": 123.0,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "高维张量拓扑、连续内存布局与 Einops 重构",
+     "x": 133.46,
+     "y": 238.8,
+     "w": 1028.79,
+     "h": 154.58,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "主讲人：利群他爹",
+     "x": 581.07,
+     "y": 321.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "这是利群",
+     "x": 735.6,
+     "y": 475.33,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ]
+  },
+  {
+   "index": 37,
+   "part": "ppt/slides/slide37.xml",
+   "text": "那我拓展到三维，实际上\n就是二维的叠加，strides[0]=16\n也就是shape=a*b*c*...\nstrides[x]=...,a*b,a,1\n那么好，对于一个4*4*4的张量\nstrides[2]=1;strides[1]=4,strides[0]=16\n则有寻址公式：\n试求【2,1,3】位置 39",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "那我拓展到三维，实际上\n就是二维的叠加，strides[0]=16\n也就是shape=a*b*c*...\nstrides[x]=...,a*b,a,1",
+     "x": 971.0,
+     "y": 238.93,
+     "w": 300.33,
+     "h": 155.0,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "那么好，对于一个4*4*4的张量\nstrides[2]=1;strides[1]=4,strides[0]=16",
+     "x": 738.2,
+     "y": 400.0,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "则有寻址公式：",
+     "x": 749.13,
+     "y": 478.67,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "试求【2,1,3】位置 39",
+     "x": 738.2,
+     "y": 656.13,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": 6.0,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image97.png",
+     "name": "image97.png",
+     "ext": ".png",
+     "x": 35.27,
+     "y": 275.0,
+     "w": 686.53,
+     "h": 356.67,
+     "grouped": false,
+     "file": "slide037_image97.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image98.png",
+     "name": "image98.png",
+     "ext": ".png",
+     "x": 787.53,
+     "y": 225.6,
+     "w": 145.6,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide037_image98.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image98.png",
+     "name": "image98.png",
+     "ext": ".png",
+     "x": 800.87,
+     "y": 238.93,
+     "w": 145.6,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide037_image98.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image98.png",
+     "name": "image98.png",
+     "ext": ".png",
+     "x": 814.2,
+     "y": 252.27,
+     "w": 145.6,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide037_image98.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image98.png",
+     "name": "image98.png",
+     "ext": ".png",
+     "x": 827.53,
+     "y": 265.6,
+     "w": 145.6,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide037_image98.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image99.png",
+     "name": "image99.png",
+     "ext": ".png",
+     "x": 800.87,
+     "y": 532.33,
+     "w": 323.27,
+     "h": 99.33,
+     "grouped": false,
+     "file": "slide037_image99.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image100.png",
+     "name": "image100.png",
+     "ext": ".png",
+     "x": 982.07,
+     "y": 27.8,
+     "w": 122.53,
+     "h": 126.4,
+     "grouped": false,
+     "file": "slide037_image100.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image97.png",
+     "name": "image97.png",
+     "ext": ".png",
+     "x": 35.27,
+     "y": 275.0,
+     "w": 686.53,
+     "h": 356.67,
+     "grouped": false,
+     "file": "slide037_image97.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image98.png",
+     "name": "image98.png",
+     "ext": ".png",
+     "x": 787.53,
+     "y": 225.6,
+     "w": 145.6,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide037_image98.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image98.png",
+     "name": "image98.png",
+     "ext": ".png",
+     "x": 800.87,
+     "y": 238.93,
+     "w": 145.6,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide037_image98.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image98.png",
+     "name": "image98.png",
+     "ext": ".png",
+     "x": 814.2,
+     "y": 252.27,
+     "w": 145.6,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide037_image98.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image98.png",
+     "name": "image98.png",
+     "ext": ".png",
+     "x": 827.53,
+     "y": 265.6,
+     "w": 145.6,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide037_image98.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image99.png",
+     "name": "image99.png",
+     "ext": ".png",
+     "x": 800.87,
+     "y": 532.33,
+     "w": 323.27,
+     "h": 99.33,
+     "grouped": false,
+     "file": "slide037_image99.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image100.png",
+     "name": "image100.png",
+     "ext": ".png",
+     "x": 982.07,
+     "y": 27.8,
+     "w": 122.53,
+     "h": 126.4,
+     "grouped": false,
+     "file": "slide037_image100.png"
+    }
+   ]
+  },
+  {
+   "index": 38,
+   "part": "ppt/slides/slide38.xml",
+   "text": "则这玩意连续\n比如三维数组shape= (3,4,5),stride=(20,5,1):\n最后维stride[2]=1\ni=1:stride[1]应该等stride[2]xshape[2]=1x5=5\ni=0:stride[0]应该等于stride[1]xshape[1]=5x4=20\n当我存储的张量连续时，我的读写将极大节省时间（以显存换时间）",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "则这玩意连续",
+     "x": 713.93,
+     "y": 264.87,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "比如三维数组shape= (3,4,5),stride=(20,5,1):\n最后维stride[2]=1\ni=1:stride[1]应该等stride[2]xshape[2]=1x5=5\ni=0:stride[0]应该等于stride[1]xshape[1]=5x4=20",
+     "x": 91.8,
+     "y": 335.07,
+     "w": 1066.07,
+     "h": 125.87,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "当我存储的张量连续时，我的读写将极大节省时间（以显存换时间）",
+     "x": 73.4,
+     "y": 476.33,
+     "w": 841.33,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image101.png",
+     "name": "image101.png",
+     "ext": ".png",
+     "x": 83.0,
+     "y": 210.4,
+     "w": 494.4,
+     "h": 109.27,
+     "grouped": false,
+     "file": "slide038_image101.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image102.png",
+     "name": "image102.png",
+     "ext": ".png",
+     "x": 83.0,
+     "y": 515.0,
+     "w": 865.6,
+     "h": 189.6,
+     "grouped": false,
+     "file": "slide038_image102.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image101.png",
+     "name": "image101.png",
+     "ext": ".png",
+     "x": 83.0,
+     "y": 210.4,
+     "w": 494.4,
+     "h": 109.27,
+     "grouped": false,
+     "file": "slide038_image101.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image102.png",
+     "name": "image102.png",
+     "ext": ".png",
+     "x": 83.0,
+     "y": 515.0,
+     "w": 865.6,
+     "h": 189.6,
+     "grouped": false,
+     "file": "slide038_image102.png"
+    }
+   ]
+  },
+  {
+   "index": 39,
+   "part": "ppt/slides/slide39.xml",
+   "text": "聪明的朋友们，这一part过于底层了，我放了补充材料",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "聪明的朋友们，这一part过于底层了，我放了补充材料",
+     "x": 78.8,
+     "y": 557.6,
+     "w": 719.33,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [],
+   "images": []
+  },
+  {
+   "index": 40,
+   "part": "ppt/slides/slide40.xml",
+   "text": "幽默静步男的大，是发出和自己相反的波来抵消自己造出来的逼动静\n幽默numpy的广播机制则是从右向左对齐维度，维度相等或一方为 1 即可广播\n幽默pytorch在CPU中机制和原理保持完全一致（使用 stride = 0 的技巧。被广播的维度的 stride 直接设为 0，这意味着无论索引怎么变化，内存偏移都不变，永远指向同一个元素。\n在GPU上则稍显复杂（聪明的朋友们自行理解）",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "幽默静步男的大，是发出和自己相反的波来抵消自己造出来的逼动静\n幽默numpy的广播机制则是从右向左对齐维度，维度相等或一方为 1 即可广播\n幽默pytorch在CPU中机制和原理保持完全一致（使用 stride = 0 的技巧。被广播的维度的 stride 直接设为 0，这意味着无论索引怎么变化，内存偏移都不变，永远指向同一个元素。\n在GPU上则稍显复杂（聪明的朋友们自行理解）",
+     "x": 63.87,
+     "y": 151.47,
+     "w": 1122.27,
+     "h": 184.07,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image103.png",
+     "name": "image103.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 349.07,
+     "w": 343.0,
+     "h": 132.4,
+     "grouped": false,
+     "file": "slide040_image103.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image104.png",
+     "name": "image104.png",
+     "ext": ".png",
+     "x": 477.4,
+     "y": 335.53,
+     "w": 746.4,
+     "h": 332.0,
+     "grouped": false,
+     "file": "slide040_image104.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image103.png",
+     "name": "image103.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 349.07,
+     "w": 343.0,
+     "h": 132.4,
+     "grouped": false,
+     "file": "slide040_image103.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image104.png",
+     "name": "image104.png",
+     "ext": ".png",
+     "x": 477.4,
+     "y": 335.53,
+     "w": 746.4,
+     "h": 332.0,
+     "grouped": false,
+     "file": "slide040_image104.png"
+    }
+   ]
+  },
+  {
+   "index": 41,
+   "part": "ppt/slides/slide41.xml",
+   "text": "matmul的嵌套无异于西双版纳以南下暴雨——赤道湿了",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "matmul的嵌套无异于西双版纳以南下暴雨——赤道湿了",
+     "x": 638.4,
+     "y": 570.8,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image105.png",
+     "name": "image105.png",
+     "ext": ".png",
+     "x": 78.93,
+     "y": 162.2,
+     "w": 550.4,
+     "h": 216.0,
+     "grouped": false,
+     "file": "slide041_image105.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image106.png",
+     "name": "image106.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 402.47,
+     "w": 541.6,
+     "h": 250.4,
+     "grouped": false,
+     "file": "slide041_image106.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image107.png",
+     "name": "image107.png",
+     "ext": ".png",
+     "x": 621.93,
+     "y": 178.4,
+     "w": 497.6,
+     "h": 363.2,
+     "grouped": false,
+     "file": "slide041_image107.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image105.png",
+     "name": "image105.png",
+     "ext": ".png",
+     "x": 78.93,
+     "y": 162.2,
+     "w": 550.4,
+     "h": 216.0,
+     "grouped": false,
+     "file": "slide041_image105.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image106.png",
+     "name": "image106.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 402.47,
+     "w": 541.6,
+     "h": 250.4,
+     "grouped": false,
+     "file": "slide041_image106.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image107.png",
+     "name": "image107.png",
+     "ext": ".png",
+     "x": 621.93,
+     "y": 178.4,
+     "w": 497.6,
+     "h": 363.2,
+     "grouped": false,
+     "file": "slide041_image107.png"
+    }
+   ]
+  },
+  {
+   "index": 42,
+   "part": "ppt/slides/slide42.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image108.png",
+     "name": "image108.png",
+     "ext": ".png",
+     "x": 92.27,
+     "y": 174.67,
+     "w": 802.93,
+     "h": 445.13,
+     "grouped": false,
+     "file": "slide042_image108.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image108.png",
+     "name": "image108.png",
+     "ext": ".png",
+     "x": 92.27,
+     "y": 174.67,
+     "w": 802.93,
+     "h": 445.13,
+     "grouped": false,
+     "file": "slide042_image108.png"
+    }
+   ]
+  },
+  {
+   "index": 43,
+   "part": "ppt/slides/slide43.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image109.png",
+     "name": "image109.png",
+     "ext": ".png",
+     "x": 91.2,
+     "y": 186.6,
+     "w": 476.8,
+     "h": 420.0,
+     "grouped": false,
+     "file": "slide043_image109.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image110.png",
+     "name": "image110.png",
+     "ext": ".png",
+     "x": 662.6,
+     "y": 186.6,
+     "w": 514.4,
+     "h": 419.93,
+     "grouped": false,
+     "file": "slide043_image110.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image109.png",
+     "name": "image109.png",
+     "ext": ".png",
+     "x": 91.2,
+     "y": 186.6,
+     "w": 476.8,
+     "h": 420.0,
+     "grouped": false,
+     "file": "slide043_image109.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image110.png",
+     "name": "image110.png",
+     "ext": ".png",
+     "x": 662.6,
+     "y": 186.6,
+     "w": 514.4,
+     "h": 419.93,
+     "grouped": false,
+     "file": "slide043_image110.png"
+    }
+   ]
+  },
+  {
+   "index": 44,
+   "part": "ppt/slides/slide44.xml",
+   "text": "模块一：从机器学习到深度学习\n高性能数据管道与学术级统计可视化\n主讲人：利群他爹\n这是利群",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "模块一：从机器学习到深度学习",
+     "x": 74.13,
+     "y": 83.0,
+     "w": 1088.13,
+     "h": 123.0,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "高性能数据管道与学术级统计可视化",
+     "x": 133.46,
+     "y": 238.8,
+     "w": 1028.79,
+     "h": 154.58,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "主讲人：利群他爹",
+     "x": 581.07,
+     "y": 321.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "这是利群",
+     "x": 735.6,
+     "y": 475.33,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    }
+   ]
+  },
+  {
+   "index": 45,
+   "part": "ppt/slides/slide45.xml",
+   "text": "并行计算足够暴力\n足够sexy",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "并行计算足够暴力\n足够sexy",
+     "x": 926.73,
+     "y": 508.93,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "video",
+     "part": "ppt/media/media1.mp4",
+     "name": "media1.mp4",
+     "ext": ".mp4",
+     "x": 18.29,
+     "y": 137.94,
+     "w": 890.66,
+     "h": 499.65,
+     "grouped": false,
+     "poster": "slide045_poster_image111.png",
+     "file": "slide045_media1.mp4"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image6.png",
+     "name": "image6.png",
+     "ext": ".png",
+     "x": 958.27,
+     "y": 80.93,
+     "w": 168.6,
+     "h": 170.47,
+     "grouped": false,
+     "file": "slide003_image6.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image6.png",
+     "name": "image6.png",
+     "ext": ".png",
+     "x": 958.27,
+     "y": 80.93,
+     "w": 168.6,
+     "h": 170.47,
+     "grouped": false,
+     "file": "slide003_image6.png"
+    }
+   ]
+  },
+  {
+   "index": 46,
+   "part": "ppt/slides/slide46.xml",
+   "text": "性能优化的本质是减少 CPU 充当搬运工的时间。",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "性能优化的本质是减少 CPU 充当搬运工的时间。",
+     "x": 129.6,
+     "y": 617.47,
+     "w": 933.2,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image112.png",
+     "name": "image112.png",
+     "ext": ".png",
+     "x": 55.07,
+     "y": 306.0,
+     "w": 356.47,
+     "h": 289.27,
+     "grouped": false,
+     "file": "slide046_image112.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image113.png",
+     "name": "image113.png",
+     "ext": ".png",
+     "x": 455.2,
+     "y": 306.0,
+     "w": 585.6,
+     "h": 260.0,
+     "grouped": false,
+     "file": "slide046_image113.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image112.png",
+     "name": "image112.png",
+     "ext": ".png",
+     "x": 55.07,
+     "y": 306.0,
+     "w": 356.47,
+     "h": 289.27,
+     "grouped": false,
+     "file": "slide046_image112.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image113.png",
+     "name": "image113.png",
+     "ext": ".png",
+     "x": 455.2,
+     "y": 306.0,
+     "w": 585.6,
+     "h": 260.0,
+     "grouped": false,
+     "file": "slide046_image113.png"
+    }
+   ]
+  },
+  {
+   "index": 47,
+   "part": "ppt/slides/slide47.xml",
+   "text": "看看叉子fork():\nCopy-on-Write写时复制:",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "看看叉子fork():",
+     "x": 63.87,
+     "y": 156.47,
+     "w": 327.47,
+     "h": 68.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "Copy-on-Write写时复制:",
+     "x": 501.73,
+     "y": 156.47,
+     "w": 327.47,
+     "h": 68.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image114.png",
+     "name": "image114.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 211.07,
+     "w": 394.73,
+     "h": 404.33,
+     "grouped": false,
+     "file": "slide047_image114.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image115.png",
+     "name": "image115.png",
+     "ext": ".png",
+     "x": 520.47,
+     "y": 225.13,
+     "w": 325.6,
+     "h": 409.6,
+     "grouped": false,
+     "file": "slide047_image115.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image114.png",
+     "name": "image114.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 211.07,
+     "w": 394.73,
+     "h": 404.33,
+     "grouped": false,
+     "file": "slide047_image114.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image115.png",
+     "name": "image115.png",
+     "ext": ".png",
+     "x": 520.47,
+     "y": 225.13,
+     "w": 325.6,
+     "h": 409.6,
+     "grouped": false,
+     "file": "slide047_image115.png"
+    }
+   ]
+  },
+  {
+   "index": 48,
+   "part": "ppt/slides/slide48.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image116.png",
+     "name": "image116.png",
+     "ext": ".png",
+     "x": 79.27,
+     "y": 245.07,
+     "w": 384.0,
+     "h": 322.4,
+     "grouped": false,
+     "file": "slide048_image116.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image117.png",
+     "name": "image117.png",
+     "ext": ".png",
+     "x": 590.27,
+     "y": 165.47,
+     "w": 484.0,
+     "h": 481.6,
+     "grouped": false,
+     "file": "slide048_image117.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image116.png",
+     "name": "image116.png",
+     "ext": ".png",
+     "x": 79.27,
+     "y": 245.07,
+     "w": 384.0,
+     "h": 322.4,
+     "grouped": false,
+     "file": "slide048_image116.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image117.png",
+     "name": "image117.png",
+     "ext": ".png",
+     "x": 590.27,
+     "y": 165.47,
+     "w": 484.0,
+     "h": 481.6,
+     "grouped": false,
+     "file": "slide048_image117.png"
+    }
+   ]
+  },
+  {
+   "index": 49,
+   "part": "ppt/slides/slide49.xml",
+   "text": "看代码",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "看代码",
+     "x": 710.73,
+     "y": 300.47,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image118.png",
+     "name": "image118.png",
+     "ext": ".png",
+     "x": 88.07,
+     "y": 211.87,
+     "w": 535.73,
+     "h": 471.0,
+     "grouped": false,
+     "file": "slide049_image118.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image118.png",
+     "name": "image118.png",
+     "ext": ".png",
+     "x": 88.07,
+     "y": 211.87,
+     "w": 535.73,
+     "h": 471.0,
+     "grouped": false,
+     "file": "slide049_image118.png"
+    }
+   ]
+  },
+  {
+   "index": 50,
+   "part": "ppt/slides/slide50.xml",
+   "text": "所以就有了welford算法：可以只扫描一次数据，不需要存储历史数据，数值稳定性好。\n下一页开始我们来手算一下：",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "所以就有了welford算法：可以只扫描一次数据，不需要存储历史数据，数值稳定性好。\n下一页开始我们来手算一下：",
+     "x": 84.2,
+     "y": 517.87,
+     "w": 1152.47,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image119.png",
+     "name": "image119.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 371.13,
+     "w": 570.13,
+     "h": 127.8,
+     "grouped": false,
+     "file": "slide050_image119.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image119.png",
+     "name": "image119.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 371.13,
+     "w": 570.13,
+     "h": 127.8,
+     "grouped": false,
+     "file": "slide050_image119.png"
+    }
+   ]
+  },
+  {
+   "index": 51,
+   "part": "ppt/slides/slide51.xml",
+   "text": "Welford 算法推导\n看你妈呢，自己推",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "Welford 算法推导",
+     "x": 63.87,
+     "y": 63.87,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "看你妈呢，自己推",
+     "x": 707.47,
+     "y": 129.13,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image120.png",
+     "name": "image120.png",
+     "ext": ".png",
+     "x": 100.93,
+     "y": 155.47,
+     "w": 211.07,
+     "h": 96.2,
+     "grouped": false,
+     "file": "slide051_image120.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image121.png",
+     "name": "image121.png",
+     "ext": ".png",
+     "x": 23.8,
+     "y": 304.33,
+     "w": 436.73,
+     "h": 111.33,
+     "grouped": false,
+     "file": "slide051_image121.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image122.png",
+     "name": "image122.png",
+     "ext": ".png",
+     "x": 23.8,
+     "y": 466.07,
+     "w": 491.8,
+     "h": 128.6,
+     "grouped": false,
+     "file": "slide051_image122.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image123.png",
+     "name": "image123.png",
+     "ext": ".png",
+     "x": 1033.13,
+     "y": -305.07,
+     "w": 351.4,
+     "h": 351.4,
+     "grouped": false,
+     "file": "slide051_image123.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image124.png",
+     "name": "image124.png",
+     "ext": ".png",
+     "x": 826.73,
+     "y": 433.27,
+     "w": 380.07,
+     "h": 260.2,
+     "grouped": false,
+     "file": "slide051_image124.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image120.png",
+     "name": "image120.png",
+     "ext": ".png",
+     "x": 100.93,
+     "y": 155.47,
+     "w": 211.07,
+     "h": 96.2,
+     "grouped": false,
+     "file": "slide051_image120.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image121.png",
+     "name": "image121.png",
+     "ext": ".png",
+     "x": 23.8,
+     "y": 304.33,
+     "w": 436.73,
+     "h": 111.33,
+     "grouped": false,
+     "file": "slide051_image121.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image122.png",
+     "name": "image122.png",
+     "ext": ".png",
+     "x": 23.8,
+     "y": 466.07,
+     "w": 491.8,
+     "h": 128.6,
+     "grouped": false,
+     "file": "slide051_image122.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image123.png",
+     "name": "image123.png",
+     "ext": ".png",
+     "x": 1033.13,
+     "y": -305.07,
+     "w": 351.4,
+     "h": 351.4,
+     "grouped": false,
+     "file": "slide051_image123.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image124.png",
+     "name": "image124.png",
+     "ext": ".png",
+     "x": 826.73,
+     "y": 433.27,
+     "w": 380.07,
+     "h": 260.2,
+     "grouped": false,
+     "file": "slide051_image124.png"
+    }
+   ]
+  },
+  {
+   "index": 52,
+   "part": "ppt/slides/slide52.xml",
+   "text": "我们现在算完了welford（串行），面对并行的welford则需要进行方差聚合",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "我们现在算完了welford（串行），面对并行的welford则需要进行方差聚合",
+     "x": 519.13,
+     "y": 70.2,
+     "w": 673.33,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image125.png",
+     "name": "image125.png",
+     "ext": ".png",
+     "x": 50.47,
+     "y": 179.4,
+     "w": 468.67,
+     "h": 401.87,
+     "grouped": false,
+     "file": "slide052_image125.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image126.png",
+     "name": "image126.png",
+     "ext": ".png",
+     "x": 540.07,
+     "y": 179.4,
+     "w": 284.0,
+     "h": 124.8,
+     "grouped": false,
+     "file": "slide052_image126.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image127.png",
+     "name": "image127.png",
+     "ext": ".png",
+     "x": 813.33,
+     "y": 189.0,
+     "w": 277.6,
+     "h": 105.6,
+     "grouped": false,
+     "file": "slide052_image127.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image128.png",
+     "name": "image128.png",
+     "ext": ".png",
+     "x": 619.47,
+     "y": 314.33,
+     "w": 346.6,
+     "h": 132.0,
+     "grouped": false,
+     "file": "slide052_image128.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image129.png",
+     "name": "image129.png",
+     "ext": ".png",
+     "x": 467.87,
+     "y": 526.87,
+     "w": 788.87,
+     "h": 142.6,
+     "grouped": false,
+     "file": "slide052_image129.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image125.png",
+     "name": "image125.png",
+     "ext": ".png",
+     "x": 50.47,
+     "y": 179.4,
+     "w": 468.67,
+     "h": 401.87,
+     "grouped": false,
+     "file": "slide052_image125.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image126.png",
+     "name": "image126.png",
+     "ext": ".png",
+     "x": 540.07,
+     "y": 179.4,
+     "w": 284.0,
+     "h": 124.8,
+     "grouped": false,
+     "file": "slide052_image126.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image127.png",
+     "name": "image127.png",
+     "ext": ".png",
+     "x": 813.33,
+     "y": 189.0,
+     "w": 277.6,
+     "h": 105.6,
+     "grouped": false,
+     "file": "slide052_image127.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image128.png",
+     "name": "image128.png",
+     "ext": ".png",
+     "x": 619.47,
+     "y": 314.33,
+     "w": 346.6,
+     "h": 132.0,
+     "grouped": false,
+     "file": "slide052_image128.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image129.png",
+     "name": "image129.png",
+     "ext": ".png",
+     "x": 467.87,
+     "y": 526.87,
+     "w": 788.87,
+     "h": 142.6,
+     "grouped": false,
+     "file": "slide052_image129.png"
+    }
+   ]
+  },
+  {
+   "index": 53,
+   "part": "ppt/slides/slide53.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image129.png",
+     "name": "image129.png",
+     "ext": ".png",
+     "x": 31.53,
+     "y": 219.47,
+     "w": 788.87,
+     "h": 102.6,
+     "grouped": false,
+     "file": "slide052_image129.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image130.png",
+     "name": "image130.png",
+     "ext": ".png",
+     "x": -80.13,
+     "y": 686.53,
+     "w": 1164.0,
+     "h": 144.0,
+     "grouped": false,
+     "file": "slide053_image130.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image131.png",
+     "name": "image131.png",
+     "ext": ".png",
+     "x": 642.0,
+     "y": 686.53,
+     "w": 638.0,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide053_image131.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image129.png",
+     "name": "image129.png",
+     "ext": ".png",
+     "x": 31.53,
+     "y": 219.47,
+     "w": 788.87,
+     "h": 102.6,
+     "grouped": false,
+     "file": "slide052_image129.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image130.png",
+     "name": "image130.png",
+     "ext": ".png",
+     "x": -80.13,
+     "y": 686.53,
+     "w": 1164.0,
+     "h": 144.0,
+     "grouped": false,
+     "file": "slide053_image130.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image131.png",
+     "name": "image131.png",
+     "ext": ".png",
+     "x": 642.0,
+     "y": 686.53,
+     "w": 638.0,
+     "h": 134.4,
+     "grouped": false,
+     "file": "slide053_image131.png"
+    }
+   ]
+  },
+  {
+   "index": 54,
+   "part": "ppt/slides/slide54.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image132.png",
+     "name": "image132.png",
+     "ext": ".png",
+     "x": 107.07,
+     "y": 53.87,
+     "w": 397.6,
+     "h": 448.27,
+     "grouped": false,
+     "file": "slide054_image132.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image133.png",
+     "name": "image133.png",
+     "ext": ".png",
+     "x": 451.6,
+     "y": 205.47,
+     "w": 325.6,
+     "h": 268.0,
+     "grouped": false,
+     "file": "slide054_image133.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image134.png",
+     "name": "image134.png",
+     "ext": ".png",
+     "x": 845.93,
+     "y": 212.0,
+     "w": 290.2,
+     "h": 360.8,
+     "grouped": false,
+     "file": "slide054_image134.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image135.png",
+     "name": "image135.png",
+     "ext": ".png",
+     "x": 453.93,
+     "y": 436.6,
+     "w": 323.27,
+     "h": 244.13,
+     "grouped": false,
+     "file": "slide054_image135.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image132.png",
+     "name": "image132.png",
+     "ext": ".png",
+     "x": 107.07,
+     "y": 53.87,
+     "w": 397.6,
+     "h": 448.27,
+     "grouped": false,
+     "file": "slide054_image132.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image133.png",
+     "name": "image133.png",
+     "ext": ".png",
+     "x": 451.6,
+     "y": 205.47,
+     "w": 325.6,
+     "h": 268.0,
+     "grouped": false,
+     "file": "slide054_image133.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image134.png",
+     "name": "image134.png",
+     "ext": ".png",
+     "x": 845.93,
+     "y": 212.0,
+     "w": 290.2,
+     "h": 360.8,
+     "grouped": false,
+     "file": "slide054_image134.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image135.png",
+     "name": "image135.png",
+     "ext": ".png",
+     "x": 453.93,
+     "y": 436.6,
+     "w": 323.27,
+     "h": 244.13,
+     "grouped": false,
+     "file": "slide054_image135.png"
+    }
+   ]
+  },
+  {
+   "index": 55,
+   "part": "ppt/slides/slide55.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image136.png",
+     "name": "image136.png",
+     "ext": ".png",
+     "x": 51.53,
+     "y": 219.2,
+     "w": 766.4,
+     "h": 417.6,
+     "grouped": false,
+     "file": "slide055_image136.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image136.png",
+     "name": "image136.png",
+     "ext": ".png",
+     "x": 51.53,
+     "y": 219.2,
+     "w": 766.4,
+     "h": 417.6,
+     "grouped": false,
+     "file": "slide055_image136.png"
+    }
+   ]
+  },
+  {
+   "index": 56,
+   "part": "ppt/slides/slide56.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image137.png",
+     "name": "image137.png",
+     "ext": ".png",
+     "x": 80.07,
+     "y": 177.33,
+     "w": 792.8,
+     "h": 410.4,
+     "grouped": false,
+     "file": "slide056_image137.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image137.png",
+     "name": "image137.png",
+     "ext": ".png",
+     "x": 80.07,
+     "y": 177.33,
+     "w": 792.8,
+     "h": 410.4,
+     "grouped": false,
+     "file": "slide056_image137.png"
+    }
+   ]
+  },
+  {
+   "index": 57,
+   "part": "ppt/slides/slide57.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image138.png",
+     "name": "image138.png",
+     "ext": ".png",
+     "x": 105.67,
+     "y": 185.47,
+     "w": 590.4,
+     "h": 441.6,
+     "grouped": false,
+     "file": "slide057_image138.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image138.png",
+     "name": "image138.png",
+     "ext": ".png",
+     "x": 105.67,
+     "y": 185.47,
+     "w": 590.4,
+     "h": 441.6,
+     "grouped": false,
+     "file": "slide057_image138.png"
+    }
+   ]
+  },
+  {
+   "index": 58,
+   "part": "ppt/slides/slide58.xml",
+   "text": "",
+   "shapes": [],
+   "media": [],
+   "images": []
+  }
+ ]
+}

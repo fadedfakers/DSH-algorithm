@@ -1,0 +1,1188 @@
+{
+ "source": "第三章.pptx",
+ "slideWidth": 1280.0,
+ "slideHeight": 720.0,
+ "slideCount": 19,
+ "slides": [
+  {
+   "index": 1,
+   "part": "ppt/slides/slide1.xml",
+   "text": "模块三：计算机视觉分类与检测\n卷积算子的代数同构、ERF 统计力学与 Roofline 硬件极限\n主讲人：利群他爹\n这是利群",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "模块三：计算机视觉分类与检测",
+     "x": 74.13,
+     "y": 83.0,
+     "w": 1088.13,
+     "h": 123.0,
+     "maxPt": 44.0,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "卷积算子的代数同构、ERF 统计力学与 Roofline 硬件极限",
+     "x": 133.46,
+     "y": 238.8,
+     "w": 1028.79,
+     "h": 154.58,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "主讲人：利群他爹",
+     "x": 581.07,
+     "y": 321.33,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "这是利群",
+     "x": 735.6,
+     "y": 475.33,
+     "w": 426.67,
+     "h": 67.73,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image1.png",
+     "name": "image1.png",
+     "ext": ".png",
+     "x": 19.0,
+     "y": 321.33,
+     "w": 539.87,
+     "h": 398.67,
+     "grouped": false,
+     "file": "slide001_image1.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image2.png",
+     "name": "image2.png",
+     "ext": ".png",
+     "x": 592.0,
+     "y": 455.67,
+     "w": 96.0,
+     "h": 96.0,
+     "grouped": false,
+     "file": "slide001_image2.png"
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "part": "ppt/slides/slide2.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.webp",
+     "name": "image4.webp",
+     "ext": ".webp",
+     "x": 20.6,
+     "y": 255.67,
+     "w": 494.53,
+     "h": 464.33,
+     "grouped": false,
+     "file": "slide002_image4.webp"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image5.png",
+     "name": "image5.png",
+     "ext": ".png",
+     "x": 537.93,
+     "y": 283.0,
+     "w": 653.6,
+     "h": 348.0,
+     "grouped": false,
+     "file": "slide002_image5.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image4.webp",
+     "name": "image4.webp",
+     "ext": ".webp",
+     "x": 20.6,
+     "y": 255.67,
+     "w": 494.53,
+     "h": 464.33,
+     "grouped": false,
+     "file": "slide002_image4.webp"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image5.png",
+     "name": "image5.png",
+     "ext": ".png",
+     "x": 537.93,
+     "y": 283.0,
+     "w": 653.6,
+     "h": 348.0,
+     "grouped": false,
+     "file": "slide002_image5.png"
+    }
+   ]
+  },
+  {
+   "index": 3,
+   "part": "ppt/slides/slide3.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image6.png",
+     "name": "image6.png",
+     "ext": ".png",
+     "x": 40.47,
+     "y": 20.6,
+     "w": 599.53,
+     "h": 95.93,
+     "grouped": false,
+     "file": "slide003_image6.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image7.png",
+     "name": "image7.png",
+     "ext": ".png",
+     "x": 40.47,
+     "y": 128.4,
+     "w": 458.0,
+     "h": 73.0,
+     "grouped": false,
+     "file": "slide003_image7.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image6.png",
+     "name": "image6.png",
+     "ext": ".png",
+     "x": 40.47,
+     "y": 20.6,
+     "w": 599.53,
+     "h": 95.93,
+     "grouped": false,
+     "file": "slide003_image6.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image7.png",
+     "name": "image7.png",
+     "ext": ".png",
+     "x": 40.47,
+     "y": 128.4,
+     "w": 458.0,
+     "h": 73.0,
+     "grouped": false,
+     "file": "slide003_image7.png"
+    }
+   ]
+  },
+  {
+   "index": 4,
+   "part": "ppt/slides/slide4.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image8.png",
+     "name": "image8.png",
+     "ext": ".png",
+     "x": 71.2,
+     "y": 338.33,
+     "w": 960.07,
+     "h": 201.8,
+     "grouped": false,
+     "file": "slide004_image8.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image8.png",
+     "name": "image8.png",
+     "ext": ".png",
+     "x": 71.2,
+     "y": 338.33,
+     "w": 960.07,
+     "h": 201.8,
+     "grouped": false,
+     "file": "slide004_image8.png"
+    }
+   ]
+  },
+  {
+   "index": 5,
+   "part": "ppt/slides/slide5.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image9.png",
+     "name": "image9.png",
+     "ext": ".png",
+     "x": 30.07,
+     "y": 155.6,
+     "w": 734.27,
+     "h": 449.07,
+     "grouped": false,
+     "file": "slide005_image9.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image10.png",
+     "name": "image10.png",
+     "ext": ".png",
+     "x": 615.87,
+     "y": 236.73,
+     "w": 638.2,
+     "h": 300.33,
+     "grouped": false,
+     "file": "slide005_image10.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image9.png",
+     "name": "image9.png",
+     "ext": ".png",
+     "x": 30.07,
+     "y": 155.6,
+     "w": 734.27,
+     "h": 449.07,
+     "grouped": false,
+     "file": "slide005_image9.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image10.png",
+     "name": "image10.png",
+     "ext": ".png",
+     "x": 615.87,
+     "y": 236.73,
+     "w": 638.2,
+     "h": 300.33,
+     "grouped": false,
+     "file": "slide005_image10.png"
+    }
+   ]
+  },
+  {
+   "index": 6,
+   "part": "ppt/slides/slide6.xml",
+   "text": "im2col\n虽然我们知道卷积可以写成稀疏矩阵乘法，但直接使用稀疏矩阵乘法在 GPU 上效率不高，因为稀疏矩阵乘法的并行度和数据复用不如密集矩阵乘法。\nim2col 的思路是：把卷积的输入和卷积核重新排列，使卷积运算变成标准的密集矩阵乘法（GEMM），从而利用 GPU 对 GEMM 的高度优化。",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "im2col",
+     "x": 50.21,
+     "y": 14.81,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "虽然我们知道卷积可以写成稀疏矩阵乘法，但直接使用稀疏矩阵乘法在 GPU 上效率不高，因为稀疏矩阵乘法的并行度和数据复用不如密集矩阵乘法。\nim2col 的思路是：把卷积的输入和卷积核重新排列，使卷积运算变成标准的密集矩阵乘法（GEMM），从而利用 GPU 对 GEMM 的高度优化。",
+     "x": 50.21,
+     "y": 88.87,
+     "w": 1151.62,
+     "h": 499.65,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image11.png",
+     "name": "image11.png",
+     "ext": ".png",
+     "x": 147.8,
+     "y": 253.0,
+     "w": 973.07,
+     "h": 467.0,
+     "grouped": false,
+     "file": "slide006_image11.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image11.png",
+     "name": "image11.png",
+     "ext": ".png",
+     "x": 147.8,
+     "y": 253.0,
+     "w": 973.07,
+     "h": 467.0,
+     "grouped": false,
+     "file": "slide006_image11.png"
+    }
+   ]
+  },
+  {
+   "index": 7,
+   "part": "ppt/slides/slide7.xml",
+   "text": "举个栗子\n内存膨胀:im2col 显式复制了所有重叠的输入数据。\n中间像素（如 5）出现在所有 4 个窗口中，被复制了 4 次。\n角落像素（如 1）只出现 1 次。k*K卷积内存翻k2  倍",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "举个栗子",
+     "x": 63.87,
+     "y": 19.41,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "内存膨胀:im2col 显式复制了所有重叠的输入数据。\n中间像素（如 5）出现在所有 4 个窗口中，被复制了 4 次。\n角落像素（如 1）只出现 1 次。k*K卷积内存翻k2  倍",
+     "x": 37.93,
+     "y": 484.27,
+     "w": 602.0,
+     "h": 125.87,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image12.png",
+     "name": "image12.png",
+     "ext": ".png",
+     "x": 37.93,
+     "y": 93.47,
+     "w": 573.6,
+     "h": 358.4,
+     "grouped": false,
+     "file": "slide007_image12.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image13.png",
+     "name": "image13.png",
+     "ext": ".png",
+     "x": 695.4,
+     "y": 93.47,
+     "w": 496.0,
+     "h": 446.4,
+     "grouped": false,
+     "file": "slide007_image13.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image12.png",
+     "name": "image12.png",
+     "ext": ".png",
+     "x": 37.93,
+     "y": 93.47,
+     "w": 573.6,
+     "h": 358.4,
+     "grouped": false,
+     "file": "slide007_image12.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image13.png",
+     "name": "image13.png",
+     "ext": ".png",
+     "x": 695.4,
+     "y": 93.47,
+     "w": 496.0,
+     "h": 446.4,
+     "grouped": false,
+     "file": "slide007_image13.png"
+    }
+   ]
+  },
+  {
+   "index": 8,
+   "part": "ppt/slides/slide8.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image14.png",
+     "name": "image14.png",
+     "ext": ".png",
+     "x": 21.93,
+     "y": 55.67,
+     "w": 876.0,
+     "h": 543.4,
+     "grouped": false,
+     "file": "slide008_image14.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image14.png",
+     "name": "image14.png",
+     "ext": ".png",
+     "x": 21.93,
+     "y": 55.67,
+     "w": 876.0,
+     "h": 543.4,
+     "grouped": false,
+     "file": "slide008_image14.png"
+    }
+   ]
+  },
+  {
+   "index": 9,
+   "part": "ppt/slides/slide9.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image15.png",
+     "name": "image15.png",
+     "ext": ".png",
+     "x": 0.0,
+     "y": 178.0,
+     "w": 516.8,
+     "h": 457.6,
+     "grouped": false,
+     "file": "slide009_image15.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image16.png",
+     "name": "image16.png",
+     "ext": ".png",
+     "x": 420.07,
+     "y": 199.6,
+     "w": 472.0,
+     "h": 436.0,
+     "grouped": false,
+     "file": "slide009_image16.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image15.png",
+     "name": "image15.png",
+     "ext": ".png",
+     "x": 0.0,
+     "y": 178.0,
+     "w": 516.8,
+     "h": 457.6,
+     "grouped": false,
+     "file": "slide009_image15.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image16.png",
+     "name": "image16.png",
+     "ext": ".png",
+     "x": 420.07,
+     "y": 199.6,
+     "w": 472.0,
+     "h": 436.0,
+     "grouped": false,
+     "file": "slide009_image16.png"
+    }
+   ]
+  },
+  {
+   "index": 10,
+   "part": "ppt/slides/slide10.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image17.png",
+     "name": "image17.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 181.47,
+     "w": 630.4,
+     "h": 449.6,
+     "grouped": false,
+     "file": "slide010_image17.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image17.png",
+     "name": "image17.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 181.47,
+     "w": 630.4,
+     "h": 449.6,
+     "grouped": false,
+     "file": "slide010_image17.png"
+    }
+   ]
+  },
+  {
+   "index": 11,
+   "part": "ppt/slides/slide11.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image18.png",
+     "name": "image18.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 153.07,
+     "w": 626.4,
+     "h": 168.8,
+     "grouped": false,
+     "file": "slide011_image18.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image19.webp",
+     "name": "image19.webp",
+     "ext": ".webp",
+     "x": 1009.4,
+     "y": 265.73,
+     "w": 258.4,
+     "h": 454.27,
+     "grouped": false,
+     "file": "slide011_image19.webp"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image20.png",
+     "name": "image20.png",
+     "ext": ".png",
+     "x": 55.6,
+     "y": 341.6,
+     "w": 304.0,
+     "h": 378.4,
+     "grouped": false,
+     "file": "slide011_image20.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image21.png",
+     "name": "image21.png",
+     "ext": ".png",
+     "x": 380.47,
+     "y": 391.07,
+     "w": 569.2,
+     "h": 279.47,
+     "grouped": false,
+     "file": "slide011_image21.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image18.png",
+     "name": "image18.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 153.07,
+     "w": 626.4,
+     "h": 168.8,
+     "grouped": false,
+     "file": "slide011_image18.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image19.webp",
+     "name": "image19.webp",
+     "ext": ".webp",
+     "x": 1009.4,
+     "y": 265.73,
+     "w": 258.4,
+     "h": 454.27,
+     "grouped": false,
+     "file": "slide011_image19.webp"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image20.png",
+     "name": "image20.png",
+     "ext": ".png",
+     "x": 55.6,
+     "y": 341.6,
+     "w": 304.0,
+     "h": 378.4,
+     "grouped": false,
+     "file": "slide011_image20.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image21.png",
+     "name": "image21.png",
+     "ext": ".png",
+     "x": 380.47,
+     "y": 391.07,
+     "w": 569.2,
+     "h": 279.47,
+     "grouped": false,
+     "file": "slide011_image21.png"
+    }
+   ]
+  },
+  {
+   "index": 12,
+   "part": "ppt/slides/slide12.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image22.png",
+     "name": "image22.png",
+     "ext": ".png",
+     "x": 0.0,
+     "y": 201.6,
+     "w": 617.6,
+     "h": 177.6,
+     "grouped": false,
+     "file": "slide012_image22.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image23.png",
+     "name": "image23.png",
+     "ext": ".png",
+     "x": 617.6,
+     "y": 156.47,
+     "w": 640.8,
+     "h": 464.0,
+     "grouped": false,
+     "file": "slide012_image23.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image24.png",
+     "name": "image24.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 416.53,
+     "w": 501.6,
+     "h": 252.0,
+     "grouped": false,
+     "file": "slide012_image24.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image22.png",
+     "name": "image22.png",
+     "ext": ".png",
+     "x": 0.0,
+     "y": 201.6,
+     "w": 617.6,
+     "h": 177.6,
+     "grouped": false,
+     "file": "slide012_image22.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image23.png",
+     "name": "image23.png",
+     "ext": ".png",
+     "x": 617.6,
+     "y": 156.47,
+     "w": 640.8,
+     "h": 464.0,
+     "grouped": false,
+     "file": "slide012_image23.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image24.png",
+     "name": "image24.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 416.53,
+     "w": 501.6,
+     "h": 252.0,
+     "grouped": false,
+     "file": "slide012_image24.png"
+    }
+   ]
+  },
+  {
+   "index": 13,
+   "part": "ppt/slides/slide13.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image25.png",
+     "name": "image25.png",
+     "ext": ".png",
+     "x": 72.2,
+     "y": 160.8,
+     "w": 448.0,
+     "h": 253.6,
+     "grouped": false,
+     "file": "slide013_image25.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image26.png",
+     "name": "image26.png",
+     "ext": ".png",
+     "x": 72.2,
+     "y": 437.27,
+     "w": 856.8,
+     "h": 268.0,
+     "grouped": false,
+     "file": "slide013_image26.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image27.png",
+     "name": "image27.png",
+     "ext": ".png",
+     "x": 633.07,
+     "y": 171.13,
+     "w": 582.4,
+     "h": 286.4,
+     "grouped": false,
+     "file": "slide013_image27.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image25.png",
+     "name": "image25.png",
+     "ext": ".png",
+     "x": 72.2,
+     "y": 160.8,
+     "w": 448.0,
+     "h": 253.6,
+     "grouped": false,
+     "file": "slide013_image25.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image26.png",
+     "name": "image26.png",
+     "ext": ".png",
+     "x": 72.2,
+     "y": 437.27,
+     "w": 856.8,
+     "h": 268.0,
+     "grouped": false,
+     "file": "slide013_image26.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image27.png",
+     "name": "image27.png",
+     "ext": ".png",
+     "x": 633.07,
+     "y": 171.13,
+     "w": 582.4,
+     "h": 286.4,
+     "grouped": false,
+     "file": "slide013_image27.png"
+    }
+   ]
+  },
+  {
+   "index": 14,
+   "part": "ppt/slides/slide14.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image28.png",
+     "name": "image28.png",
+     "ext": ".png",
+     "x": 85.87,
+     "y": 276.87,
+     "w": 1045.53,
+     "h": 245.2,
+     "grouped": false,
+     "file": "slide014_image28.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image28.png",
+     "name": "image28.png",
+     "ext": ".png",
+     "x": 85.87,
+     "y": 276.87,
+     "w": 1045.53,
+     "h": 245.2,
+     "grouped": false,
+     "file": "slide014_image28.png"
+    }
+   ]
+  },
+  {
+   "index": 15,
+   "part": "ppt/slides/slide15.xml",
+   "text": "那么问题来了，为什么会有jump",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "那么问题来了，为什么会有jump",
+     "x": 652.53,
+     "y": 360.0,
+     "w": 426.67,
+     "h": 38.67,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image29.png",
+     "name": "image29.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 252.13,
+     "w": 485.6,
+     "h": 404.0,
+     "grouped": false,
+     "file": "slide015_image29.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image29.png",
+     "name": "image29.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 252.13,
+     "w": 485.6,
+     "h": 404.0,
+     "grouped": false,
+     "file": "slide015_image29.png"
+    }
+   ]
+  },
+  {
+   "index": 16,
+   "part": "ppt/slides/slide16.xml",
+   "text": "感受野递推\nJumpl第l层特征图上相邻两个像素，对应回输入图像上的距离（步长累积）",
+   "shapes": [
+    {
+     "kind": "text",
+     "text": "感受野递推",
+     "x": 29.81,
+     "y": 8.01,
+     "w": 1151.62,
+     "h": 74.08,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    },
+    {
+     "kind": "text",
+     "text": "Jumpl第l层特征图上相邻两个像素，对应回输入图像上的距离（步长累积）",
+     "x": 29.81,
+     "y": 74.14,
+     "w": 1151.62,
+     "h": 499.65,
+     "maxPt": null,
+     "bold": false,
+     "grouped": false
+    }
+   ],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image30.png",
+     "name": "image30.png",
+     "ext": ".png",
+     "x": 17.07,
+     "y": 147.93,
+     "w": 613.6,
+     "h": 368.0,
+     "grouped": false,
+     "file": "slide016_image30.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image31.png",
+     "name": "image31.png",
+     "ext": ".png",
+     "x": 568.6,
+     "y": 115.0,
+     "w": 612.8,
+     "h": 220.8,
+     "grouped": false,
+     "file": "slide016_image31.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image32.png",
+     "name": "image32.png",
+     "ext": ".png",
+     "x": 614.2,
+     "y": 335.8,
+     "w": 609.6,
+     "h": 384.2,
+     "grouped": false,
+     "file": "slide016_image32.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image30.png",
+     "name": "image30.png",
+     "ext": ".png",
+     "x": 17.07,
+     "y": 147.93,
+     "w": 613.6,
+     "h": 368.0,
+     "grouped": false,
+     "file": "slide016_image30.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image31.png",
+     "name": "image31.png",
+     "ext": ".png",
+     "x": 568.6,
+     "y": 115.0,
+     "w": 612.8,
+     "h": 220.8,
+     "grouped": false,
+     "file": "slide016_image31.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image32.png",
+     "name": "image32.png",
+     "ext": ".png",
+     "x": 614.2,
+     "y": 335.8,
+     "w": 609.6,
+     "h": 384.2,
+     "grouped": false,
+     "file": "slide016_image32.png"
+    }
+   ]
+  },
+  {
+   "index": 17,
+   "part": "ppt/slides/slide17.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image33.png",
+     "name": "image33.png",
+     "ext": ".png",
+     "x": 0.0,
+     "y": 163.2,
+     "w": 621.6,
+     "h": 393.6,
+     "grouped": false,
+     "file": "slide017_image33.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image34.png",
+     "name": "image34.png",
+     "ext": ".png",
+     "x": 624.0,
+     "y": 163.2,
+     "w": 656.0,
+     "h": 448.8,
+     "grouped": false,
+     "file": "slide017_image34.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image33.png",
+     "name": "image33.png",
+     "ext": ".png",
+     "x": 0.0,
+     "y": 163.2,
+     "w": 621.6,
+     "h": 393.6,
+     "grouped": false,
+     "file": "slide017_image33.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image34.png",
+     "name": "image34.png",
+     "ext": ".png",
+     "x": 624.0,
+     "y": 163.2,
+     "w": 656.0,
+     "h": 448.8,
+     "grouped": false,
+     "file": "slide017_image34.png"
+    }
+   ]
+  },
+  {
+   "index": 18,
+   "part": "ppt/slides/slide18.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image35.png",
+     "name": "image35.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 258.07,
+     "w": 602.4,
+     "h": 448.0,
+     "grouped": false,
+     "file": "slide018_image35.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image35.png",
+     "name": "image35.png",
+     "ext": ".png",
+     "x": 63.87,
+     "y": 258.07,
+     "w": 602.4,
+     "h": 448.0,
+     "grouped": false,
+     "file": "slide018_image35.png"
+    }
+   ]
+  },
+  {
+   "index": 19,
+   "part": "ppt/slides/slide19.xml",
+   "text": "",
+   "shapes": [],
+   "media": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image36.png",
+     "name": "image36.png",
+     "ext": ".png",
+     "x": 0.0,
+     "y": 162.8,
+     "w": 593.6,
+     "h": 420.8,
+     "grouped": false,
+     "file": "slide019_image36.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image37.png",
+     "name": "image37.png",
+     "ext": ".png",
+     "x": 611.47,
+     "y": 179.67,
+     "w": 616.0,
+     "h": 441.6,
+     "grouped": false,
+     "file": "slide019_image37.png"
+    }
+   ],
+   "images": [
+    {
+     "kind": "image",
+     "part": "ppt/media/image36.png",
+     "name": "image36.png",
+     "ext": ".png",
+     "x": 0.0,
+     "y": 162.8,
+     "w": 593.6,
+     "h": 420.8,
+     "grouped": false,
+     "file": "slide019_image36.png"
+    },
+    {
+     "kind": "image",
+     "part": "ppt/media/image37.png",
+     "name": "image37.png",
+     "ext": ".png",
+     "x": 611.47,
+     "y": 179.67,
+     "w": 616.0,
+     "h": 441.6,
+     "grouped": false,
+     "file": "slide019_image37.png"
+    }
+   ]
+  }
+ ]
+}
