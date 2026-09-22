@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-09-22T05:34:48.469Z",
+  "course": "从机器学习基础到深度学习入门，再到计算机视觉实战与 Vibe Coding 工作流",
+  "publishedLessons": 6,
+  "totalLessons": 30,
+  "note": "本清单只包含教师已发布的内容。未发布的课时在本文件中不存在。",
+  "chapters": [],
+  "modules": [
+    {
+      "name": "模块二",
+      "theme": "PyTorch 与深度学习训练闭环",
+      "range": "课时 7-12",
+      "lessons": [
+        {
+          "no": 7,
+          "title": "从仿射变换到连续非线性空间的映射（MLP 实战）",
+          "planPath": "教案/模块二/课时7_仿射变换到动态计算图的MLP实战.md"
+        },
+        {
+          "no": 8,
+          "title": "损失曲面几何学与优化器推导",
+          "planPath": "教案/模块二/课时8_损失曲面几何与优化器推导.md"
+        },
+        {
+          "no": 9,
+          "title": "Vibe Coding 构建工业级训练模板",
+          "planPath": "教案/模块二/课时9_VibeCoding构建工业级训练模板.md"
+        },
+        {
+          "no": 10,
+          "title": "算力压榨：混合精度（AMP）与性能 Profiling",
+          "planPath": "教案/模块二/课时10_混合精度与性能Profiling.md"
+        },
+        {
+          "no": 11,
+          "title": "泛化理论与高维特征解耦（正则化）",
+          "planPath": "教案/模块二/课时11_泛化理论与病态Loss诊断.md"
+        },
+        {
+          "no": 12,
+          "title": "阶段实战一：土木 / 工程类数据集端到端跑通",
+          "planPath": "教案/模块二/课时12_工程类分类任务端到端实战.md"
+        }
+      ]
+    }
+  ],
+  "code": [],
+  "faq": [],
+  "gradingDimensions": []
+}
