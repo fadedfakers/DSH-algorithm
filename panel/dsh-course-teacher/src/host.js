@@ -86,6 +86,80 @@ export async function apply(ctx) {
       const students = [...new Set((await core.listItems()).map((i) => i.student).filter(Boolean))].sort()
       return { teacher: TEACHER, items, students, publicDir: PUBLIC_ITEMS_REL }
     },
+    /**
+     * 教师答复：把老师的文字回答追加进这条提问的线程。
+     *
+     * 为什么要单独一个动作：
+     *   审计（audit）决定的是**去向**，答复是**内容**。两者经常不同步 ——
+     *   有的问题只答本人（不进公共池），但学生仍然需要拿到那段回答；
+     *   有的问题值得共享，老师也可能先答再决定。混在一个动作里，
+     *   就会出现「为了答复学生而不得不先决定是否公开」这种别扭的流程。
+     *
+     * 答复以 by:'teacher' 记进线程，学生端会把它显示成「教师答复」而不是 AI 答复 ——
+     * 两者的可信度不同，界面上不能混为一谈。
+     */
+    async answer(args) {
+      const input = args && typeof args === 'object' ? args : {}
+      const p = typeof input.path === 'string' ? input.path : ''
+      const text = typeof input.text === 'string' ? input.text.trim() : ''
+      if (!p || !core.exists(p)) throw new Error('条目不存在')
+      if (!text) throw new Error('答复内容不能为空')
+
+      const it = core.readItem(p)
+      const turns = it.turns
+      turns.push({ by: 'teacher', q: '', a: text, at: new Date().toISOString(), author: TEACHER })
+      const sections = core.sectionsOf(it.body)
+      it.fields.updated = today()
+      if (it.fields.status === '待处理') it.fields.status = '已答复'
+      it.fields.teacher = TEACHER
+      core.writeItem(p, it.fields, sections, turns)
+
+      // 如果这条已经公开过，公共面那份也要同步 —— 否则全班看到的是没有老师答复的版本，
+      // 而提问的那个学生看到了，两边内容不一致。
+      let syncedPublic = false
+      const pubRel = PUBLIC_ITEMS_REL + '\\' + p.split('\\').pop()
+      if (core.exists(pubRel)) {
+        const pubIt = core.readItem(pubRel)
+        const pubTurns = pubIt.turns
+        pubTurns.push({ by: 'teacher', q: '', a: text, at: new Date().toISOString(), author: TEACHER })
+        core.writeItem(pubRel, Object.assign({}, it.fields, { audit: 'shared' }), core.sectionsOf(pubIt.body), pubTurns)
+        syncedPublic = true
+      }
+      return { ok: true, path: p, turns: turns.length, syncedPublic, status: it.fields.status }
+    },
+
+    /**
+     * 插件内的发布入口：真的去跑发布工具，而不是让老师自己去敲命令。
+     * 只跑 `course-repo.mjs publish`（写公开仓工作区）—— 这一步不需要 git 凭据。
+     * git commit / push 仍留给老师手动执行，因为那一步要用他的凭据，
+     * 而凭据不该进插件（设计原则：插件里不放任何人的密钥）。
+     */
+    async publish(args) {
+      const input = args && typeof args === 'object' ? args : {}
+      const mode = input.mode === 'check' ? 'check' : 'publish'
+      const fs = await import('node:fs')
+      const pathMod = await import('node:path')
+      // 发布工具在工作区的 课程发布/ 下，不是本包的一部分 —— 它是课程仓库的东西
+      const tool = pathMod.join(core.WORKSPACE, '课程发布', 'course-repo.mjs')
+      if (!fs.existsSync(tool)) {
+        return { ok: false, error: '找不到发布工具：' + tool + '（这台机器上可能不是课程工作区）' }
+      }
+      const { spawnSync } = await import('node:child_process')
+      const r = spawnSync(process.execPath, [tool, mode], {
+        cwd: pathMod.join(core.WORKSPACE, '课程发布'), encoding: 'utf8', timeout: 120000,
+      })
+      const out = ((r.stdout || '') + (r.stderr || '')).trim()
+      return {
+        ok: r.status === 0, mode, exit: r.status, output: out.slice(-4000),
+        next: [
+          'cd ' + pathMod.join(core.WORKSPACE, '课程发布', 'public'),
+          'git add -A && git commit -m "publish: ..."',
+          'git push',
+        ],
+        note: 'git 那三步要你自己执行 —— 提交与推送要用你的凭据，插件里不放任何人的密钥。',
+      }
+    },
+
     async thread(args) {
       const p = args && typeof args.path === 'string' ? args.path : ''
       if (!p || !core.exists(p)) throw new Error('条目不存在：' + p)

@@ -50,12 +50,27 @@ window.__ModuleLoader__.load({
     }
 
     // ── 审计：改状态、改标题/总结、写归档说明 ──
-    function AuditBox({ st, set, onAudit }) {
+    function AuditBox({ st, set, onAudit, onAnswer }) {
       const t = st.thread
       if (!t) return null
       const isPublic = t.fields.audit === 'shared'
+      const turns = t.turns || []
+      const teacherTurns = turns.filter((x) => x.by === 'teacher')
       return h('div', { className: 'k56' },
-        h('div', { className: 'k64' }, '审计这条提问'),
+        // 答复与去向分开两段：答复是内容，审计是去向。
+        // 混在一起会出现「为了答复学生而不得不先决定是否公开」这种别扭流程。
+        h('div', { className: 'k64' }, '答复这个学生'),
+        teacherTurns.length
+          ? h('div', { className: 'k57' }, '你已经答过 ' + teacherTurns.length + ' 次；学生端会在最前面单独显示教师答复。')
+          : h('div', { className: 'k57' }, '还没有教师答复。学生端会把教师答复与 AI 答复**分开显示** —— 两者的可信度不是一个级别，界面上不能混为一谈。'),
+        h('textarea', { className: 'k59', rows: 3, value: st.answerText, placeholder: '写给学生看的回答（可以只答复、暂不决定是否公开）', onChange: (e) => set({ answerText: e.target.value }) }),
+        h('div', { className: 'k60' },
+          h('button', { className: 'k42 k11', disabled: st.busy || !(st.answerText || '').trim(), onClick: () => onAnswer(t.path, st.answerText) },
+            st.busy ? '提交中…' : '答复（只发给该学生）'),
+          h('span', { className: 'k54' }),
+          h('span', { className: 'k57' }, '答复会追加进这条提问的对话线程；如果它已经公开，公共面那份会同步更新，否则两边内容会不一致。')),
+
+        h('div', { className: 'k64' }, '审计去向'),
         h('div', { className: 'k57' }, isPublic
           ? '当前：已公开给全班（公共面里有副本）'
           : '当前：仅该学生可见'),
@@ -63,7 +78,7 @@ window.__ModuleLoader__.load({
           h('input', { className: 'k61', style: { flex: '1 1 auto' }, value: st.auditTitle, placeholder: '标题（留空则不改；这是统一风格的最后一关，你可以覆盖模型凝练的结果）', onChange: (e) => set({ auditTitle: e.target.value }) }),
           ),
         h('textarea', { className: 'k59', rows: 2, value: st.auditSummary, placeholder: '问题总结（留空则不改）', onChange: (e) => set({ auditSummary: e.target.value }) }),
-        h('textarea', { className: 'k59', rows: 2, value: st.auditNote, placeholder: '教师归档说明（例如：讲课时补一句「负特征值是鞍点的充分判据」）', onChange: (e) => set({ auditNote: e.target.value }) }),
+        h('textarea', { className: 'k59', rows: 2, value: st.auditNote, placeholder: '归档说明（例如：讲课时补一句「负特征值是鞍点的充分判据」）', onChange: (e) => set({ auditNote: e.target.value }) }),
         h('div', { className: 'k60' },
           h('button', { className: 'k42 k11', onClick: () => onAudit(t.path, 'shared') }, '值得共享（进公共池）'),
           h('button', { className: 'k42', onClick: () => onAudit(t.path, 'private') }, isPublic ? '撤下（只答本人）' : '只答本人'),
@@ -71,7 +86,7 @@ window.__ModuleLoader__.load({
           h('span', { className: 'k57' }, '「值得共享」会写一份副本到 课程问题池\\公共\\，下次 publish 带给全班；原条仍留在该学生的私有目录里，他的历史不会消失。')))
     }
 
-    function ThreadDetail({ st, set, onAudit }) {
+    function ThreadDetail({ st, set, onAudit, onAnswer }) {
       const t = st.thread
       if (!t) return h('div', { className: 'k21' }, '从左边选一条提问。')
       return h('div', { className: 'k46' },
@@ -87,7 +102,7 @@ window.__ModuleLoader__.load({
         h('div', { className: 'k57' }, '路径：' + t.path),
         h('div', { className: 'k64' }, '完整问答（' + ((t.turns || []).length + 1) + ' 轮，全班可见的是这一份）'),
         h(Markdown, { text: t.body || '' }),
-        h(AuditBox, { st, set, onAudit }))
+        h(AuditBox, { st, set, onAudit, onAnswer }))
     }
 
     // ── 提问列表（可筛学生 / 只看私有 / 只看已公开）──
@@ -185,24 +200,34 @@ window.__ModuleLoader__.load({
     }
 
     // ── 发布 ──
-    function Publish({ st, set, onRefresh }) {
+    function Publish({ st, set, onRefresh, onPublish }) {
       const s = st.staged
       if (!s) return h('div', { className: 'k21' }, '加载中…')
+      const r = st.publishResult
       return h('div', { className: 'k46' },
         h('div', { className: 'k64' }, '归档与发布'),
         h('div', { className: 'k57' }, '工作区：' + s.workspace),
         h('div', { className: 'k57' }, '公共面：' + s.publicDir + '（' + (s.files || []).length + ' 份）'),
         (s.files || []).length ? (s.files || []).map((f, i) => h('div', { key: i, className: 'k45' }, f))
           : h('div', { className: 'k21' }, '公共面还是空的 —— 先在「提问与审计」里把值得共享的标出来'),
-        h('div', { className: 'k64' }, '怎么发出去'),
-        h('div', { className: 'k57' }, '① 在课程的发布目录执行 node course-repo.mjs check（先看清会发哪些文件）'),
-        h('div', { className: 'k57' }, '② node course-repo.mjs publish（写进公开仓工作区）'),
-        h('div', { className: 'k57' }, '③ 在公开仓 git add -A && git commit && git push'),
-        h('div', { className: 'k57' }, '学生在面板「我的提问」里就能看到新增的公开问答；他们的客户端下次拉取仓库时同步。'),
-        h('div', { className: 'k64' }, '学生提交（' + (s.submissions || []).length + '）'),
-        (s.submissions || []).slice(0, 30).map((f, i) => h('div', { key: i, className: 'k57' }, '· ' + f.student + ' / ' + f.name)),
+        h('div', { className: 'k64' }, '发布到公开仓'),
+        h('div', { className: 'k57' }, '插件里能替你跑前两步（写公开仓工作区、生成 课程.json 与 公开问答.json）。' +
+          '第三步 git commit / push 要你自己敲 —— 那一步用你的凭据，插件里不放任何人的密钥。'),
         h('div', { className: 'k60' },
-          h('button', { className: 'k42', onClick: onRefresh }, '刷新清单')))
+          h('button', { className: 'k42', disabled: st.busy, onClick: () => onPublish('check') }, '先检查会发哪些文件'),
+          h('button', { className: 'k42 k11', disabled: st.busy, onClick: () => onPublish('publish') }, st.busy ? '执行中…' : '发布（写公开仓工作区）'),
+          h('span', { className: 'k54' }),
+          h('button', { className: 'k42', onClick: onRefresh }, '刷新清单')),
+        r ? h('div', { className: 'k46' },
+          h('div', { className: 'k64' }, r.ok ? ('发布工具执行成功（' + r.mode + '）') : ('发布工具失败：' + (r.error || ('exit ' + r.exit)))),
+          r.output ? h('pre', { className: 'k63', style: { maxHeight: '260px', overflow: 'auto' } }, r.output) : null,
+          r.next ? h('div', null,
+            h('div', { className: 'k57' }, '剩下三步请你自己执行：'),
+            r.next.map((x, i) => h('div', { key: i, className: 'k45' }, x)),
+            r.note ? h('div', { className: 'k57' }, r.note) : null) : null) : null,
+        h('div', { className: 'k57' }, '学生在面板「公开问答」里能看到新增的问题与总结；他们的客户端下次拉取仓库时同步。'),
+        h('div', { className: 'k64' }, '学生提交（' + (s.submissions || []).length + '）'),
+        (s.submissions || []).slice(0, 30).map((f, i) => h('div', { key: i, className: 'k57' }, '· ' + f.student + ' / ' + f.name)))
     }
 
     // ── 面板 ──
@@ -211,7 +236,7 @@ window.__ModuleLoader__.load({
         view: 'questions', mode: 'region', chapter: '第一章', slideIndex: 0, zoom: 1,
         items: [], students: [], filterStudent: '', filterScope: 'all',
         minStudents: '2', common: [], subs: [], subStudents: [], subStudent: '',
-        auditTitle: '', auditSummary: '', auditNote: '', subText: '', subName: '', busy: false,
+        auditTitle: '', auditSummary: '', auditNote: '', answerText: '', subText: '', subName: '', busy: false,
       })
       const loadThreads = React.useCallback(async () => {
         const r = await api('threads', {})
@@ -242,7 +267,7 @@ window.__ModuleLoader__.load({
       const openThread = React.useCallback(async (path) => {
         try {
           const t = await api('thread', { path })
-          set({ thread: t, selPath: path, view: 'detail', auditTitle: '', auditSummary: '', auditNote: '' })
+          set({ thread: t, selPath: path, view: 'detail', auditTitle: '', auditSummary: '', auditNote: '', answerText: '' })
         } catch (err) { set({ error: '读取失败：' + ((err && err.message) || String(err)) }) }
       }, [])
       const onAudit = React.useCallback(async (path, decision) => {
@@ -260,6 +285,23 @@ window.__ModuleLoader__.load({
           await loadThreads(); await loadCommon(cur.minStudents); set({ staged: await api('staged', {}) })
         } catch (err) { set({ busy: false, error: '审计失败：' + ((err && err.message) || String(err)) }) }
       }, [st, openThread, loadThreads, loadCommon])
+      const onAnswer = React.useCallback(async (path, text) => {
+        set({ busy: true, error: '' })
+        try {
+          const r = await api('answer', { path, text })
+          set({ busy: false, answerText: '', notice: '已答复' + (r.syncedPublic ? '（公共面那份也同步了）' : '') + '，该学生在「我的提问」里会看到' })
+          await openThread(path)
+          await loadThreads()
+        } catch (err) { set({ busy: false, error: '答复失败：' + ((err && err.message) || String(err)) }) }
+      }, [openThread, loadThreads])
+      const onPublish = React.useCallback(async (mode) => {
+        set({ busy: true, error: '', publishResult: null })
+        try {
+          const r = await api('publish', { mode })
+          set({ busy: false, publishResult: r, notice: r.ok ? ('发布工具执行成功（' + mode + '）') : '发布工具返回失败，看下面的输出' })
+          if (r.ok && mode === 'publish') set({ staged: await api('staged', {}) })
+        } catch (err) { set({ busy: false, error: '发布失败：' + ((err && err.message) || String(err)) }) }
+      }, [])
       const onBatch = React.useCallback(async (paths, decision) => {
         set({ busy: true, error: '' })
         try {
@@ -318,11 +360,11 @@ window.__ModuleLoader__.load({
               : h('div', { className: 'k21' }, '索引加载中…'))),
           h('div', { className: 'k27' },
             st.view === 'questions' ? h(QuestionList, { st, set, onOpen: openThread }) : null,
-            st.view === 'detail' ? h(ThreadDetail, { st, set, onAudit }) : null,
+            st.view === 'detail' ? h(ThreadDetail, { st, set, onAudit, onAnswer }) : null,
             st.view === 'common' ? h(Common, { st, set, onBatch }) : null,
             st.view === 'submissions' ? h(Submissions, { st, set, onRead: onReadSub }) : null,
             st.view === 'digest' ? h(Digest, { st }) : null,
-            st.view === 'publish' ? h(Publish, { st, set, onRefresh: async () => set({ staged: await api('staged', {}) }) }) : null)))
+            st.view === 'publish' ? h(Publish, { st, set, onRefresh: async () => set({ staged: await api('staged', {}) }), onPublish }) : null)))
     }
 
     const inject = ['slots', 'timer']

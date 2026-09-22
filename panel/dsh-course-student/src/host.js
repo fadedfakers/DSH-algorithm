@@ -52,6 +52,35 @@ export async function apply(ctx) {
     return rel
   }
 
+  /**
+   * 公开问答索引。优先读发布时生成的 公开问答.json；没有就现场汇总。
+   * 两种来源都给同一个形状，客户端不必分情况处理。
+   */
+  async function publicIndex() {
+    for (const rel of ['公开问答.json', '课程中心\\公开问答.json']) {
+      if (!core.exists(rel)) continue
+      try {
+        const j = JSON.parse(core.readText(rel))
+        return { source: rel, generatedAt: j.generatedAt || '', count: j.count || (j.items || []).length, withTeacherAnswer: j.withTeacherAnswer || 0, items: j.items || [] }
+      } catch (e) { /* 换下一个候选 */ }
+    }
+    const all = await core.listItems()
+    const pub = all.filter((i) => i.scope === 'public')
+    const items = pub.map((i) => {
+      let teacherTurns = 0
+      try { teacherTurns = core.readThread(core.threadPathFor(core.abs(i.path))).filter((x) => x.by === 'teacher').length } catch (e) {
+        console.error('[课程面板·学生端] 公开索引线程标记失败 ' + i.path + '：' + oneLine(e && e.message))
+        teacherTurns = 0
+      }
+      return {
+        path: i.path, id: i.id, title: i.title, summary: i.summary, module: i.module, lesson: i.lesson,
+        type: i.type, severity: i.severity, status: i.status, created: i.created, student: i.student,
+        teacherTurns, hasTeacherAnswer: teacherTurns > 0,
+      }
+    })
+    return { source: '实时汇总', generatedAt: '', count: items.length, withTeacherAnswer: items.filter((x) => x.hasTeacherAnswer).length, items }
+  }
+
   // ── 数据面 ──────────────────────────────────────────────────
   const handlers = {
     async info() {
@@ -77,7 +106,28 @@ export async function apply(ctx) {
       const all = await core.listItems()
       const mine = all.filter((i) => i.scope === 'legacy' || (i.scope === 'student' && i.student === STUDENT))
       const pub = all.filter((i) => i.scope === 'public')
-      return { student: STUDENT, mine, public: pub, myDir: MY_DIR, publicDir: PUBLIC_ITEMS_REL }
+      // 有教师答复的条目标出来，列表里一眼能看出「老师答过我这条」
+      const mark = (list) => list.map((i) => {
+        try {
+          const turns = core.readThread(core.threadPathFor(core.abs(i.path)))
+          const t = turns.filter((x) => x.by === 'teacher').length
+          return Object.assign({}, i, { teacherTurns: t, hasTeacherAnswer: t > 0 })
+        } catch (e) {
+          // 不能静默吞掉：这里曾经因为核心没暴露 readThread 而全部抛错，
+          // 结果「教师已答复」标记永远是 false，界面上看不出任何异常。
+          console.error('[课程面板·学生端] 线程标记失败 ' + i.path + '：' + oneLine(e && e.message))
+          return Object.assign({}, i, { teacherTurns: 0, hasTeacherAnswer: false, markError: oneLine(e && e.message) })
+        }
+      })
+      return { student: STUDENT, mine: mark(mine), public: mark(pub), myDir: MY_DIR, publicDir: PUBLIC_ITEMS_REL, publicIndex: await publicIndex() }
+    },
+    /**
+     * 公开问答索引（课程发布时生成，随公开仓分发）。
+     * 这是「共同数据库」公开那一半的结构化视图 —— 学生端因此能整体看到
+     * 老师公开了哪些问题、每个问题的总结是什么，不必逐个解析 markdown。
+     */
+    async 'public.index'() {
+      return await publicIndex()
     },
     /** 读一条：md 全文 + 结构化线程 */
     async thread(args) {
@@ -88,7 +138,9 @@ export async function apply(ctx) {
         : (p.indexOf(STUDENT_ITEMS_REL) === 0 ? 'student' : 'legacy')
       if (scope === 'student' && p.indexOf('\\' + STUDENT + '\\') < 0) throw new Error('这条提问不属于你')
       const it = core.readItem(p)
-      return { path: p, fields: it.fields, body: it.body, turns: it.turns, scope }
+      const turns = it.turns
+      const teacherTurns = turns.filter((x) => x.by === 'teacher').length
+      return { path: p, fields: it.fields, body: it.body, turns, scope, teacherTurns, hasTeacherAnswer: teacherTurns > 0 }
     },
 
     /**

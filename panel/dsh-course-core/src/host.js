@@ -683,6 +683,10 @@ export function createCore(ctx, opts) {
     loadIndex, getTree, getSlides, listDocs, planPathFor,
     // 条目
     listItems, readItem, writeItem, sectionsOf, itemRelFor, nextId, itemDirs,
+    // 线程读写：各插件要按轮次判断「老师答过没有」，所以必须从这里暴露出去。
+    // （曾经漏了这两个，调用方 core.readThread(...) 抛 TypeError，而调用处恰好
+    //   是个 try/catch —— 于是「教师已答复」标记永远是 false，没人发现。）
+    readThread, threadPathFor,
     PUBLIC_ITEMS_REL, STUDENT_ITEMS_REL, SUBMIT_ROOT_REL,
     submitDirOf, listSubmissions,
     // 路由

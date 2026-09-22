@@ -150,11 +150,12 @@ window.__ModuleLoader__.load({
         h('div', { className: 'k57' }, '提交后会：① 凝练一句统一风格的标题 ② AI 作答 ③ 生成问题总结。之后每一轮追问都会重新调用模型，费用记在你自己账号上。'))
     }
 
-    // ── 问答详情：完整多轮 + 继续追问 ──
+    // ── 问答详情：完整多轮 + 教师答复 + 继续追问 ──
     function ThreadView({ st, set, onFollowup }) {
       const t = st.thread
       if (!t) return h('div', { className: 'k21' }, '从左边选一条提问。')
       const turns = t.turns || []
+      const teacherTurns = turns.filter((x) => x.by === 'teacher')
       return h('div', { className: 'k46' },
         h('div', { className: 'k10' }, t.fields.title || '(无标题)'),
         h('div', { className: 'k70' },
@@ -162,9 +163,17 @@ window.__ModuleLoader__.load({
           bdg(t.fields.severity || '中', SEVERITY_COLOR[t.fields.severity] || 'gray'),
           bdg(t.fields.status || '', STATUS_COLOR[t.fields.status] || 'gray'),
           t.fields.audit === 'shared' ? bdg('已公开给全班', 'var(--dsw-alias-state-success-primary)') : bdg('仅我可见', 'var(--dsw-alias-label-secondary)'),
+          teacherTurns.length ? bdg('教师已答复', 'var(--dsw-alias-brand-primary)') : null,
           t.fields.tokens ? h('span', { className: 'k57' }, 'tokens ' + t.fields.tokens) : null),
         t.fields.summary ? h('div', { className: 'k58' }, '总结：' + t.fields.summary) : null,
-        h('div', { className: 'k64' }, '完整问答（' + (turns.length + 1) + ' 轮）'),
+        // 教师答复单独提到最前面 —— 它是老师写的，可信度和 AI 草稿不是一个级别，
+        // 埋在几十轮对话里等于没有。这是学生最该先看的东西。
+        teacherTurns.length ? h('div', { className: 'k56' },
+          h('div', { className: 'k64' }, '教师答复（' + teacherTurns.length + ' 条）'),
+          teacherTurns.map((x, i) => h('div', { key: 'tt' + i, className: 'k58' },
+            h(Markdown, { text: x.a || '' }),
+            h('div', { className: 'k57' }, (x.author ? ('—— ' + x.author) : '—— 老师') + (x.at ? (' · ' + String(x.at).slice(0, 10)) : ''))))) : null,
+        h('div', { className: 'k64' }, '完整问答（AI ' + (turns.length - teacherTurns.length + 1) + ' 轮' + (teacherTurns.length ? (' + 教师 ' + teacherTurns.length) : '') + '）'),
         h(Markdown, { text: t.body || '' }),
         t.fields.audit === 'shared'
           ? h('div', { className: 'k57' }, '这条已被老师标为「值得共享」，全班都能看到完整问答。')
@@ -184,6 +193,28 @@ window.__ModuleLoader__.load({
             }, st.asking ? 'AI 作答中…' : '追问'))))
     }
 
+    // ── 公开问答：老师策展后给全班看的那一份 ──
+    function PublicQA({ st, set, onOpen }) {
+      const idx = st.publicIdx
+      if (!idx) return h('div', { className: 'k21' }, '公开问答加载中…')
+      const items = idx.items || []
+      return h('div', { className: 'k46' },
+        h('div', { className: 'k64' }, '老师公开给全班的问题（' + items.length + ' 条）'),
+        h('div', { className: 'k57' }, '来源：' + idx.source + (idx.generatedAt ? (' · 生成于 ' + String(idx.generatedAt).slice(0, 19)) : '')
+          + ' · 其中 ' + (idx.withTeacherAnswer || 0) + ' 条有教师答复'),
+        h('div', { className: 'k57' }, '这份清单只含老师审核后公开的问题。别人私有的提问不在其中，也不会出现在这个仓库的任何地方。'),
+        items.length ? items.map((it) => h('div', {
+          key: it.path, className: 'k45', onClick: () => onOpen(it.path),
+        },
+          h('div', { className: 'k64', style: { margin: 0 } }, it.title),
+          it.summary ? h('div', { className: 'k57' }, it.summary) : null,
+          h('div', { className: 'k70' },
+            bdg(it.lesson || '未标注', 'var(--dsw-alias-bg-layer-1)'),
+            it.severity ? bdg(it.severity, SEVERITY_COLOR[it.severity] || 'gray') : null,
+            it.hasTeacherAnswer ? bdg('有教师答复', 'var(--dsw-alias-brand-primary)') : null,
+            h('span', { className: 'k57' }, it.created || '')))) : h('div', { className: 'k21' }, '老师还没有公开任何问题'))
+    }
+
     // ── 问题列表：我的 / 已公开 ──
     function ThreadList({ st, set, onOpen }) {
       const mine = st.mine || []
@@ -196,6 +227,7 @@ window.__ModuleLoader__.load({
         h('div', { className: 'k70' },
           bdg(it.lesson || '未标注', 'var(--dsw-alias-bg-layer-1)'),
           bdg(it.severity || '中', SEVERITY_COLOR[it.severity] || 'gray'),
+          it.hasTeacherAnswer ? bdg('教师已答复', 'var(--dsw-alias-brand-primary)') : null,
           it.turns ? bdg(it.turns + ' 轮追问', 'var(--dsw-alias-bg-layer-1)') : null,
           h('span', { className: 'k57' }, it.created || '')))
       return h('div', { className: 'k67' },
@@ -261,7 +293,10 @@ window.__ModuleLoader__.load({
 
       const loadThreads = React.useCallback(async () => {
         const r = await api('threads', {})
-        set({ mine: r.mine || [], publicItems: r.public || [] })
+        set({
+          mine: r.mine || [], publicItems: r.public || [],
+          publicIdx: r.publicIndex || null,
+        })
       }, [])
       const load = React.useCallback(async () => {
         try {
@@ -335,6 +370,7 @@ window.__ModuleLoader__.load({
         { id: 'chapter', label: '章节' },
         { id: 'slides', label: '课件' },
         { id: 'threads', label: '我的提问' },
+        { id: 'public', label: '公开问答' },
         { id: 'homework', label: '作业批改' },
         { id: 'usage', label: '额度' },
       ]
@@ -371,10 +407,11 @@ window.__ModuleLoader__.load({
           h('div', { className: 'k27' },
             st.view === 'chapter' ? h('div', { className: 'k46' },
               h('div', { className: 'k64' }, '从这里开始'),
-              h('div', { className: 'k57' }, '① 「课件」里框选一块（公式/截图）→ 提交提问；② 「我的提问」里看完整多轮问答并继续追问；③ 「作业批改」按教案初筛；④ 「额度」看你花了多少 token。'),
-              h('div', { className: 'k57' }, '你的问题默认只有你能看到。老师审核后，会把值得全班看的那些放进公共池 —— 这样能避免个别问题占用所有人的注意力。')) : null,
+              h('div', { className: 'k57' }, '① 「课件」里框选一块（公式/截图）→ 提交提问；② 「我的提问」里看完整多轮问答并继续追问；③ 「作业批改」按教案初筛；④ 「公开问答」看老师审核后公开给全班的问题；⑤ 「额度」看你花了多少 token。'),
+              h('div', { className: 'k57' }, '你的问题默认只有你能看到。老师审核后会把值得全班看的放进「公开问答」—— 避免个别问题占用所有人的注意力。老师若直接答复了你，会在「我的提问」里标出「教师已答复」。')) : null,
             st.view === 'slides' ? h('div', null, h(Slides, { st, set }), h(AskBar, { st, set, onAsk })) : null,
             st.view === 'threads' ? h(ThreadList, { st, set, onOpen: openThread }) : null,
+            st.view === 'public' ? h(PublicQA, { st, set, onOpen: openThread }) : null,
             st.view === 'thread' ? h(ThreadView, { st, set, onFollowup }) : null,
             st.view === 'homework' ? h(Homework, { st, set, onGrade }) : null,
             st.view === 'usage' ? h(Usage, { st }) : null)))
