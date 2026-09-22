@@ -1,6 +1,6 @@
 {
   "name": "dsh-course-panel",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "DSH Profile Bundle：深度学习课程问题池面板（学生/教师双角色 / 自解析课程工作区 / 章节选择 / 课件框选提问 / 作业按教案批改 / 问题审计）",
   "type": "module",
   "main": "./src/index.js",
