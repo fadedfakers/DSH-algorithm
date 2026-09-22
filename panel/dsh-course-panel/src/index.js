@@ -811,7 +811,13 @@ export function apply(ctx) {
         const bytes = await fsMod.readBytes(await fsMod.resolve(full, { cwd: WORKSPACE }), undefined, MEDIA_MAX_BYTES)
         cache.mediaOk = true
         res.statusCode = 200
-        res.setHeader('Content-Type', /\.png$/i.test(useName) ? 'image/png' : (/\.jpe?g$/i.test(useName) ? 'image/jpeg' : (/\.gif$/i.test(useName) ? 'image/gif' : (/\.webp$/i.test(useName) ? 'image/webp' : (/\.svg$/i.test(useName) ? 'image/svg+xml' : 'application/octet-stream')))))
+        res.setHeader('Content-Type', /\.png$/i.test(useName) ? 'image/png'
+          : (/\.jpe?g$/i.test(useName) ? 'image/jpeg'
+            : (/\.gif$/i.test(useName) ? 'image/gif'
+              : (/\.webp$/i.test(useName) ? 'image/webp'
+                : (/\.svg$/i.test(useName) ? 'image/svg+xml'
+                  : (/\.mp4$/i.test(useName) ? 'video/mp4'
+                    : (/\.webm$/i.test(useName) ? 'video/webm' : 'application/octet-stream')))))))
         res.setHeader('Cache-Control', 'public, max-age=3600')
         res.end(bytes)
       } catch (error) {
