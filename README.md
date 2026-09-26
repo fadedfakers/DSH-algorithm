@@ -60,12 +60,49 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 | --- | --- | --- |
 | 第 0 步报「本仓缺少这些文件」 | clone 不完整，或不在仓库根目录跑 | 确认上面的 `Test-Path` 是 True；否则删掉重新 clone |
 | `git executable not found on PATH` | **没装 Git**，或装了没重开终端 | 跑 `git --version`；不行就装 Git for Windows 后**重开 PowerShell** |
-| `ERR_PNPM_GIT_RESOLVE_FAILED` / `could not connect` | 到 github.com 的网络抖动 | 等一会儿**重跑同一条命令**（它是幂等的，重复跑没事） |
+| `ERR_PNPM_GIT_RESOLVE_FAILED` / `could not connect` / `TLS connect error` | **多半不是网络，是 git 的代理配到了死端口** | 看下面那条 |
 | 提示 `pnpm not found` | 没装 pnpm | `npm i -g pnpm`，再重跑 `install.ps1` |
 | 面板图标**不出现** | 学生端和内核没一起装 | 两个包都要：`panel\dsh-course-core` 与 `panel\dsh-course-student` |
 | 面板出现但**一片空白** | 工作区没配对 | 看第四节的判据②；`workspaceResolved` 与 `workspaceLooksValid` 都要 True |
 | 接口报「未知动作：xxx」 | DSH 还是旧进程 | **重启 DSH**（关掉重开 `start.ps1`），不是刷新浏览器 |
 | 换了电脑 / 挪了目录之后面板空了 | 工作区路径失效 | 在新位置**重跑一次 `install.ps1`**（它会重写路径） |
+
+### git 连不上怎么办（安装时最常见的一个坑）
+
+看到这样的报错，**先别怪网络**：
+
+```
+fatal: unable to access 'https://github.com/...': TLS connect error:
+       error:0A000126:SSL routines::unexpected eof while reading
+```
+
+查这两条：
+
+```powershell
+git config --get http.proxy                         # 有没有配代理
+Get-NetTCPConnection -LocalPort 7890 -State Listen  # 那个端口有人在听吗
+```
+
+如果**配了代理、但端口没有监听**（代理软件没开），git 就会一直卡在 TLS 握手。
+这时浏览器和 Node 都是好的（它们不走 git 的代理配置）—— 所以很容易误判成"网络时好时坏"。
+
+修法（任选一条）：
+
+```powershell
+# A. 不需要代理：删掉这两条配置
+D:\Git\cmd\git.exe config --global --unset http.proxy
+D:\Git\cmd\git.exe config --global --unset https.proxy
+
+# B. 需要代理：把代理软件启动起来，让端口真的有监听
+
+# C. 临时绕过（不改配置）
+git -c http.proxy= -c https.proxy= -C . pull
+```
+
+改完重跑 `install.ps1` 即可（它是幂等的，重复跑没事）。
+
+> 另外：`ERR_PNPM_GIT_RESOLVE_FAILED ... git executable not found on PATH`
+> 是**另一回事** —— 那个是真的没装 git，见上面 0.1。
 
 ---
 
