@@ -21,3 +21,5 @@
 Thumbs.db
 desktop.ini
 *.tmp
+# 本机身份（学生自己填的学号与姓名）：只在本机，绝不进任何仓库
+我的身份.json

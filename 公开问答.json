@@ -1,7 +1,59 @@
 {
-  "generatedAt": "2026-09-22T11:44:19.470Z",
+  "generatedAt": "2026-09-26T08:51:38.721Z",
   "note": "本清单只含老师审核后公开的问题。学生私有的提问不在其中，也不会出现在这个仓库的任何地方。",
-  "count": 0,
-  "withTeacherAnswer": 0,
-  "items": []
+  "count": 3,
+  "withTeacherAnswer": 3,
+  "items": [
+    {
+      "path": "课程问题池/公共/2026-09-24-0028-为什么负特征值意味着鞍点.md",
+      "id": "0028",
+      "title": "为什么负特征值意味着鞍点",
+      "summary": "学生卡在 Hessian 负特征值与鞍点判定的关系上，结论是二阶导矩阵出现负特征值即该方向为极大曲率，故为鞍点。",
+      "module": "模块一",
+      "lesson": "课时8",
+      "type": "概念问题",
+      "severity": "高",
+      "status": "已沉淀",
+      "created": "2026-09-24",
+      "updated": "2026-09-24",
+      "student": "S001",
+      "aiTurns": 2,
+      "teacherTurns": 1,
+      "hasTeacherAnswer": true
+    },
+    {
+      "path": "课程问题池/公共/2026-09-24-0015-为什么负特征值意味着鞍点.md",
+      "id": "0015",
+      "title": "为什么负特征值意味着鞍点",
+      "summary": "学生卡在 Hessian 负特征值与鞍点判定的关系上，结论是二阶导矩阵出现负特征值即该方向为极大曲率，故为鞍点。",
+      "module": "模块一",
+      "lesson": "课时8",
+      "type": "概念问题",
+      "severity": "高",
+      "status": "已沉淀",
+      "created": "2026-09-24",
+      "updated": "2026-09-24",
+      "student": "S001",
+      "aiTurns": 2,
+      "teacherTurns": 1,
+      "hasTeacherAnswer": true
+    },
+    {
+      "path": "课程问题池/公共/2026-09-24-0011-为什么负特征值意味着鞍点.md",
+      "id": "0011",
+      "title": "为什么负特征值意味着鞍点",
+      "summary": "学生卡在 Hessian 负特征值与鞍点判定的关系上，结论是二阶导矩阵出现负特征值即该方向为极大曲率，故为鞍点。",
+      "module": "模块一",
+      "lesson": "课时8",
+      "type": "概念问题",
+      "severity": "高",
+      "status": "已沉淀",
+      "created": "2026-09-24",
+      "updated": "2026-09-24",
+      "student": "S001",
+      "aiTurns": 2,
+      "teacherTurns": 1,
+      "hasTeacherAnswer": true
+    }
+  ]
 }
