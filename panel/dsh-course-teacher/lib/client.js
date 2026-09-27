@@ -445,6 +445,173 @@ window.__ModuleLoader__.load({
           + '他们的客户端下次拉取仓库时同步。'))
     }
 
+    // ── 发布：资料清单（老师视角）──
+    /**
+     * 老师在发布页要看的那一份「资料清单」。
+     *
+     * 为什么它必须在这一页：资料清单是**唯一由老师自己维护**、又直接决定
+     * 学生看到什么的东西（`资料.json` 在工作区根目录）。而它出错的样子全是静默的：
+     *   · 清单里某一项路径写错 → 学生那边少一项，老师本机毫无异常
+     *   · 引用的文件不在仓里 → 学生点开 404
+     *   · 只列了 pptx 没转 PDF → 学生能下载但**在线看不了**（浏览器没有 pptx 渲染器）
+     * 所以这一块把这三件事分别标出来，而不是只报个数。
+     */
+    function TeacherMaterials({ st, onReload }) {
+      const m = st.materials
+      if (!m) {
+        return h('div', { className: 'kcb' },
+          h('div', { className: 'k64' }, '③c 资料（学生能下载 / 在线看的东西）'),
+          h('div', { className: 'k21' }, '正在读资料清单…'))
+      }
+      const items = m.items || []
+      const broken = items.filter((x) => !x.ok)
+      const online = items.filter((x) => x.kind === 'pdf' && !x.remote)
+      return h('div', { className: 'kcb' },
+        h('div', { className: 'k64' }, '③c 资料（学生能下载 / 在线看的东西）'),
+        h('div', { className: 'kd1' }, '这份清单在工作区根目录的 **资料.json**，面板的「资料」页按它渲染。'
+          + '课件原件（pptx）浏览器打不开，所以要配一份转好的 PDF —— 跑 '
+          + '`node tools/make-materials.mjs --convert` 会自动转并刷新清单。'),
+        !m.hasManifest
+          ? h('div', { className: 'k57' }, '还没有 资料.json —— 学生那边的「资料」页会是空的（课件图不受影响，仍在「课件」页）。')
+          : h('div', { className: 'kc8' },
+            bdg('共 ' + m.count + ' 项', 'var(--dsw-alias-bg-layer-1)'),
+            bdg('能在线看 ' + online.length + ' 份', online.length ? 'var(--dsw-alias-state-success-primary)' : 'var(--dsw-alias-state-warn-primary)'),
+            h('span', { className: 'k54' }),
+            h('button', { className: 'k42', onClick: () => onReload() }, '重新读一次')),
+        // 在线预览那一栏是空的时候要说清后果：学生能下载、但**看不了**
+        m.hasManifest && !online.length
+          ? h('div', { className: 'k57', style: { color: 'var(--dsw-alias-state-warn-primary)' } },
+            '⚠ 清单里没有任何 PDF 项 —— 学生只能下载 pptx，而**浏览器看不了 pptx**，'
+            + '「在线看原件」这条会落空。跑一次 make-materials.mjs --convert 就有 PDF 了。')
+          : null,
+        broken.length
+          ? h('div', { className: 'k57', style: { color: 'var(--dsw-alias-state-error-primary)' } },
+            '⚠ ' + broken.length + ' 项引用的文件不在仓里（学生点开会 404）：'
+            + broken.slice(0, 5).map((x) => x.title + '（' + x.target + '）').join('；'))
+          : null,
+        (m.bad && m.bad.length)
+          ? h('div', { className: 'k57', style: { color: 'var(--dsw-alias-state-error-primary)' } },
+            '⚠ 清单里有 ' + m.bad.length + ' 项读不出来：' + m.bad.slice(0, 3).join('；'))
+          : null,
+        items.length
+          ? h('div', null, items.slice(0, 12).map((x, i) => h('div', { key: i, className: 'kc8' },
+            bdg(x.kind === 'slides' ? '原件' : x.kind, 'var(--dsw-alias-bg-layer-1)'),
+            h('span', { className: 'k57' }, x.title),
+            x.sizeText ? h('span', { className: 'k57' }, x.sizeText) : null,
+            h('span', { className: 'k57' }, x.remote ? '外部直链' : (x.ok ? '仓内' : '⚠ 文件不在')))))
+          : null,
+        items.length > 12 ? h('div', { className: 'k57' }, '…还有 ' + (items.length - 12) + ' 项') : null,
+        m.readError ? h('div', { className: 'k57' }, m.readError) : null)
+    }
+
+
+    /**
+     * 版本卡（老师的决定：**教师端要有版本控制信息**，让学生克隆到正确的版本）。
+     *
+     * ── 这一块解决的是什么 ──────────────────────────────────────────────
+     * 学生是把公开仓 clone 到本机当工作区用的，所以「他克隆到的版本」和
+     * 「老师以为他拿到的版本」可能不是一回事。老师的原话是「方便克隆到正确的版本」——
+     * 这句话的落点就是：**给老师一条能直接照着念给学生的命令**，外加一句
+     * 「学生现在照这条命令会拿到什么」的结论。
+     *
+     * ── 为什么分成「先看本机」和「再比 GitHub」两步 ─────────────────────
+     * `version.info` 默认**一个子进程都不起**（离线也能看）；只有老师点了
+     * 「和 GitHub 比一下」才会 spawn `git ls-remote`。原因是上一轮把版本信息
+     * 塞进 `repo.status` 时，把一个纯读盘的动作拖成了网络依赖，发布页的真机验收
+     * 立刻打红（连不上时整块状态都空了）。这里把那次的教训变成界面上的两档。
+     *
+     * ── 为什么远端结论来自宿主 ─────────────────────────────────────────
+     * 「学生拿到哪一份」这种结论不许界面自己推：界面只认 `remoteChecked`
+     * 这一个布尔，就可能把「没查过」说成「一致」。所以 verdict 那句人话是
+     * 宿主算好的（见 teacher host 的 `version.info`），这里只负责显示。
+     */
+    function VersionCard({ st, onLoadVersion, onCompareVersion }) {
+      const vi = st.versionInfo
+      const [copied, setCopied] = React.useState('')
+      const copy = (text) => {
+        // 三种可能的运行环境：https/localhost（有 clipboard）、老浏览器（只能 execCommand）、
+        // 测试桩（两个都没有）。都不行时**不假装成功**，改提示老师自己选中复制。
+        try {
+          if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text)
+            setCopied(text)
+            return
+          }
+        } catch (err) { /* 落到下面 */ }
+        let ok = false
+        try {
+          if (typeof document !== 'undefined' && document.createElement) {
+            const ta = document.createElement('textarea')
+            ta.value = text
+            document.body.appendChild(ta)
+            ta.select()
+            ok = !!(document.execCommand && document.execCommand('copy'))
+            document.body.removeChild(ta)
+          }
+        } catch (err) { ok = false }
+        setCopied(ok ? text : ('手抄：' + text))
+      }
+      const shown = (v, sum) => (v && v.hasRepo) ? sum : ((v && v.note) || '读不到')
+      const row = (label, v, extra, sum) => h('div', { className: 'kc7' },
+        h('div', { className: 'kc8' },
+          bdg(label, 'var(--dsw-alias-bg-layer-1)'),
+          h('span', { className: 'k57', title: (v && v.commit) ? v.commit : '' }, shown(v, sum)),
+          extra || null),
+        (v && v.hasRepo)
+          ? h('div', { className: 'k57' }, [
+            '提交 ' + ((v && v.commitShort) || '?'),
+            (v && v.branch && v.branch !== '(detached)') ? (' · 分支 ' + v.branch) : '',
+            (v && v.remoteName) ? (' · ' + v.remoteName) : ' · 还没连远端',
+          ].join(''))
+          : null,
+        (v && v.hasRepo && v.note) ? h('div', { className: 'k57' }, '（' + v.note + '）') : null)
+      if (!vi) {
+        return h('div', { className: 'kcb' },
+          h('div', { className: 'k64' }, '③b 版本（学生该克隆哪一份）'),
+          h('div', { className: 'k21' }, '正在读版本信息…'))
+      }
+      const pub = vi.public || null
+      const ws = vi.workspace || null
+      const vd = vi.verdict || null
+      const cmd = (pub && pub.cloneCommand) || ''
+      const vColor = !vd ? 'var(--dsw-alias-bg-layer-1)'
+        : (vd.level === 'ok' ? 'var(--dsw-alias-state-success-primary)'
+          : (vd.level === 'warn' ? 'var(--dsw-alias-state-warn-primary)' : 'var(--dsw-alias-bg-layer-1)'))
+      return h('div', { className: 'kcb' },
+        h('div', { className: 'k64' }, '③b 版本（学生该克隆哪一份）'),
+        h('div', { className: 'kd1' }, '把下面这条命令发给学生，他 clone 下来的就是这个版本；'
+          + '面板与课程内容是一起发出去的，版本对不上面板会出现「未知动作」这类怪现象。'),
+        // 学生拿到的就是这个仓库 —— 所以先摆它，再摆课程工作区
+        row('公开仓（学生克隆它）', pub, vi.compare ? bdg('已比对 GitHub', 'var(--dsw-alias-bg-layer-1)') : null, vi.publicSummary),
+        row('课程工作区（你发布的内容）', ws, null, vi.workspaceSummary),
+        vi.drift ? h('div', { className: 'k57' }, '⚠ ' + vi.drift) : null,
+        (!vi.compare && pub && pub.hasRepo && pub.remoteName && pub.note === '未与远端比对')
+          ? h('div', { className: 'k57' }, '上面只是**本机**的事实。GitHub 上现在是什么版本，'
+            + '点下面那个按钮才知道（那一步要联网）。') : null,
+        // 按钮**常驻**：`verdict` 为 null 只是「没有额外结论可说」（比如还没查过），
+        // 不代表没有「去比一下」这个动作。第一版把按钮写在 `vd ? ... : null` 里面，
+        // 于是本地那一档（正是最该点的）根本没有按钮 —— 断言当场抓到。
+        h('div', { className: 'kce' },
+          vd ? bdg(vd.text, vColor) : null,
+          h('span', { className: 'k54' }),
+          h('button', { className: 'k42', disabled: st.busy, onClick: () => onCompareVersion() },
+            vi.compare ? '再比一次' : '和 GitHub 比一下')),
+        cmd
+          ? h('div', null,
+            h('div', { className: 'k64' }, '发给学生的命令（照抄）'),
+            h('pre', { className: 'k39' }, cmd),
+            h('div', { className: 'kca' },
+              h('button', { className: 'k42 k11', onClick: () => copy(cmd) },
+                copied === cmd ? '已复制 ✓' : '复制这条命令'),
+              h('button', { className: 'k42', disabled: st.busy, onClick: () => onLoadVersion(true) }, '重新读一次'),
+              copied && copied !== cmd ? h('span', { className: 'k57' }, copied) : null),
+            (pub && pub.tag)
+              ? h('div', { className: 'k57' }, '这条命令钉在 tag ' + pub.tag + ' 上 —— 学生什么时候克隆都拿到同一份（版本可复现）。')
+              : h('div', { className: 'k57' }, '还没有 tag：命令落在分支上，学生克隆到的是**当时的**最新提交。'
+                + '要给学生一个不会变的版本，就给公开仓打一个 tag（例如 v0.1.0）再发布。'))
+          : h('div', { className: 'k57' }, '还没有能发给学生的命令 —— 公开仓要么还没在本机准备好，要么还没连到 GitHub（见上面②建仓卡）。'))
+    }
+
     // ── 发布 ──
     /**
      * 「归档与发布」这一页的顺序是**照老师的问题顺序**排的：
@@ -457,7 +624,7 @@ window.__ModuleLoader__.load({
      *
      * 每一块各自套一个错误边界：一块崩了不该让整页红屏（学生端踩过这个坑）。
      */
-    function Publish({ st, set, onRefresh, onPublish, onPlan, onRepoStatus, onRepoInit }) {
+    function Publish({ st, set, onRefresh, onPublish, onPlan, onRepoStatus, onRepoInit, onLoadVersion, onCompareVersion, onLoadMaterials }) {
       const s = st.staged
       return h('div', { className: 'k46' },
         h('div', { className: 'k64' }, '归档与发布'),
@@ -467,6 +634,12 @@ window.__ModuleLoader__.load({
         //    另一个是「重拉待发布清单」。同名的话以后串一次就是——
         //    点「刷新清单」却去读了 git 状态，界面看起来正常，只是清单永远不变。
         h(PanelBoundary, { label: '发布与推送' }, h(RepoPushCard, { st, onPublish, onRefreshList: onRefresh })),
+        // 版本卡紧跟在「发布与推送」后面：老师刚推完，下一个问题就是
+        // 「学生现在照哪条命令能拿到我这一版」。它是**独立一块**，
+        // 数据也来自独立动作（version.info）—— 不许并进 repo.status，
+        // 那个动作是纯读盘的，而版本比对要联网（上一轮为此打红过验收）。
+        h(PanelBoundary, { label: '版本' }, h(VersionCard, { st, onLoadVersion, onCompareVersion })),
+        h(PanelBoundary, { label: '资料清单' }, h(TeacherMaterials, { st, onReload: onLoadMaterials })),
         h('div', { className: 'k64' }, '④ 材料归位'),
         h(PanelBoundary, { label: '材料归位' }, h(MaterialsTable, { st, set, onPlan })),
         h('div', { className: 'k64' }, '⑤ 待发布清单'),
@@ -1402,6 +1575,254 @@ window.__ModuleLoader__.load({
               h('span', { className: 'k57' }, '· ' + x.why)))))) : null)
     }
 
+    // ── 首次启动向导 ──
+    /**
+     * 「这台机器还没配过课程工作区」时唯一该看到的东西。
+     *
+     * ── 为什么需要它 ──────────────────────────────────────────────────────
+     * 插件现在是**通用**的：任意课程、任意仓。而在这之前，一台新机器要能跑起来，
+     * 得先有人手工跑 `templates/install.ps1`（写 `~/.dsh/cip-workspace.txt`）
+     * 或者手工设 `CIP_WORKSPACE` —— 漏掉这一步的症状是**面板空着、一句话都没有**，
+     * 因为解析链的兜底原来是教师机绝对路径，在别的机器上必然落空，落空时又不报错。
+     *
+     * 现在兜底留空了（见 core/host.js 的 DEFAULT_WORKSPACE），落空会如实变成
+     * `info.setup.workspaceResolved === false`，界面据此进这个向导。
+     *
+     * ── 三步，动作全在宿主（core 的 setup.*）────────────────────────────────
+     *   ① 填公开仓地址（老师发在群里那一条）
+     *   ② 落点默认 `~/DSH-<课程码>` —— **允许改**（老师定的：向导里可改）
+     *   ③ clone → 校验 `课程中心/课程结构索引.json` → 认下来 → 写配置文件
+     *
+     * ── 为什么还要「工作区已经在别的目录」这一栏 ────────────────────────────
+     * 新机器上这其实是**最常见**的一档：用户手里已经有一个 clone（U 盘拷的、
+     * 上次装过、老师直接给的压缩包），只是没人告诉他「插件要读一个配置文件」。
+     * 让他重新 clone 一遍是浪费带宽，也是让他怀疑自己做错了什么。
+     *
+     * ⚠️ 这一段在两个客户端里是**同一份代码**（学生端 / 教师端各一份副本）。
+     *    改一处必须改两处 —— verify-setup-wizard.mjs 里有一条断言在比对两边的
+     *    函数体是否逐字一致，忘了改另一边会当场变红。
+     */
+    function SetupWizard({ info, api, onDone }) {
+      const sp = (info && info.setup) || {}
+      const loaded = !!(info && info.setup)
+      const resolved = sp.workspaceResolved !== false
+      const [repo, setRepo] = React.useState('')
+      const [dir, setDir] = React.useState('')
+      // 落点**只在第一次算出来之后允许用户改**：所以这里不是「每次渲染都重置」，
+      // 而是「用户没填过就用宿主给的建议」。老师定的：默认 `~/DSH-<课程码>`，向导里可改。
+      const [mode, setMode] = React.useState('clone')
+      const [open, setOpen] = React.useState(false)
+      const [busy, setBusy] = React.useState(false)
+      const [result, setResult] = React.useState(null)
+      const [err, setErr] = React.useState('')
+      const suggestedDir = (sp.home || '') + '\\DSH-' + (sp.courseCode || 'course')
+      const dirValue = dir || suggestedDir
+      // 宿主没给出 setup（老宿主半区没重启）时**不能装死**：那种情况下
+      // 面板会是空的，而用户连「为什么空」都看不到。
+      if (!loaded) {
+        return h('div', { className: 'k52 k53', style: { margin: '8px 14px 0' } },
+          '课程面板没有拿到工作区信息（多半是宿主半区没重启）。'
+          + '这条信息是「你在看哪门课」的来源，缺了它整块面板都是空的。')
+      }
+      // 已经配好了：**什么都不显示**。这块只在「没配过」时出现 ——
+      // 一个长期挂在面板顶上的设置块，会让人以为每次都要点它。
+      if (resolved) return null
+
+      const callClone = async () => {
+        setBusy(true); setErr(''); setResult(null)
+        try {
+          const r = await api('setup.clone', { repo: repo, dir: dirValue })
+          if (r && r.ok) { setResult(r); await onDone() } else { setErr((r && r.error) || 'clone 失败（宿主没给原因）') }
+        } catch (e) { setErr('' + ((e && e.message) || e)) } finally { setBusy(false) }
+      }
+      const callUse = async () => {
+        setBusy(true); setErr(''); setResult(null)
+        try {
+          const r = await api('setup.use', { dir: dirValue })
+          if (r && r.ok) { setResult(r); await onDone() } else { setErr((r && r.error) || '没认下来（宿主没给原因）') }
+        } catch (e) { setErr('' + ((e && e.message) || e)) } finally { setBusy(false) }
+      }
+      const steps = (result && result.steps) || []
+      const wf = (result && result.workspaceFile) || null
+      return h('div', { className: 'kcb', 'data-role': 'cip-setup', style: { margin: '10px 14px 0' } },
+        h('div', { className: 'k64' }, '① 先把这台机器配好'),
+        h('div', { className: 'kd1' }, '课程面板要读一份**课程工作区**（课件、结构索引、问题池都在里面）。'
+          + '这台机器还没有它 —— 填一个地址，插件替你把它取下来。'),
+        // 「宿主说这次没找到工作区的过程」原来是 `k57`（正文色）。它是**诊断信息**，
+        // 排在两句说明之间会把主张与细节混在一起，所以压成一行小字、颜色调暗。
+        sp.how ? h('div', { className: 'k57' }, '这次没找到工作区的过程：' + sp.how) : null,
+        h('div', { className: 'kce' },
+          h('span', { className: 'k57' }, '公开仓地址'),
+          h('input', {
+            className: 'k61', style: { flex: '1 1 320px', maxWidth: '460px' },
+            value: repo, placeholder: 'https://github.com/<owner>/<仓名>.git（老师发的那一条）',
+            onChange: (e) => setRepo(e.target.value),
+          })),
+        h('div', { className: 'kce' },
+          h('span', { className: 'k57' }, '放到哪里'),
+          h('input', {
+            className: 'k61', style: { flex: '1 1 320px', maxWidth: '460px' },
+            value: dirValue, onChange: (e) => setDir(e.target.value),
+          })),
+        h('div', { className: 'k57' }, '默认落在这里（可以改）：' + suggestedDir),
+        h('div', { className: 'kca' },
+          // 主按钮：实心品牌蓝 + 白字（panel.css 的 --accent / --on-accent）。
+          // 这里额外加粗并给一个最小宽度 —— 上一版它和旁边的次级按钮长得太像，
+          // 用户反馈「分不清哪个是要点的那个」。
+          h('button', {
+            className: 'k42 k11', disabled: busy || !repo.trim(),
+            style: { fontWeight: 650, minWidth: '132px' }, onClick: callClone,
+          }, busy ? '处理中…' : '取下来，配好'),
+          h('button', { className: 'k42', disabled: busy, onClick: () => setOpen(!open) },
+            open ? '收起更多选项' : '更多选项')),
+        busy
+          ? h('div', { className: 'k57' }, '第一次 clone 可能要几十秒（取决于仓的大小与网速）；'
+            + '这期间界面可以继续用，别关掉面板。')
+          : null,
+        open
+          ? h('div', null,
+            h('div', { className: 'k64' }, '工作区已经在别的目录'),
+            h('div', { className: 'k57' }, '手里已经有这个仓了（U 盘拷的、上次装的、老师给的压缩包）？'
+              + '填它的目录，插件只做校验和登记，不联网、不 clone。'),
+            h('div', { className: 'kca' },
+              h('button', { className: 'k42', disabled: busy || !dirValue.trim(), onClick: callUse },
+                busy ? '处理中…' : '就用这个目录')))
+          : null,
+        // 成功：**留下证据**，不只是说一句「好了」——用户要能核对
+        // 「课名对不对」「落在哪」「配置文件写没写进去」。
+        result
+          ? h('div', { className: 'kc7', 'data-ok': '1' },
+            h('div', { className: 'kc8' },
+              bdg('已配好', 'var(--dsw-alias-state-success-primary)'),
+              h('span', { className: 'k57' }, (result.course ? ('课程：' + result.course + '　') : '')
+                + '工作区：' + result.dir + (result.mode === 'clone' ? '（刚 clone 下来）' : '（用的已有目录）'))),
+            h('div', { className: 'k57' }, '配置文件：' + ((wf && wf.file) || sp.workspaceFile || '')
+              + (wf && wf.ok ? '（已写入）' : '　⚠ 没写进去，下次启动要再来一遍：' + ((wf && wf.error) || ''))),
+            result.courseConfig && !result.courseConfig.ok
+              ? h('div', { className: 'k57' }, '⚠ 课名没写进 课程配置.json：' + result.courseConfig.error)
+              : null,
+            h('div', { className: 'k57' }, '面板已经切到这个工作区了，**不用重启**；下面几块现在就有内容。'))
+          : null,
+        // 失败：**红边 + 红字**是刻意的。这一条必须一眼看出「没成功」——
+        // 上一版它和成功态用的是同一个类（只差一个 data 属性，而那两个属性
+        // 在样式表里还没有规则），于是失败看着像一句普通说明，用户会继续往下找。
+        err
+          ? h('div', {
+            className: 'kc7', 'data-err': '1',
+            style: { borderColor: 'var(--dsw-alias-state-error-primary)' },
+          },
+            h('div', { className: 'kc8' },
+              bdg('没成功', 'var(--dsw-alias-state-error-primary)'),
+              h('span', { className: 'k57', style: { color: 'var(--dsw-alias-state-error-primary)' } }, err)),
+            // 命令与退出码压成一行：好几条的时候竖着排会把它撑得很长，
+            // 而这里要传达的只是「跑的是什么、退了多少」。
+            steps.length
+              ? h('div', { className: 'k57' }, '跑过的命令：' + steps.map((s) => s.cmd + '（exit ' + s.code + '）').join('；'))
+              : null,
+            h('div', { className: 'k57' }, '修好之后点上面的按钮重试即可 —— 已经 clone 下来的东西不会被删。'))
+          : null)
+    }
+
+    // ── 资料页（课件原件 / 讲义 PDF / 数据集）──
+    /**
+     * 老师那句「课件、ppt、资料放哪，学生从哪连」的学生侧答案。
+     *
+     * 每一项给学生**三个**入口，而不是一个"下载"：
+     *   · 在线看原件 —— pdf 用 `<iframe>`（浏览器自带阅读器），图片/视频直接显示
+     *   · 去课件页框选 —— **这条才是这个插件的核心动作**：跳到课件页那一章，
+     *     学生就能框选一块 PPT 图区、就地提问（老师原话：「学生端需要对照 ppt 截图提问」）
+     *   · 下载 —— 目标可能是仓内相对路径（随课程包 clone 下来），也可能是
+     *     Releases / 对象存储的 http 直链
+     *
+     * ⚠️ 为什么"预览"要分几种模式（iframe / img / video / slides）：
+     *    浏览器**没有 pptx 渲染器**。所以 pptx 那一档不能假装能内嵌 ——
+     *    要么用同目录转好的 PDF（清单里 `slides.pdf`），要么引导去课件页框选。
+     *    给一个点了没反应的「预览」按钮，比不给更糟。
+     *
+     * ⚠️ 这一层只用宿主算好的三个字段：`it.preview.mode` / `it.jump` / `it.ok`，
+     *    **不自己按扩展名推断**。判据在 core/src/resources.js（唯一来源）——
+     *    两处各推一份必然漂移，这个项目已经吃过几次（file 双前缀、路径归属）。
+     */
+    function MaterialCard({ it, st, set, onJump, matPrefix }) {
+      const pv = it.preview || { mode: 'none', src: '' }
+      const open = st.matOpen && st.matOpen.title === it.title
+      const kindLabel = it.kind === 'slides' ? '课件原件'
+        : (it.kind === 'pdf' ? 'PDF' : (it.kind === 'image' ? '图片' : (it.kind === 'video' ? '视频' : '文件')))
+      const href = it.remote ? it.target : (matPrefix + '/' + encodeURI(it.target))
+      return h('div', { className: 'kc7', 'data-ok': it.ok ? '1' : '0' },
+        h('div', { className: 'kc8' },
+          bdg(kindLabel, 'var(--dsw-alias-bg-layer-1)'),
+          h('span', { className: 'k57', style: { fontWeight: 600, color: 'var(--text)' } }, it.title),
+          it.sizeText ? h('span', { className: 'k57' }, it.sizeText) : null,
+          it.remote ? h('span', { className: 'k57' }, '（外部直链）') : null,
+          // 仓里没有这个文件时**明说**，而不是给一个点开 404 的按钮。
+          // 这是最容易让老师困惑的一档：他明明写了清单，学生却点不动。
+          !it.ok ? h('span', { className: 'k57', style: { color: 'var(--dsw-alias-state-warn-primary)' } },
+            '⚠ ' + (it.missingWhy || '仓里没有这个文件')) : null),
+        it.note ? h('div', { className: 'k57' }, it.note) : null,
+        h('div', { className: 'kca' },
+          it.ok && pv.mode !== 'none' && pv.mode !== 'slides'
+            ? h('button', {
+              className: 'k42 k11',
+              onClick: () => set({ matOpen: open ? null : { title: it.title, mode: pv.mode, src: pv.src } }),
+            }, open ? '收起预览' : '在线看原件')
+            : null,
+          it.jump ? h('button', {
+            className: 'k42',
+            disabled: !it.ok,
+            title: '跳到课件页的「' + it.jump.chapter + '」，在那里可以框选一块图区提问',
+            onClick: () => onJump(it.jump),
+          }, '去课件页框选提问') : null,
+          it.ok ? h('a', {
+            className: 'k42', href, target: '_blank', rel: 'noreferrer',
+            style: {
+              textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
+              padding: '4px 10px', borderRadius: '5px', border: '1px solid var(--line-2)',
+              fontSize: '12px', color: 'var(--text)',
+            },
+          }, '下载') : null),
+        open && pv.mode === 'iframe'
+          ? h('div', null,
+            h('iframe', {
+              src: pv.src, title: it.title,
+              style: { width: '100%', height: '460px', border: '1px solid var(--line)', borderRadius: 'var(--r1)', background: '#fff' },
+            }),
+            h('div', { className: 'k57' }, '翻到想看的那一页，截图或框选之后回到课件页提问。'))
+          : null,
+        open && pv.mode === 'img'
+          ? h('img', {
+            src: pv.src, alt: it.title,
+            style: { maxWidth: '100%', border: '1px solid var(--line)', borderRadius: 'var(--r1)' },
+          })
+          : null,
+        open && pv.mode === 'video'
+          ? h('video', { src: pv.src, controls: true, style: { width: '100%', maxHeight: '420px', background: '#000', borderRadius: 'var(--r1)' } })
+          : null)
+    }
+
+    function Materials({ st, set, onJump, matPrefix }) {
+      const m = st.materials
+      if (!m) return h('div', { className: 'k21' }, '资料清单加载中…')
+      if (m.readError) return h('div', { className: 'k52 k53', style: { margin: '8px 14px 0' } }, m.readError)
+      if (!m.items || !m.items.length) {
+        return h('div', { className: 'k46' },
+          h('div', { className: 'k64' }, '资料'),
+          h('div', { className: 'kd1' }, '老师还没有发布课件原件 / 讲义。'),
+          h('div', { className: 'k57' }, '课件图仍然可以在「课件」页看；这一页只放**原件**（能下载、能在线看的那种）。'))
+      }
+      return h('div', { className: 'k46' },
+        h('div', { className: 'k64' }, '资料（' + m.count + ' 项）'),
+        h('div', { className: 'kd1' }, '课件原件、讲义 PDF 都在这儿。**要对着某一页提问**，'
+          + '点「去课件页框选提问」—— 那里能框一块图区就地提问，比截图发群里清楚得多。'),
+        // 坏项单列：某项从清单里静默消失是最难查的一类（老师会说"我明明写了"）
+        (m.bad && m.bad.length)
+          ? h('div', { className: 'k57', style: { color: 'var(--dsw-alias-state-warn-primary)' } },
+            '⚠ 清单里有 ' + m.bad.length + ' 项没法显示：' + m.bad.slice(0, 3).join('；'))
+          : null,
+        (m.items || []).map((it, i) => h(MaterialCard, { key: 'mat' + i, it, st, set, onJump, matPrefix })),
+        m.updated ? h('div', { className: 'k57' }, '清单更新于 ' + m.updated) : null)
+    }
+
     // ── 面板 ──
     function Panel() {
       const init = {
@@ -1434,6 +1855,12 @@ window.__ModuleLoader__.load({
         // 不能让整页红屏，而「刚打开、数据还没到」正是最常见的 null 场景。
         repoStatus: null, repoInit: null,
         repoForm: { owner: '', name: '', token: '', description: '' },
+        // 版本卡（发布页）：version.info 的返回。
+        // 初值 null = 还没读，卡上说的是「正在读版本信息…」而不是显示 undefined。
+        versionInfo: null,
+        // 资料页：materials = materials.list 的返回；matOpen = 哪一项的预览展开了
+        // （存 `{title, mode, src}` 而不是下标 —— 清单会刷新，下标会漂）
+        materials: null, matOpen: null,
       }
       const pair = React.useState(init)
       const st = pair[0] || init
@@ -1788,6 +2215,11 @@ window.__ModuleLoader__.load({
         try {
           const info = await api('info', {})
           set({ info })
+          // ── 这台机器还没配过工作区时**到此为止**（理由同学生端那一处）──────
+          // 后面的动作全都要「有一个能读的课程工作区」，工作区不存在时必然失败，
+          // 渲染成一条红色「加载失败」，把向导挤到下面 —— 用户第一眼看到的是
+          // 「面板坏了」，而该做的是点上面那个向导。
+          if (info && info.setup && info.setup.workspaceResolved === false) return
           set({ tree: (await api('tree', {})).tree })
           const ch = (info.chapters && info.chapters[0]) || '第一章'
           set({ chapter: ch, slides: await api('slides', { chapter: ch }) })
@@ -1908,6 +2340,44 @@ window.__ModuleLoader__.load({
           set({ busy: false, error: '建仓失败：' + ((err && err.message) || String(err)) })
         }
       }, [loadRepo])
+      /**
+       * ── 发布页：版本信息（独立动作）──
+       *
+       * `remote = false`（默认）在宿主侧**一个子进程都不起**，所以它和读仓库状态一样便宜；
+       * `remote = true` 才会去 spawn git 比对 GitHub —— 那一步要联网，只由老师点按钮触发。
+       * 这正是上一轮把版本信息塞进 `repo.status` 时被打红的那件事：界面上必须由人决定
+       * 什么时候把一个离线可用的页面变成需要网络。
+       */
+      const loadVersion = React.useCallback(async (remote) => {
+        try {
+          const r = await api('version.info', { remote: remote === true })
+          set({ versionInfo: r })
+        } catch (err) {
+          // 同 loadRepo：走 notice 不走 error ——「version.info」是新增动作，
+          // 旧宿主上没有它。用 error 的话红条会挂在每一页上（包括完全正常的提问页）。
+          set({ versionInfo: null, notice: '「归档发布」里的版本信息暂时读不到（多半是宿主半区没重启），其余功能不受影响。' })
+        }
+      }, [])
+      const onCompareVersion = React.useCallback(async () => { await loadVersion(true) }, [loadVersion])
+      /**
+       * 资料清单（发布页要看的那一份）。
+       *
+       * 老师在这一页真正想知道的是「学生那边能看到什么」——
+       * 而资料清单是唯一由**老师自己维护**、又直接决定学生看到什么的东西。
+       * 所以这里不只要列出来，还要把**两类问题**摆明：
+       *   · `bad`：清单里写了但读不出来的项（路径错、缺 title…）
+       *   · `ok:false`：清单引用了一个仓里不存在的文件
+       * 这两种都表现为"学生那边少一项"，而老师本机看不出任何异常。
+       */
+      const loadMaterials = React.useCallback(async () => {
+        try {
+          const r = await api('materials.list', {})
+          set({ materials: r })
+        } catch (err) {
+          // 同 loadRepo：新动作，旧宿主上没有它 —— 走 notice 不走 error
+          set({ materials: null, notice: '「归档发布」里的资料清单暂时读不到（多半是宿主半区没重启），其余功能不受影响。' })
+        }
+      }, [])
       const onBatch = React.useCallback(async (paths, decision) => {
         set({ busy: true, error: '' })
         try {
@@ -1932,6 +2402,11 @@ window.__ModuleLoader__.load({
       // 仓库状态同理：切到「归档发布」时才读（读的是 .git/config，不 spawn git，
       // 所以它很便宜；但仍然没必要让每天都要看的提问页为它买单）。
       React.useEffect(() => { if (st.view === 'publish' && !stRef.current.repoStatus) loadRepo() }, [st.view, loadRepo])
+      // 版本信息同理，但**不带 remote**：这一趟不 spawn git、不联网，
+      // 所以「打开这一页就看得到本机是哪个版本」是免费的；比对远端留给按钮。
+      React.useEffect(() => { if (st.view === 'publish' && !stRef.current.versionInfo) loadVersion(false) }, [st.view, loadVersion])
+      // 资料清单：切到「归档发布」时读一次（读的是一个 json，很便宜）
+      React.useEffect(() => { if (st.view === 'publish' && !stRef.current.materials) loadMaterials() }, [st.view, loadMaterials])
 
       const views = [
         { id: 'questions', label: '提问与审计' },
@@ -1984,9 +2459,19 @@ window.__ModuleLoader__.load({
             onClick: () => set({ view: v.id }),
           }, v.label))),
           h('button', { className: 'k42', disabled: st.busy, onClick: loadAll }, st.busy ? '处理中…' : '刷新')),
-        // 就绪清单 + 今天要做什么。放在最上面 —— 老师打开面板最想知道的是
-        // 「现在先干哪件事」，而不是先去五个标签页里自己拼数字。
-        h(TeacherReadiness, { st, set }),
+        // ── 首次启动向导：**顺序是刻意的，放在最前面** ──────────────────────
+        //
+        // 它只在「这台机器没配过课程工作区」时出现（配好了返回 null）。
+        // 为什么必须排在就绪清单与红条**前面**：没有工作区的时候，
+        // 就绪清单说的那几件事全是空谈（课都没有，谈什么就绪），
+        // 而加载失败的红条会把它往下挤 —— 用户看到的第一个东西
+        // 应该正好是「现在该做的那一件事」。踩过一次：向导被红条挤到下面，
+        // 看着像面板坏了，而不是「它在教你修」。
+        h(SetupWizard, { info: st.info, api: api, onDone: loadAll }),
+        // 就绪清单 + 今天要做什么。工作区**配好了**才有意义 ——
+        // 没配过时它列的是「工作区 缺 / 课程 缺」，而向导已经在上面说清同一件事了，
+        // 两块并排只会让人以为是两个不同的问题。
+        (st.info && st.info.setup && st.info.setup.workspaceResolved === false) ? null : h(TeacherReadiness, { st, set }),
         st.error ? h('div', { className: 'k52 k53', style: { margin: '8px 14px 0' } }, st.error) : null,
         st.notice ? h('div', { className: 'k52 k62', style: { margin: '8px 14px 0' } }, st.notice) : null,
         h('div', { className: 'k25' },
@@ -2024,6 +2509,10 @@ window.__ModuleLoader__.load({
                 onPublish, onPlan,
                 // 仓库那三块的两个动作：读状态（只读）、本机建仓（不推送）
                 onRepoStatus: loadRepo, onRepoInit,
+                // 版本卡的两个动作：读本机版本（不起子进程）、比对远端（联网，只有按钮会走）
+                onLoadVersion: loadVersion, onCompareVersion,
+                // 资料清单：发布页那一块"学生能下载/在线看什么"
+                onLoadMaterials: loadMaterials,
               })) : null,
             // 每个视图各自一个错误边界：一个视图崩了不该把整页变成红屏
             // （学生端踩过：一个视图调错函数，整块面板全红）。
@@ -2104,6 +2593,9 @@ window.__ModuleLoader__.load({
     // 见学生端同处注释：供校验脚本驱动组件、验证 set 的合并语义。
     exports.__components = {
       Panel: Panel,
+      // 首次启动向导：校验脚本要能单独把它渲染出来（它在正常机器上返回 null，
+      // 所以「整页渲染一次」那种断言永远看不到它 —— 这正是需要单独出口的理由）。
+      SetupWizard: SetupWizard,
       // 两个纯函数给校验脚本用：框选几何（曾把容器当课件页 → 偏移）、
       // 选框尺寸（曾把 css() 的结果又喂回 css() → 框看不见）
       slidePointFrom: slidePointFrom, boxStyleFrom: boxStyleFrom,

@@ -36,9 +36,40 @@ import { cached, statOf, sameStat, clearCache, cacheInfo, cacheDir } from './cac
 import { resolveLayout, layoutReport } from './layout.js'
 // 版本控制信息：这套面板与课程内容是哪个版本发出去的（老师要据此给学生一条克隆命令）
 import { versionInfo, versionSummary } from './version.js'
+// 首次启动向导的**判断**部分（纯函数）：地址解析、默认落点、目录现状、能不能往下走。
+// 动作部分（起 git、写文件）在本文件 createCore 里的 `setup.*`，因为要用到运行时知识。
+import {
+  parseRepoInput, defaultTargetDir, inspectTarget, judgeTarget, WORKSPACE_MARKER,
+  courseConfigFromIndex, cloneArgs, versionArgs, explainCloneOutput,
+} from './setup.js'
+// 媒体的取用策略（本地优先 → 远程回退 → 落缓存）。纯函数放这里，
+// 真正的 fetch / 写盘在 createCore 的 registerMedia 里。
+import { validateMediaBase, mediaRemoteUrl, mediaCachePath, looksLikeMedia, contentTypeOf, fetchMediaResumable } from './media.js'
+// 「资料」清单：课件原件 / 讲义 PDF / 数据集怎么给学生（读清单、判类型、定预览方式）。
+// 见 resources.js 顶部的长注释 —— 它回答的是老师那句「资料放哪、学生从哪连」。
+import { normalizeManifest, previewTarget, slidesJump, sizeText, MATERIAL_KINDS } from './resources.js'
+// 起子进程并**收回输出**（git / 发布工具）。用它而不是 spawnSync 的 encoding：
+// 沙箱不给管道，带 encoding 的 spawnSync 一律 EPERM 且不抛异常。
+import { runCaptured, runOutput, runExitCode } from './run.js'
 
 // ── 工作区解析 ────────────────────────────────────────────────
-const DEFAULT_WORKSPACE = 'C:\\Users\\Administrator\\Desktop\\暑期课程'
+/**
+ * 兜底工作区。**故意留空** —— 这条改动是「通用插件」的地基。
+ *
+ * 这里原来写的是 `'C:\\Users\\Administrator\\Desktop\\暑期课程'`，也就是**教师机
+ * 的绝对路径**。它有两个后果，第二个更坏：
+ *   ① 换一台机器必然落空（学生机、新电脑、CI 都是）；
+ *   ② **在教师本机上它恰好存在**，于是「一个候选都没通过校验」那条分支
+ *      永远走不到 —— 提示写坏了、向导没接上，都不会有人发现。
+ *
+ * 现在留空，解析链就只剩「用户真的配过」的来源（环境变量 / 配置文件）。
+ * 一台没配过的新机器会**如实**得到 resolved:false，界面据此走向导。
+ * 留空时**不再把工作目录当兜底**（那等于换了个写死的路径，只是更难查）。
+ *
+ * 导出保留：verify-workspace-unresolved.mjs 用它判断「本机还有没有内置兜底」，
+ * 并据此选测哪条分支。它现在不该是一个真实存在的目录。
+ */
+const DEFAULT_WORKSPACE = ''
 
 export function readWorkspaceFile(p) {
   try {
@@ -94,7 +125,7 @@ export const COURSE_HOME_DIR = '课程'
  * 结构索引是共享内容，必须留在根目录，不能一刀切）。
  * 新增私有数据目录时记得加进来 —— 加漏的症状就是上面那种「静默混课」。
  */
-export const PRIVATE_RELS = ['课程问题池', '作业提交', '教案草稿', '课程配置.json', '学生名册.json', '我的身份.json']
+export const PRIVATE_RELS = ['课程问题池', '作业提交', '教案草稿', '课程配置.json', '学生名册.json', '我的身份.json', '资料.json', '资料']
 
 /**
  * 一个目录「像不像课程工作区」。
@@ -141,7 +172,11 @@ export function listCourses(rootAbs) {
  *        被系统拒绝（目录被运行中的 DSH 占着）—— 所以改成注入，不再动真实目录。
  */
 export function resolveWorkspace(opts = {}) {
-  const defaultWorkspace = opts.defaultWorkspace || DEFAULT_WORKSPACE
+  // 兜底值：显式传进来的优先（测试用），否则内置那个（现在是空串）。
+  // ⚠️ 空串 = **没有兜底**，必须当成「不加这个候选」而不是「把当前目录当兜底」——
+  //    path.resolve('') 会得到进程的工作目录，那等于又写死一个路径，
+  //    而且是「运行 DSH 时恰好站在哪」这种更难查的写死。
+  const defaultWorkspace = opts.defaultWorkspace !== undefined ? opts.defaultWorkspace : DEFAULT_WORKSPACE
   const tried = []
   /** 候选：[说明, 目录, 课程码]；课程码为空表示「这个目录本身就是课程」 */
   const candidates = []
@@ -156,7 +191,9 @@ export function resolveWorkspace(opts = {}) {
   const wf = process.env.CIP_WORKSPACE_FILE || path.join(os.homedir(), '.dsh', 'cip-workspace.txt')
   const fromFile = readWorkspaceFile(wf)
   if (fromFile) roots.push(['配置文件 ' + wf, fromFile])
-  roots.push(['内置默认值（教师机）', defaultWorkspace])
+  // 内置兜底只在**真的配了一个**时才进候选（见 DEFAULT_WORKSPACE 的注释：
+  // 它现在是空串，一台没配过的新机器不该被塞进任何一个目录）。
+  if (defaultWorkspace) roots.push(['内置默认值', defaultWorkspace])
 
   const codes = []
   if (process.env.CIP_COURSE_CODE) codes.push(process.env.CIP_COURSE_CODE)
@@ -193,9 +230,11 @@ export function resolveWorkspace(opts = {}) {
 
   // ── 一个候选都没通过校验：**必须说人话，不能静默给一个不存在的目录** ──────────
   //
-  // 为什么会走到这里：解析链的最后一环是 `DEFAULT_WORKSPACE`，而那是**教师机的
-  // 绝对路径**（见文件顶部常量）。在教师本机上它恰好存在，于是永远命中、永远
-  // 不报错 —— 换一台机器（新电脑、学生机、CI）就必然落空。
+  // 谁会走到这里（**这条分支现在已经变成常态了，不再是"教师机上永远走不到"**）：
+  // 兜底值 `DEFAULT_WORKSPACE` 以前是教师机的绝对路径，在教师本机上恰好存在，
+  // 于是这条分支永远命不中 —— 换一台机器（新电脑、学生机、CI）就必然落空，
+  // 而落空的表现过去是「面板空着、一句提示都没有」。现在兜底是空串，
+  // **一台没配过工作区的机器就会如实走到这里**，界面据此进首次启动向导。
   //
   // 踩过的坑：原来的实现是
   //     return { dir: path.resolve(first[1]), how: first[0] + '（未验证）' }
@@ -203,9 +242,12 @@ export function resolveWorkspace(opts = {}) {
   // 不存在的目录继续往下跑：面板空着、没有任何一处报错，老师只能靠猜。
   //
   // 现在：dir 仍然给一个**能安全拼接的字符串**（保持向后兼容，避免下游 path.join 崩），
-  // 但把「没解析成功」变成**机器可判的字段** resolved:false，并由 warn() 打出一条
-  // 带修复办法的明确提示。
-  const fallback = roots[roots.length - 1][1]
+  // 但把「没解析成功」变成**机器可判的字段** resolved:false。
+  //
+  // ⚠️ 没有任何候选时**不能**回落到 `path.resolve('')` —— 那是进程的工作目录，
+  //    等于又写死一个「运行时恰好站在哪」的路径，比原来那个更难查。
+  //    所以这里落到**配置文件名本身**（一个明确不存在、且能安全拼接的路径）。
+  const fallback = roots.length ? roots[roots.length - 1][1] : wf
   return {
     dir: path.resolve(fallback),
     courseDir: path.resolve(fallback),
@@ -216,10 +258,24 @@ export function resolveWorkspace(opts = {}) {
     resolved: false,
     // 失败时提示里要给出**可照抄**的修复办法，所以把兜底值也带上
     defaultWorkspace,
+    /** 没配过时该往哪写：界面上的首次启动向导要用它 */
+    workspaceFile: wf,
   }
 }
 
 // ── 常量 ──────────────────────────────────────────────────────
+/**
+ * git 本体在哪。
+ *
+ * ⚠️ 教师机上 git 在 `D:\Git\cmd\git.exe`，而**它未必在 PATH 里** ——
+ *    面板进程是 DSH 拉起来的，继承的是 DSH 自己的环境。只写 'git' 会得到
+ *    ENOENT，报出来却是「找不到 git」，明明装了。
+ *    所以先试写死的路径，再回落 PATH 里的 `git`。
+ */
+export function gitBin() {
+  return fs.existsSync('D:\\Git\\cmd\\git.exe') ? 'D:\\Git\\cmd\\git.exe' : 'git'
+}
+
 export const CHAPTERS = ['第一章', '第二章', '第三章']
 export const MODULES = ['模块一', '模块二', '模块三', '模块四', '模块五']
 export const TYPES = ['概念问题', '代码报错', '环境问题', '数值稳定性', '作业疑问', '讲义问题', '内容建议']
@@ -300,6 +356,21 @@ export const COURSE_DEFAULTS = {
   term: '',
   goal: '',
   note: '',
+  /**
+   * 媒体源（课件图 / 视频 / 讲义 PDF 从哪取）。
+   *
+   * 空 = 只用本机工作区里那份（今天的行为，离线优先）。
+   * 填了 = 本机没有的媒体去这个地址取回来，并落进 `课程中心/.cache/media/`。
+   *
+   * 为什么做成配置而不是写死在插件里：课件图**不该**和课程骨架绑在同一条分发通道上
+   * （一个 13.6 MB 基本不变，一个 0.3 MB 每周改，混在一起就是「改个错别字全班重下 14 MB」）。
+   * 有了这一项，「媒体放哪」变成老师的一行配置：GitHub raw、对象存储、学校 NAS 都行，
+   * 插件与 publish 都不用改。见 src/media.js 顶部的长注释。
+   *
+   * ⚠️ 这里**只放地址**。地址要过 validateMediaBase 的三关（见 media.js）：
+   *    不带凭据、必须 http(s)、结尾斜杠归一。
+   */
+  mediaBase: '',
 }
 // 统一约定：课程配置在**各自目录的根部** ——
 //   工作区（共享内容）: <工作区>/课程配置.json
@@ -314,7 +385,6 @@ export const COURSE_CONFIG_REL = '课程配置.json'
  * 而且不报错（端到端测试抓过一次：layout 与 topics 根本没传出来）。
  */
 export const LAYOUT_PASSTHROUGH = ['layout', 'topics', 'issueTypes', 'severities', 'planSections']
-
 /**
  * 读课程配置。**按顺序**在多个目录里找 课程配置.json，先找到的字段优先。
  *
@@ -363,6 +433,21 @@ export function readCourseConfig(dirs) {
 export const PUBLIC_ITEMS_REL = '课程问题池\\公共'
 export const STUDENT_ITEMS_REL = '课程问题池\\学生'
 export const SUBMIT_ROOT_REL = '作业提交'
+
+/**
+ * 「资料」：课件原件 / 讲义 PDF / 数据集 / 代码包。
+ *
+ * 两条约定，都很硬：
+ *   · **清单是 `资料.json`**（工作区根目录）—— 老师维护它，面板读它渲染"资料"页
+ *   · **仓内文件放 `资料/`** —— 清单里 `file` 是相对它（或 `资料/` 下的）路径
+ * 文件**不在这里**的（原始 pptx、视频、数据集）就写 `url` 指向 Releases / 对象存储。
+ *
+ * 为什么清单要放在**工作区根目录**而不是 `课程中心/` 下：后者是"全校共享内容"
+ * （课件、索引），而资料是**这门课**的东西 —— 与 课程配置.json / 教案/ 同一个层级。
+ * 放错地方的症状是"多课程布局下 A 班的资料出现在 B 班"，而且不报错。
+ */
+export const MATERIALS_REL = '资料.json'
+export const MATERIALS_DIR = '资料'
 
 export const SECTION_ORDER = ['原始提问', '现象', '初步判断', 'AI 答复', '处理结论', '复盘', '问题总结', '教师归档']
 export const THREAD_TITLE = '追问记录'
@@ -708,15 +793,19 @@ export function reportUnresolvedWorkspace(WS, workspace, label, logger = console
   if (typeof warn !== 'function') return false
   const p = (s) => warn.call(logger, '[' + label + '] ' + s)
   p('⚠ 没找到课程工作区：' + workspace)
-  p('   最常见的原因是：这是另一台机器（新电脑/学生机/CI），而解析链的兜底是一个'
-    + '"教师机绝对路径"，只在教师本机上成立。')
-  p('   修法（任选一条，改完重启 DSH）：')
+  p('   这台机器还没有配过课程工作区（解析链里不再有任何"写死的内置路径"了 ——'
+    + '以前那个兜底是教师机绝对路径，在别的机器上必然落空，而且落空时不报错）。')
+  p('   最省事的修法：**打开面板，它会给出首次启动向导** —— 填一个公开仓地址，'
+    + '插件直接 clone 下来并配好，不用手敲命令。')
+  p('   想手工配也可以（任选一条，改完重启 DSH）：')
   p('     ① 设环境变量 CIP_WORKSPACE=<你的课程工作区目录>')
-  p('     ② 或把这一行目录写进 ' + path.join(os.homedir(), '.dsh', 'cip-workspace.txt'))
+  p('     ② 或把这一行目录写进 ' + path.join(os.homedir(), '.dsh', 'cip-workspace.txt')
+    + (WS && WS.workspaceFile && path.resolve(WS.workspaceFile) !== path.resolve(path.join(os.homedir(), '.dsh', 'cip-workspace.txt'))
+      ? '（这台机器上被 CIP_WORKSPACE_FILE 指到了 ' + WS.workspaceFile + '）' : ''))
   p('        （在课程仓根目录跑 templates/install.ps1 会自动写）')
   p('     ③ 共享式布局再加 CIP_COURSE_CODE=<课程码>，定位到 <根>' + path.sep + '课程' + path.sep + '<课程码>')
   p('   判据：该目录下要有「课程中心' + path.sep + '课程结构索引.json」。')
-  p('   尝试过的候选：' + (WS && WS.tried && WS.tried.length ? WS.tried.join(' | ') : '（一个都没通过校验）'))
+  p('   尝试过的候选：' + (WS && WS.tried && WS.tried.length ? WS.tried.join(' | ') : '（一个候选都没有 —— 没配过）'))
   return true
 }
 
@@ -738,16 +827,23 @@ export function msg(role, text, provider, model) {
 export function createCore(ctx, opts) {
   const { prefix, role, pkgRoot, label } = opts
   const isTeacher = role === 'teacher'
-  const WS = resolveWorkspace()
-  const WORKSPACE = WS.dir
+  /**
+   * 工作区解析结果 —— ⚠️ `let` 而不是 `const`：**首次启动向导**会在同一个进程里
+   * 把它换掉（clone 完立刻就能用，不必让用户重启 DSH）。
+   *
+   * 为什么敢在运行中换：向导那一步是**同步**换完 `WS / WORKSPACE / COURSE_DIR /
+   * COURSE` 四个值再清缓存的 —— Node 单线程，中间插不进任何别的请求。
+   * 这个理由与 useCourse（换课）完全一样，那边也是 `let`。
+   * 一旦有人把它改成 await，就会出现「一个请求读到新工作区、另一个读到旧的」，
+   * 而且是静默串数据。
+   */
+  let WS = resolveWorkspace()
+  let WORKSPACE = WS.dir
   /**
    * 课程私有数据的根。共享式布局里它是 <根>/课程/<课程码>，旧布局里等于 WORKSPACE。
    *
-   * ⚠️ 是 `let` 而不是 `const`：老师可以**在面板里换课**（见下面的 useCourse）。
-   *    这不只是省一次重启 —— `abs()`、`courseAbs()`、`COURSE` 全都读它，
-   *    热切换能在**同一个同步块里**把三个一起换掉，Node 是单线程的，
-   *    所以不存在「一个请求读到半切换状态」的窗口。
-   *    若改成异步（比如 await 一下再换），那个窗口就出现了，而且是静默串数据。
+   * ⚠️ 是 `let` 而不是 `const`：老师可以**在面板里换课**（见下面的 useCourse），
+   *    首次启动向导也会换它（换了工作区，课程目录当然跟着换）。
    */
   let COURSE_DIR = WS.courseDir || WS.dir
   const fsMod = ctx.get('fs')
@@ -765,6 +861,15 @@ export function createCore(ctx, opts) {
     sub: prefix + '-sub', shot: prefix + '-shot',
     // 诊断页走独立前缀：与 .css 那个前缀不重叠，避免前缀路由二义
     diag: prefix + '-diag',
+    /**
+     * 「资料」里那些仓内文件（转好的 PDF、讲义、数据集小样）。
+     *
+     * 为什么不复用 `-media`：那条路由的取值域被钉死在「章节/文件名」两段，
+     * 且只认课件目录与三章白名单（见 registerMedia 的校验）——那是它该有的样子，
+     * 硬塞进资料路径只会让它长出两种语义。与 registerSubmissions 不复用 media
+     * 是同一个理由，写在那边注释里。
+     */
+    mat: prefix + '-mat',
   }
   if (!cache.mediaOk && ctx.webServer !== undefined) cache.mediaOk = true
   if (!cache.mediaOk) cache.mediaError = 'webServer 不可用'
@@ -795,6 +900,32 @@ export function createCore(ctx, opts) {
   // 是因为它依赖 WORKSPACE —— 写死在模块顶层会让「换一门课」变成「改代码」。
   // 课程配置优先读课程目录（每门课自己的课程码/课程名），没有再看根目录。
   let COURSE = readCourseConfig([COURSE_DIR, WORKSPACE])
+
+  /**
+   * 媒体源（见 COURSE_DEFAULTS.mediaBase 与 src/media.js）。
+   *
+   * 环境变量优先于课程配置：**同一份课程包发给不同班级时**，
+   * 老师可能想让 A 班走局域网、B 班走对象存储 —— 那用一个环境变量切换，
+   * 不必改课程包（改了课程包就要重新发布、所有学生重下）。
+   *
+   * 无效值一律**当作没配**并留一句能看懂的说明（`MEDIA_BASE_WHY`）：
+   * 一个拼错的地址如果不作声，症状是「图全都加载不出来」，
+   * 而配置看起来完全正确 —— 那是最难查的一类。
+   */
+  let MEDIA_BASE = ''
+  let MEDIA_BASE_WHY = ''
+  /** 缓存目录：取回来的媒体落在这里（下次就走本地那一档，断网也能看） */
+  const MEDIA_CACHE_REL = '课程中心\\.cache\\media'
+  const mediaCacheRootAbs = () => path.join(COURSE_DIR, MEDIA_CACHE_REL)
+  function refreshMediaBase() {
+    const raw = process.env.CIP_MEDIA_BASE || COURSE.mediaBase || ''
+    const v = validateMediaBase(raw)
+    if (!raw) { MEDIA_BASE = ''; MEDIA_BASE_WHY = ''; return }
+    if (!v.ok) { MEDIA_BASE = ''; MEDIA_BASE_WHY = '媒体源配置无效，已当没配：' + v.why; return }
+    MEDIA_BASE = v.base
+    MEDIA_BASE_WHY = process.env.CIP_MEDIA_BASE ? '来自环境变量 CIP_MEDIA_BASE' : '来自 课程配置.json 的 mediaBase'
+  }
+  refreshMediaBase()
 
   /**
    * ── L1：把「这门课的形状」从配置里取出来 ──────────────────────────────
@@ -850,6 +981,16 @@ export function createCore(ctx, opts) {
     cache.tree = null
     cache.slides = null; cache.slidesAt = 0; cache.chapterCode = ''
     try { clearCache(WORKSPACE) } catch (e) { /* 磁盘快照清不掉不影响正确性 */ }
+    /**
+     * 媒体源也在这里刷新一次。
+     *
+     * `mediaBase` 是**课程配置**里的字段，而换课、走向导都会重读课程配置 ——
+     * 不刷新的话，切到另一门课后媒体还在从上一门课的地址取。
+     * 那不会报错：只是取回来一堆 404，或者更糟 —— **取到另一门课的图**。
+     * 挂在 invalidateCache 上是刻意的：那三个赋值点（换课两处、向导一处）
+     * 都已经在调它，新增字段只需挂一处。
+     */
+    try { refreshMediaBase() } catch (e) { /* 刷新失败就沿用上一次的值 */ }
     return true
   }
 
@@ -889,6 +1030,341 @@ export function createCore(ctx, opts) {
     COURSE = readCourseConfig([COURSE_DIR, WORKSPACE])
     invalidateCache()
     return { ok: true, code: COURSE.code || '', dir: COURSE_DIR, shared: false }
+  }
+
+  // ── 首次启动向导 ─────────────────────────────────────────────
+  /**
+   * 把某个目录**认成**当前工作区（同步换掉四个值 + 清缓存）。
+   *
+   * ⚠️ 必须同步（理由同 useCourse）：`WS / WORKSPACE / COURSE_DIR / COURSE`
+   *    四个值要么一起换，要么不换。中间一旦有 await，别的请求就会读到
+   *    「新工作区 + 旧课程配置」这种组合，而它不会报错，只会串数据。
+   *
+   * 认之前**必须**自己再校验一次结构索引：调用方（向导）已经校验过一遍，
+   * 但那个校验发生在**写配置之前**，而这里是最后一道 —— 认错了的后果是
+   * 面板从此指向一个空目录，直到有人手工改回配置文件。
+   */
+  function adoptWorkspace(dirAbs, how) {
+    const abs = path.resolve(dirAbs)
+    const marker = path.join(abs, WORKSPACE_MARKER[0], WORKSPACE_MARKER[1])
+    if (!fs.existsSync(marker)) {
+      return { ok: false, error: '这个目录不是课程工作区（缺 课程中心\\课程结构索引.json）：' + abs }
+    }
+    WS = {
+      dir: abs, courseDir: abs, courseCode: '', resolved: true,
+      how: how || '首次启动向导', tried: [abs + ' ✓'], shared: false,
+      workspaceFile: WS.workspaceFile || defaultWorkspaceFile(),
+    }
+    WORKSPACE = abs
+    COURSE_DIR = abs
+    COURSE = readCourseConfig([COURSE_DIR, WORKSPACE])
+    /**
+     * ⚠️ 课名从**索引**里补一道，因为这一步紧跟在「刚 clone 下来」后面：
+     *    `readCourseConfig` 只读 `课程配置.json`，而那份配置是 ensureCourseConfig()
+     *    在**这之后**才写的 —— 于是这一刻 COURSE.title 还是内置默认名。
+     *    后果不是显示不好看：`setupUse` 把 `adopted.course` 当作「真课名」回给界面
+     *    （让用户核对「这是不是我那门课」），拿到默认名就等于让他核对了一个假信息。
+     *    验收当场抓到这一条（断言：返回里带真课名）。
+     *
+     * 顺序有意为之：先读配置（用户手工填的 code/goal 优先），再用索引补**空**的字段。
+     */
+    try {
+      const idx = JSON.parse(fs.readFileSync(marker, 'utf8'))
+      // ⚠️ 判据是「title 还是**内置默认值**」，不是「title 非空」——
+      //    readCourseConfig 读不到配置时给的就是占位名「深度学习课程」，
+      //    那个值**非空**，所以写成 `!COURSE.title` 会让补写永远不发生。
+      //    手误成 `!oneLine('')` 更坏：恒为真，每次向导都把真课名冲掉。
+      //    这一步是「用户核对这是不是我那门课」的信息来源，说错了就是让他核对假信息。
+      if (idx && idx.course && oneLine(COURSE.title) === COURSE_DEFAULTS.title) {
+        COURSE = Object.assign({}, COURSE, { title: String(idx.course) })
+      }
+      // 索引里有课程码时也补上（面板要用它拼仓名 / 默认落点）
+      if (idx && idx.code && !oneLine(COURSE.code)) {
+        COURSE = Object.assign({}, COURSE, { code: String(idx.code) })
+      }
+    } catch (e) { /* 索引读不动就保持默认名，不影响把工作区认下来 */ }
+    invalidateCache()
+    return { ok: true, dir: WORKSPACE, course: COURSE.title || '', how: WS.how }
+  }
+
+  /** 配置文件路径（解析链真的会去读的那一个）。 */
+  function defaultWorkspaceFile() {
+    return process.env.CIP_WORKSPACE_FILE || path.join(os.homedir(), '.dsh', 'cip-workspace.txt')
+  }
+
+  /**
+   * 把工作区路径写进配置文件 —— **下一次启动也能找到它**。
+   *
+   * ⚠️ 写不进去**不是致命错误**：这一步只是让下次启动省事，而本次进程已经
+   *    通过 adoptWorkspace() 认下了这个目录。所以调用方拿到 ok:false 时，
+   *    应该把原因显示出来（多半是沙箱/权限），但**不要**因此把整次向导判失败 ——
+   *    用户的课已经装好了，只是下次开机要重来一遍向导。
+   *
+   * 带 BOM 的写法是错的：`readWorkspaceFile` 会剥掉 BOM，但别的工具不一定，
+   * 而路径前多一个看不见的字符会让 existsSync 一律为假 —— 那是最难查的一类。
+   */
+  function writeWorkspaceFile(dirAbs) {
+    const wf = defaultWorkspaceFile()
+    try {
+      fs.mkdirSync(path.dirname(wf), { recursive: true })
+      const lines = [
+        '# 课程工作区路径 —— 由面板的「首次启动向导」写入，供课程面板插件读取。',
+        '# 想换位置（比如把仓挪走了），改这一行即可；也可以用环境变量 CIP_WORKSPACE 覆盖。',
+        path.resolve(dirAbs),
+      ]
+      fs.writeFileSync(wf, lines.join('\r\n') + '\r\n', 'utf8')
+      return { ok: true, file: wf }
+    } catch (e) {
+      return {
+        ok: false, file: wf,
+        error: '工作区已经认下来了，但**写不进配置文件**（' + oneLine(e && e.message) + '）。'
+          + '本次可以用；下次启动面板还会再问一次。想一劳永逸，手工把这一行写进 ' + wf + '：'
+          + path.resolve(dirAbs),
+      }
+    }
+  }
+
+  /**
+   * 把真课名写进 `课程配置.json`（与 install.ps1 的 4c 步同一个口径）。
+   *
+   * 为什么向导也要做这一步：走到向导的机器通常**没跑过 install.ps1**
+   * （那正是它落空的原因）。不写这份配置的话，面板顶栏会显示内置默认名，
+   * 而真课名就躺在刚 clone 下来的索引里 —— 学生第一眼看到的就是错的课名。
+   *
+   * 已经存在就**不覆盖**：用户可能手工填过 code / goal / 章的映射，
+   * 那些索引里没有，覆盖等于把他填的删掉。只在缺的时候补一份，并把
+   * 索引里有的字段补进缺失项。
+   */
+  function ensureCourseConfig(dirAbs) {
+    const cfgPath = path.join(dirAbs, COURSE_CONFIG_REL)
+    const idxPath = path.join(dirAbs, WORKSPACE_MARKER[0], WORKSPACE_MARKER[1])
+    let idx = null
+    try { idx = JSON.parse(fs.readFileSync(idxPath, 'utf8')) } catch (e) { idx = null }
+    if (!idx) return { ok: false, error: '读不到课程结构索引，没法写课程配置：' + idxPath }
+    const fresh = courseConfigFromIndex(idx, { sourceNote: '由面板的首次启动向导生成（从 课程中心\\课程结构索引.json）' })
+    let existed = false
+    try {
+      if (fs.existsSync(cfgPath)) {
+        existed = true
+        const cur = JSON.parse(fs.readFileSync(cfgPath, 'utf8'))
+        let changed = false
+        // 只补**空**的：title 空就填真课名；code 空就填课程码。
+        for (const k of ['title', 'code']) {
+          if (!String(cur[k] || '').trim() && fresh[k]) { cur[k] = fresh[k]; changed = true }
+        }
+        if (!cur.layout || typeof cur.layout !== 'object') { cur.layout = fresh.layout; changed = true }
+        if (changed) fs.writeFileSync(cfgPath, JSON.stringify(cur, null, 2), 'utf8')
+        return { ok: true, file: cfgPath, existed: true, changed }
+      }
+    } catch (e) {
+      // 配置坏了不能把向导弄挂：重写一份好的，并把坏的那份留个备份名。
+      try { fs.renameSync(cfgPath, cfgPath + '.bak') } catch (e2) { /* 留不下备份也继续 */ }
+    }
+    fs.writeFileSync(cfgPath, JSON.stringify(fresh, null, 2), 'utf8')
+    return { ok: true, file: cfgPath, existed, changed: true }
+  }
+
+  /**
+   * 向导要的全部状态。
+   *
+   * ⚠️ `workspaceResolved` 是**唯一**决定界面要不要提示「先去配工作区」的字段；
+   *    这里再算一遍而不是复用 `WS.resolved`，是为了让 adoptWorkspace 之后就立刻
+   *    变 true（同一个进程里不再提示），不用等重启。
+   */
+  function setupState() {
+    const wf = defaultWorkspaceFile()
+    const home = os.homedir()
+    let dirs = []
+    try {
+      dirs = fs.readdirSync(home, { withFileTypes: true })
+        .filter((e) => e.isDirectory() && /^DSH-/i.test(e.name))
+        .map((e) => {
+          const p = path.join(home, e.name)
+          const marker = path.join(p, WORKSPACE_MARKER[0], WORKSPACE_MARKER[1])
+          return { dir: p, looksLikeWorkspace: fs.existsSync(marker) }
+        })
+        .slice(0, 8)
+    } catch (e) { dirs = [] }
+    return {
+      workspaceResolved: WS.resolved !== false,
+      workspace: WORKSPACE,
+      how: WS.how,
+      tried: WS.tried || [],
+      workspaceFile: wf,
+      // 用户以前 clone 过的课（`~/DSH-*`）：新机器上多半就是它，
+      // 摆出来比让他重新敲一遍路径省事。
+      nearby: dirs,
+      home,
+      // 界面据此拼默认落点（`~/DSH-<课程码>`）—— 规则在 setup.js 里，只有一份
+      courseTitle: COURSE.title || '',
+      courseCode: COURSE.code || '',
+      role,
+    }
+  }
+
+  /**
+   * `setup.clone`：把公开仓 clone 到落点，然后校验 + 认下来 + 写配置。
+   *
+   * 顺序是刻意的，每一步失败都有不同的说法：
+   *   ① 解析地址（错了就没必要往下走）
+   *   ② 看落点现状（**绝不覆盖**别人的目录）
+   *   ③ clone（失败时把 git 原文与推断原因一起给出来）
+   *   ④ 校验结构索引（这是「解析器认工作区的唯一依据」）
+   *   ⑤ 认下来（同步换值）→ ⑥ 写配置文件 + 课程配置（失败不影响本次可用）
+   */
+  async function setupClone(input) {
+    const repoInput = oneLine(input.repo)
+    const parsed = parseRepoInput(repoInput)
+    if (!parsed.ok) return { ok: false, step: 'parse', error: parsed.error }
+    const wantDir = oneLine(input.dir) || defaultTargetDir(os.homedir(), parsed.name, COURSE.code)
+    const target = path.resolve(wantDir)
+    const state = inspectTarget(target, {
+      exists: (p) => fs.existsSync(p),
+      isDir: (p) => { try { return fs.statSync(p).isDirectory() } catch (e) { return false } },
+      listDir: (p) => { try { return fs.readdirSync(p) } catch (e) { return [] } },
+    })
+    const verdict = judgeTarget(state)
+    if (!verdict.ok && verdict.mode === 'use-existing') {
+      // 已经是仓库：不 clone，直接问「要不要就用它」—— 这多半是用户指到了自己的旧 clone
+      const adopted = adoptWorkspace(target, '首次启动向导（已有仓库）')
+      if (adopted.ok) {
+        const cfg = ensureCourseConfig(target)
+        const wf = writeWorkspaceFile(target)
+        return { ok: true, mode: 'existing', dir: target, state, steps: [{ cmd: '（已在本地，未 clone）', code: 0, out: '' }], courseConfig: cfg, workspaceFile: wf }
+      }
+      return { ok: false, step: 'inspect', error: verdict.note }
+    }
+    if (!verdict.ok) return { ok: false, step: 'inspect', error: verdict.note, state }
+
+    const git = gitBin()
+    const probe = runCaptured(git, versionArgs(), { timeout: 20000, hintDir: findWriteHint() })
+    if (runExitCode(probe) !== 0) {
+      return {
+        ok: false, step: 'git',
+        error: '这台机器上跑不了 git（' + git + '）：' + (runOutput(probe) || '没有输出')
+          + '　git 是 clone 与后续「拉取更新」都要用的东西，先装它（或把它放进 PATH）再回来。',
+      }
+    }
+    fs.mkdirSync(path.dirname(target), { recursive: true })
+    const args = cloneArgs(parsed.remote, target)
+    const r = runCaptured(git, args, { timeout: 600000, hintDir: findWriteHint() })
+    const explained = explainCloneOutput(r, parsed.name)
+    const steps = [{ cmd: 'git ' + args.join(' '), code: runExitCode(r), out: runOutput(r).slice(-4000) }]
+    if (!explained.ok) return { ok: false, step: 'clone', error: explained.why, steps, remote: parsed.remote, dir: target }
+
+    // ④ 校验：只有结构索引存在才算「真的是一份课程仓」。
+    //    这条判据不猜 —— host.js 的 looksLikeWorkspace() 用的也是它。
+    const marker = path.join(target, WORKSPACE_MARKER[0], WORKSPACE_MARKER[1])
+    if (!fs.existsSync(marker)) {
+      return {
+        ok: false, step: 'verify', steps, remote: parsed.remote, dir: target,
+        error: 'clone 成功了，但这个仓里没有「' + WORKSPACE_MARKER.join('\\') + '」——'
+          + '它可能只是一个空仓、或者不是课程仓（老师那边还没发布过）。'
+          + '请找老师确认公开仓，或改填另一个地址。落点：' + target,
+      }
+    }
+    const adopted = adoptWorkspace(target, '首次启动向导（clone 下来的）')
+    if (!adopted.ok) return { ok: false, step: 'verify', error: adopted.error, steps, dir: target }
+    const cfg = ensureCourseConfig(target)
+    const wf = writeWorkspaceFile(target)
+    return {
+      ok: true, mode: 'clone', dir: target, remote: parsed.remote, steps,
+      course: adopted.course, courseConfig: cfg, workspaceFile: wf,
+    }
+  }
+
+  /**
+   * `setup.use`：工作区**已经在**本机（手工 clone 过 / 从别处拷来的），只是没配过。
+   * 不 clone、不联网，只校验 + 认下来 + 写配置。这一档在新机器上很常见
+   * （用户其实已经把仓拷过来了，只是不知道要写配置文件）。
+   */
+  function setupUse(input) {
+    const wantDir = oneLine(input.dir)
+    if (!wantDir) return { ok: false, step: 'parse', error: '还没填目录。' }
+    const target = path.resolve(wantDir)
+    if (!fs.existsSync(target)) {
+      return { ok: false, step: 'inspect', error: '这个目录不存在：' + target }
+    }
+    const adopted = adoptWorkspace(target, '首次启动向导（指定已有目录）')
+    if (!adopted.ok) return { ok: false, step: 'verify', error: adopted.error }
+    const cfg = ensureCourseConfig(target)
+    const wf = writeWorkspaceFile(target)
+    return { ok: true, mode: 'existing', dir: target, course: adopted.course, courseConfig: cfg, workspaceFile: wf }
+  }
+
+  /** runCaptured 的临时文件落点提示：工作区可能是空的，用一个必然可写的目录。 */
+  function findWriteHint() {
+    try { return fs.existsSync(WORKSPACE) ? WORKSPACE : os.homedir() } catch (e) { return undefined }
+  }
+
+  /** 向导的动作集合。各插件在自己的 handlers 里 `...core.coreHandlers` 合并进去。 */
+  const coreHandlers = {
+    'setup.info': async () => setupState(),
+    'setup.clone': async (args) => setupClone(args && typeof args === 'object' ? args : {}),
+    'setup.use': async (args) => setupUse(args && typeof args === 'object' ? args : {}),
+    // 「资料」页的数据源。与 setup.* 放在一起的理由一样：
+    // 它是**两端都要有**的内核能力（学生要下载、老师要核对清单），
+    // 让两个插件各自展开同一份，就不存在"一端加了另一端忘了"。
+    'materials.list': async () => materialsState(),
+  }
+
+  // ── 资料（课件原件 / 讲义 PDF / 数据集）─────────────────────────────
+  /**
+   * 读 `资料.json`，把它变成界面能直接渲染的东西。
+   *
+   * 三件事在这里定好，界面不再自己判断（判断散成三处必然漂移）：
+   *   ① **本地文件的实际大小**：清单里的 size 是老师（或生成器）填的，
+   *      而文件可能后来被换过。以磁盘为准，清单那个只作远程项的参考。
+   *   ② **本地那一项到底存不存在**：不存在时界面要能说出来（"这一项指向的文件不在仓里"），
+   *      而不是给一个点了 404 的下载按钮。这是最容易让老师困惑的一档 ——
+   *      他明明写了清单，学生却点不动。
+   *   ③ **预览方式**：`previewTarget()` 决定用 iframe / img / video / 还是"去课件页"。
+   */
+  async function materialsState() {
+    let raw = null
+    let readError = ''
+    try {
+      if (fs.existsSync(abs(MATERIALS_REL))) raw = JSON.parse(readText(MATERIALS_REL))
+    } catch (e) {
+      // 清单坏了不能把面板弄挂（同 readCourseConfig 的口径）：给空清单 + 一句原因
+      readError = '资料.json 读不动：' + oneLine(e && e.message)
+    }
+    const norm = normalizeManifest(raw || {})
+    const items = norm.items.map((it) => {
+      const localAbs = it.remote ? '' : abs(it.target)
+      let exists = false
+      let size = it.size
+      try {
+        if (localAbs && fs.existsSync(localAbs)) {
+          exists = true
+          const st = fs.statSync(localAbs)
+          if (st.isFile()) size = st.size
+        }
+      } catch (e) { /* 读不到就当不存在 */ }
+      const pv = previewTarget(it)
+      const jump = slidesJump(it)
+      return Object.assign({}, it, {
+        size,
+        sizeText: sizeText(size),
+        /** 仓内文件是否真的在（远程项一律 true —— 它的可达性由学生那边的网络决定） */
+        ok: it.remote || exists,
+        missingWhy: (it.remote || exists) ? '' : ('仓里没有这个文件：' + it.target),
+        preview: pv,
+        jump,
+      })
+    })
+    return {
+      ok: true,
+      hasManifest: !!raw || norm.items.length > 0,
+      updated: norm.updated,
+      note: norm.note,
+      readError,
+      /** 坏项单列：某项从清单里静默消失是最难查的一类（见 resources.js 的注释） */
+      bad: norm.bad,
+      items,
+      count: items.length,
+      kinds: MATERIAL_KINDS,
+    }
   }
 
   async function loadIndex() {
@@ -1400,7 +1876,84 @@ export function createCore(ctx, opts) {
 
   function registerMedia() {
     const mediaDirRel = MEDIA_DIR_REL
-    reg({ kind: 'prefix', path: P.media, handler: (req, res) => {
+    /**
+     * 媒体取用：**本地优先 → 远程回退 → 落缓存**（策略与纯函数见 src/media.js）。
+     *
+     * 这一段是把「媒体放在哪」从插件里解耦出去的地方。以前这里是纯本地读盘，
+     * 文件不在就 404 —— 于是「课件图要不要随仓分发」这件事被钉死在插件里：
+     * 想不随仓分发就得改插件。现在只要 课程配置.json 里填一行 mediaBase，
+     * 媒体放 GitHub raw / 对象存储 / 学校 NAS 都行，插件一行不用改。
+     *
+     * 四档的行为都是刻意的：
+     *   ① 本地有 → 直接给，**一个网络请求都不发**（离线优先，与今天完全一样）
+     *   ② 本地没有、配了 mediaBase → 取回来给客户端，并落一份缓存
+     *   ③ 缓存命中 → 走①那一档（所以**看过一次之后断网也能看**）
+     *   ④ 没有 mediaBase / 取不到 → 404 + 一句能被看懂的日志，不假装成功
+     */
+    const remoteTo = async (chapter, fileName, res) => {
+      const base = MEDIA_BASE
+      if (!base) return false
+      /**
+       * ⚠️ 远程这一档**也要做扩展名回退**，与本地那一档完全一样。
+       *
+       * 这是实机探索抓出来的真 bug（差点就发给学生了）：
+       * `第一章.json` 的坐标里记的是**抽取时的原始扩展名**（`slide001_image1.png`），
+       * 而发出去的图是转换后的 `.webp` —— 本地那一档靠 RASTER_EXT 换扩展名找得到，
+       * 远程那一档却只会照原名请求，于是**每一张图都 404**。
+       * 症状是学生那边整页都是「图片不可用」，而老师本机一切正常（他本地有图）。
+       * 这个 bug 只在「图不在本地 + 配了远程源」这一档才现形 ——
+       * 也就是**摘掉媒体之后才会出现**，所以必须在摘之前验。
+       */
+      const stem = fileName.replace(/\.[^.]+$/, '')
+      const tries = RASTER_EXT.some((x) => x === fileName.toLowerCase())
+        ? [fileName]
+        : [fileName, ...RASTER_EXT.map((x) => stem + x).filter((x) => x !== fileName)]
+      let lastWhy = ''
+      for (const nm of tries) {
+        const url = mediaRemoteUrl(base, chapter, nm)
+        if (!url) return false
+        /**
+         * ⚠️ 用**分段可续**的取回，不是裸 fetch。
+         *
+         * 课件图里混着一张 7.3 MB 的（其余大多几十 KB），实测「一次请求拉完」
+         * 在本机这条链路上对它稳定失败（超时 / ECONNRESET），而分段拉秒级成功 ——
+         * 失败的不是"文件太大"，是"一个连接活不了那么久"。
+         * 对学生的意义更直接：断网时只重拉断掉那一段，而不是整份重来。
+         * 判据与实现见 src/media.js 的 fetchMediaResumable。
+         */
+        const got = await fetchMediaResumable(url, { tries: 3, timeout: 45000 })
+        if (!got.ok) { lastWhy = '取远程媒体失败：' + got.why + '　' + url; continue }
+        const buf = got.buf
+        const judged = looksLikeMedia(nm, got.contentType || '')
+        if (!judged.ok) { lastWhy = judged.why + '　' + url; continue }
+        // 先回给客户端，再谈缓存 —— 让用户等的是「拿到图」，
+        // 而不是「图 + 一次磁盘写」。缓存失败不影响这一次显示。
+        res.statusCode = 200
+        res.setHeader('Content-Type', contentTypeOf(nm))
+        res.setHeader('Cache-Control', 'public, max-age=3600')
+        // 让客户端/诊断能看出「这张是从远程来的」——排查时第一眼要能分清
+        res.setHeader('X-CIP-Media', 'remote')
+        res.end(buf)
+        cache.mediaOk = true
+        cache.mediaRemoteHits = (cache.mediaRemoteHits || 0) + 1
+        cache.mediaError = ''
+        try {
+          // 缓存**按实际取到的名字**存：下次本地那一档会用同一个名字找到它
+          const p = mediaCachePath(mediaCacheRootAbs(), chapter, nm)
+          fs.mkdirSync(path.dirname(p), { recursive: true })
+          fs.writeFileSync(p, buf)
+          cache.mediaCached = (cache.mediaCached || 0) + 1
+        } catch (e) {
+          // 写不进缓存**不算失败**：这一次图已经给出来了，只是下次还要再取一遍。
+          cache.mediaError = '媒体缓存没写成：' + oneLine(e && e.message)
+        }
+        return true
+      }
+      if (lastWhy) cache.mediaError = lastWhy
+      return false
+    }
+
+    reg({ kind: 'prefix', path: P.media, handler: async (req, res) => {
       let nm = ''
       try {
         let rel = String(req.url || '')
@@ -1424,6 +1977,9 @@ export function createCore(ctx, opts) {
         if (hit) { useName = hit; full = path.join(dirAbs, hit) }
         else if (VIDEO_EXT.test(useName)) {
           // 视频有意不随课程包分发：返回一张说明牌，比破图有用
+          // ⚠️ 但**配了 mediaBase 时先去远程找** —— 视频正是最该放对象存储的那一类，
+          //    否则「配了远程源、视频还是说明牌」会让老师以为配置没生效。
+          if (MEDIA_BASE && await remoteTo(segs[0], useName, res)) return
           const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="180">'
             + '<rect width="640" height="180" fill="#f4f4f5" stroke="#d4d4d8"/>'
             + '<text x="320" y="80" text-anchor="middle" font-size="17" fill="#52525b" font-family="sans-serif">此视频未随课程包分发</text>'
@@ -1434,21 +1990,117 @@ export function createCore(ctx, opts) {
           res.setHeader('Cache-Control', 'public, max-age=86400'); res.end(svg); return
         }
       }
+      // ③ 本地没有 → **先看缓存**，再看远程。
+      //
+      // ⚠️ 这一档是上面「落缓存」那一步的**兑现处**，第一版漏了它：
+      //    写进去的缓存从来没被读过 —— 于是每次翻到那一页都要重新下载一遍，
+      //    而「离线也能看」这句承诺根本没生效（症状轻到没人报：只是有点慢、
+      //    断网就坏）。是 verify-media-fallback.mjs 里那条「第二次不再发远程请求」
+      //    的断言把它抓出来的，那一条的判据是**远程请求计数为 0** ——
+      //    只断言「第二次也能拿到图」是假绿，因为走远程同样能拿到。
+      //
+      // ⚠️ 而且缓存查找**也要换扩展名**：缓存是按「实际取到的名字」存的
+      //    （远程那份是 .webp，而 json 里写的是 .png）。
+      //    只按原名找会每次都 miss —— 第二次仍然要联网，只是慢得不明显。
+      //    实机探针（.tmp-probe-slim）第二次请求走了远程，就是这么发现的。
+      if (!fs.existsSync(full) && MEDIA_BASE) {
+        const stem = useName.replace(/\.[^.]+$/, '')
+        const tryNames = [useName].concat(RASTER_EXT.map((x) => stem + x).filter((x) => x !== useName))
+        for (const nm of tryNames) {
+          try {
+            const cached = mediaCachePath(mediaCacheRootAbs(), segs[0], nm)
+            if (fs.existsSync(cached)) {
+              full = cached; useName = nm
+              cache.mediaCacheHits = (cache.mediaCacheHits || 0) + 1
+              res.setHeader('X-CIP-Media', 'cache')
+              break
+            }
+          } catch (e) { /* 段名不安全时本来就走不到这里（上面已校验），忽略 */ }
+        }
+      }
+      if (!fs.existsSync(full)) {
+        if (await remoteTo(segs[0], useName, res)) return
+        cache.mediaError = cache.mediaError || ('找不到这个媒体文件，也没有可用的远程源：' + segs[0] + '/' + segs[1])
+        res.statusCode = 404; res.end('not found'); return
+      }
       try {
         const bytes = fs.readFileSync(full)
         cache.mediaOk = true
         res.statusCode = 200
-        res.setHeader('Content-Type', /\.png$/i.test(useName) ? 'image/png'
-          : (/\.jpe?g$/i.test(useName) ? 'image/jpeg'
-            : (/\.gif$/i.test(useName) ? 'image/gif'
-              : (/\.webp$/i.test(useName) ? 'image/webp'
-                : (/\.svg$/i.test(useName) ? 'image/svg+xml'
-                  : (/\.mp4$/i.test(useName) ? 'video/mp4'
-                    : (/\.webm$/i.test(useName) ? 'video/webm' : 'application/octet-stream')))))))
+        res.setHeader('Content-Type', contentTypeOf(useName))
         res.setHeader('Cache-Control', 'public, max-age=3600')
+        // 与远程那一档用同一个头：诊断时能一眼分清「这张是本机就有的」还是「取回来的」。
+        // 缓存命中时上面已经设过 'cache' 了（它是"取回来的、已落盘"），不要覆盖掉。
+        if (!res.getHeader || !res.getHeader('X-CIP-Media')) {
+          res.setHeader('X-CIP-Media', full === path.join(dirAbs, useName) ? 'local' : 'cache')
+        }
         res.end(bytes)
       } catch (error) {
         cache.mediaError = '读图失败 ' + oneLine(segs[0] + '/' + segs[1]) + '：' + oneLine(error && error.message)
+        res.statusCode = 404; res.end('not found')
+      }
+    } })
+  }
+
+  /**
+   * 「资料」的仓内文件路由（`<prefix>-mat/<相对路径>`）。
+   *
+   * 为什么不复用 `-media`：那条被钉死在「章节/文件名」两段 + 三章白名单，
+   * 而资料是任意相对路径（`第一章-原件.pdf`、`讲义/第3讲.pdf`…）。
+   * 硬塞进去只会让那条路由长出两种语义 —— 与下面 registerSubmissions
+   * 不复用 media 是同一个理由。
+   *
+   * 安全判据与 registerSubmissions 完全一致（**不能只查 `..` 子串**，
+   * Windows 上 `%5C`、盘符、`....//` 都能绕过朴素检查）：
+   *   ① 解码后必须是相对路径、不含 `..`、不是绝对路径
+   *   ② `path.resolve` 之后必须真的落在 `资料/` 里
+   * 两道都要 —— 这一条读的是磁盘上的任意文件，判错就是任意文件读取。
+   */
+  function registerMaterials() {
+    const rootRel = MATERIALS_DIR
+    reg({ kind: 'prefix', path: P.mat, handler: (req, res) => {
+      let nm = ''
+      try {
+        let rel = String(req.url || '')
+        if (rel.indexOf(P.mat) === 0) rel = rel.slice(P.mat.length)
+        if (rel[0] === '/') rel = rel.slice(1)
+        const qi = rel.indexOf('?'); if (qi >= 0) rel = rel.slice(0, qi)
+        nm = decodeURIComponent(rel)
+      } catch (e) { nm = '' }
+      nm = nm.replace(/\\/g, '/')
+      const rootAbs = path.resolve(abs(rootRel))
+      let full = ''
+      try {
+        full = path.resolve(rootAbs, nm)
+      } catch (e) { full = '' }
+      const withSep = rootAbs.endsWith(path.sep) ? rootAbs : rootAbs + path.sep
+      /**
+       * ⚠️ 四道判据，**缺一不可**（这一条读的是磁盘上的真实文件，判松一格就是任意文件读取）：
+       *   ① 空名字
+       *   ② 含 `..`
+       *   ③ 以 `/` 开头（绝对路径）
+       *   ④ 形如 `C:` 的盘符 —— **这一条是负向用例验出来的**：
+       *      把判据削成只剩「不含 .. 子串」之后，`C%3A%5CWindows%5Cwin.ini`
+       *      那条断言当场变红（HTTP 200，读到了系统文件）。
+       * 再叠一道 `path.resolve` 兜底：解析结果必须真的落在 `资料/` 里。
+       */
+      const bad = !nm || nm.indexOf('..') >= 0 || nm[0] === '/' || /^[A-Za-z]:/.test(nm)
+        || !full || (full !== rootAbs && full.indexOf(withSep) !== 0)
+      if (bad) {
+        res.statusCode = 400; res.end('bad name'); return
+      }
+      try {
+        const st = fs.statSync(full)
+        if (!st.isFile()) { res.statusCode = 404; res.end('not found'); return }
+        const bytes = fs.readFileSync(full)
+        res.statusCode = 200
+        // PDF 内嵌预览要求正确的 Content-Type，否则浏览器会当成下载而不是显示
+        res.setHeader('Content-Type', contentTypeOf(full))
+        res.setHeader('Content-Length', String(bytes.length))
+        // 资料基本不变，可以放心让浏览器缓存久一点（省得每次翻页都重下 4 MB 的 PDF）
+        res.setHeader('Cache-Control', 'public, max-age=86400')
+        res.end(bytes)
+      } catch (error) {
         res.statusCode = 404; res.end('not found')
       }
     } })
@@ -1465,16 +2117,12 @@ export function createCore(ctx, opts) {
    * 不能有 ..、不能是绝对路径，且解析结果必须真的落在允许的根目录里。
    * 这是文件读取路由唯一正确的写法 —— 只查 '..' 子串是不够的
    * （Windows 上 %5C 和盘符都能绕过朴素检查）。
+   *
+   * ⚠️ 这里原来有一个**局部**的 contentTypeOf，而 registerMedia 现在从 media.js
+   *    引入了同名函数 —— 局部声明会遮蔽引入的那个，两处各自演化。
+   *    所以那段被删掉了，改用 media.js 的 contentTypeOf（含 .txt / .md），
+   *    这样「本地读到的」与「远程取回来的」永远用同一张表。
    */
-  const contentTypeOf = (nm) => (/\.png$/i.test(nm) ? 'image/png'
-    : (/\.jpe?g$/i.test(nm) ? 'image/jpeg'
-      : (/\.gif$/i.test(nm) ? 'image/gif'
-        : (/\.webp$/i.test(nm) ? 'image/webp'
-          : (/\.svg$/i.test(nm) ? 'image/svg+xml'
-            : (/\.pdf$/i.test(nm) ? 'application/pdf'
-              : (/\.txt$/i.test(nm) ? 'text/plain; charset=utf-8'
-                : (/\.md$/i.test(nm) ? 'text/markdown; charset=utf-8'
-                  : 'application/octet-stream'))))))))
 
   function serveFileUnder(rootRel, urlPrefix, req, res, opts) {
     // 提交附件与提问截图里是**学生的私有数据**（作业、截图）。
@@ -1730,7 +2378,7 @@ export function createCore(ctx, opts) {
 
   /** ctx.effect 包装注册，保证卸载时路由跟着撤掉 */
   function mount() {
-    registerStatic(); registerMedia(); registerSubmissions(); registerDiag()
+    registerStatic(); registerMedia(); registerMaterials(); registerSubmissions(); registerDiag()
     for (const r of routes) ctx.effect(() => ctx.webServer.register(r), label + ' ' + r.path)
   }
 
@@ -1765,7 +2413,18 @@ export function createCore(ctx, opts) {
     // 单一事实来源仍是磁盘原始文件，条目按来源 mtime+size 失效。
     cached, statOf, sameStat, clearCache, cacheInfo, cacheDir,
     // 路由
-    registerApi, registerStatic, registerMedia, registerSubmissions, mount, routes, readBodyForTest: null,
+    registerApi, registerStatic, registerMedia, registerMaterials, registerSubmissions, mount, routes, readBodyForTest: null,
+    // ── 首次启动向导 ──────────────────────────────────────────────
+    //
+    // 为什么是**另一个键**（coreHandlers）而不是并进各插件的 handlers 里：
+    // 向导是「内核的能力」，学生端与教师端都要有（学生换台机器、老师换台机器
+    // 是同一件事），而两端的 handlers 是各写各的。给一个现成的对象让它们展开，
+    // 就不存在「一端加了、另一端忘了」这种半成品状态。
+    //
+    // ⚠️ 各插件必须以 `...core.coreHandlers` 的形式合并进去才会真的挂上路由
+    //    （有断言守着，见 verify-setup-wizard.mjs）。
+    coreHandlers,
+    setupState,
     // 诊断
     info: () => {
       // 版本信息：**这套面板与课程内容是哪个版本**。
@@ -1781,6 +2440,10 @@ export function createCore(ctx, opts) {
       const vi = versionInfo(WORKSPACE, { withRemote: false })
       return {
         workspace: WORKSPACE, workspaceHow: WS.how, workspaceTried: WS.tried,
+        // 首次启动向导需要的三样：配没配过、配置文件在哪、旁边有没有现成的课。
+        // ⚠️ 一起放在 info() 里是有意的：客户端**每次拉 info 都会看到当前状态**，
+        //    所以向导认下工作区之后，界面不需要任何额外的「重新读一次」就能变。
+        setup: setupState(),
       // 两个字段判的不是一回事，都要留着：
       //   workspaceResolved     = 解析链**有没有一个候选通过校验**（配置层面）
       //   workspaceLooksValid   = 解析出来的目录**里有没有「课程中心」**（数据层面）
@@ -1789,6 +2452,18 @@ export function createCore(ctx, opts) {
       workspaceLooksValid: fs.existsSync(path.join(WORKSPACE, '课程中心')),
       role, label, prefix,
       mediaOk: cache.mediaOk === true, mediaError: cache.mediaError,
+      // 媒体源的三个事实：配了没有、配的是哪、为什么是这样。
+      // 界面要能回答学生的第一个问题：「这张图为什么显示不出来」——
+      // 是没配源、配错了、还是取的时候网络断了（那三个的修法完全不同）。
+      media: {
+        base: MEDIA_BASE,
+        how: MEDIA_BASE_WHY,
+        configured: !!MEDIA_BASE,
+        remoteHits: cache.mediaRemoteHits || 0,
+        cached: cache.mediaCached || 0,
+        cacheHits: cache.mediaCacheHits || 0,
+        cacheDir: MEDIA_CACHE_REL,
+      },
       katexOk: cache.katexOk, hasLlm: ctx.get('llm') !== undefined,
       chapters: CHAPTERS,
       // 当前课程：既有课程配置（课程名/课程码/目标），也有**定位信息**
@@ -1827,7 +2502,7 @@ export function createCore(ctx, opts) {
       // 供客户端拼附件 URL：提交附件与提问截图各有自己的前缀。
       // 绝不在这里写死 '/cip-stu-sub' —— 学生端与教师端前缀不同，
       // 写死就会让教师端去请求学生端的路由（这个坑在客户端那侧已经踩过一次）。
-      prefixes: { api: P.api, media: P.media, katex: P.katex, css: P.css, sub: P.sub, shot: P.shot },
+      prefixes: { api: P.api, media: P.media, katex: P.katex, css: P.css, sub: P.sub, shot: P.shot, mat: P.mat },
       routes: routes.map((r) => r.path),
     }
     },

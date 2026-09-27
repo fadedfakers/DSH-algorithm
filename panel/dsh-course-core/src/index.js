@@ -23,6 +23,28 @@ export * from './layout.js'
 // 仓库管理（发布页）：仓名 slug、remote 解析、状态读取、无 Token 时的手动步骤。
 // 状态直接从 .git/config 读，不 spawn git —— 只要三件事：有没有仓、remote 指向哪、哪个分支。
 export * from './repo.js'
+// 版本控制信息：老师据此给学生一条克隆命令，学生据此知道自己 clone 到的是哪个版本。
+//
+// ⚠️ **这一行差点漏掉，而且漏掉时一个错都不报**：教师端 host 里
+//    `const { versionInfo, versionSummary } = C` 是从 core 实例上解构的，
+//    而 C 来自这个 index.js —— 少了这一行，两个名字都是 undefined，
+//    只有**真的调用**时才抛「versionInfo is not a function」。
+//    同一类坑这个项目踩过一次（readThread 没暴露 → 「教师已答复」永远 false，
+//    而调用处恰好有 try/catch），所以宁可在这里写长一点。
+export * from './version.js'
+// 首次启动向导的**判断**部分（纯函数）：地址解析 / 默认落点 `~/DSH-<课程码>` /
+// 落点现状 / 能不能往下走 / 从索引生成课程配置。
+// 动作部分（起 git、写文件）在 host.js 的 createCore 里（`setup.*`），
+// 因为那要用到「往哪写」「怎么跑子进程」这些运行时知识。
+export * from './setup.js'
+// 媒体的取用策略（本地优先 → 远程回退 → 落缓存）：地址校验 / 远程 URL 拼接 /
+// 缓存路径（**有路径穿越防护**）/ 类型判断 / Content-Type。
+// 真正的 fetch 与写盘在 host.js 的 registerMedia 里。
+export * from './media.js'
+// 「资料」清单：课件原件 / 讲义 PDF / 数据集怎么发给学生（读清单、判类型、定预览方式）。
+// 与 materials.js 分工不同 —— 那边是「老师拖进来的文件该归到哪」，
+// 这边是「已经放好的东西学生怎么拿到」。见 resources.js 顶部的长注释。
+export * from './resources.js'
 // 起子进程并**收回输出**（git / 发布工具）。用它而不是 spawnSync 的 encoding：
 // 沙箱不给管道，带 encoding 的 spawnSync 一律 EPERM，而且**不抛异常** ——
 // 表现为「退出码 null + 没有输出」，看起来像 git 自己没说话。详见 run.js 顶部注释。

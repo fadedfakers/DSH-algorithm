@@ -1381,6 +1381,254 @@ window.__ModuleLoader__.load({
           : null)
     }
 
+    // ── 首次启动向导 ──
+    /**
+     * 「这台机器还没配过课程工作区」时唯一该看到的东西。
+     *
+     * ── 为什么需要它 ──────────────────────────────────────────────────────
+     * 插件现在是**通用**的：任意课程、任意仓。而在这之前，一台新机器要能跑起来，
+     * 得先有人手工跑 `templates/install.ps1`（写 `~/.dsh/cip-workspace.txt`）
+     * 或者手工设 `CIP_WORKSPACE` —— 漏掉这一步的症状是**面板空着、一句话都没有**，
+     * 因为解析链的兜底原来是教师机绝对路径，在别的机器上必然落空，落空时又不报错。
+     *
+     * 现在兜底留空了（见 core/host.js 的 DEFAULT_WORKSPACE），落空会如实变成
+     * `info.setup.workspaceResolved === false`，界面据此进这个向导。
+     *
+     * ── 三步，动作全在宿主（core 的 setup.*）────────────────────────────────
+     *   ① 填公开仓地址（老师发在群里那一条）
+     *   ② 落点默认 `~/DSH-<课程码>` —— **允许改**（老师定的：向导里可改）
+     *   ③ clone → 校验 `课程中心/课程结构索引.json` → 认下来 → 写配置文件
+     *
+     * ── 为什么还要「工作区已经在别的目录」这一栏 ────────────────────────────
+     * 新机器上这其实是**最常见**的一档：用户手里已经有一个 clone（U 盘拷的、
+     * 上次装过、老师直接给的压缩包），只是没人告诉他「插件要读一个配置文件」。
+     * 让他重新 clone 一遍是浪费带宽，也是让他怀疑自己做错了什么。
+     *
+     * ⚠️ 这一段在两个客户端里是**同一份代码**（学生端 / 教师端各一份副本）。
+     *    改一处必须改两处 —— verify-setup-wizard.mjs 里有一条断言在比对两边的
+     *    函数体是否逐字一致，忘了改另一边会当场变红。
+     */
+    function SetupWizard({ info, api, onDone }) {
+      const sp = (info && info.setup) || {}
+      const loaded = !!(info && info.setup)
+      const resolved = sp.workspaceResolved !== false
+      const [repo, setRepo] = React.useState('')
+      const [dir, setDir] = React.useState('')
+      // 落点**只在第一次算出来之后允许用户改**：所以这里不是「每次渲染都重置」，
+      // 而是「用户没填过就用宿主给的建议」。老师定的：默认 `~/DSH-<课程码>`，向导里可改。
+      const [mode, setMode] = React.useState('clone')
+      const [open, setOpen] = React.useState(false)
+      const [busy, setBusy] = React.useState(false)
+      const [result, setResult] = React.useState(null)
+      const [err, setErr] = React.useState('')
+      const suggestedDir = (sp.home || '') + '\\DSH-' + (sp.courseCode || 'course')
+      const dirValue = dir || suggestedDir
+      // 宿主没给出 setup（老宿主半区没重启）时**不能装死**：那种情况下
+      // 面板会是空的，而用户连「为什么空」都看不到。
+      if (!loaded) {
+        return h('div', { className: 'k52 k53', style: { margin: '8px 14px 0' } },
+          '课程面板没有拿到工作区信息（多半是宿主半区没重启）。'
+          + '这条信息是「你在看哪门课」的来源，缺了它整块面板都是空的。')
+      }
+      // 已经配好了：**什么都不显示**。这块只在「没配过」时出现 ——
+      // 一个长期挂在面板顶上的设置块，会让人以为每次都要点它。
+      if (resolved) return null
+
+      const callClone = async () => {
+        setBusy(true); setErr(''); setResult(null)
+        try {
+          const r = await api('setup.clone', { repo: repo, dir: dirValue })
+          if (r && r.ok) { setResult(r); await onDone() } else { setErr((r && r.error) || 'clone 失败（宿主没给原因）') }
+        } catch (e) { setErr('' + ((e && e.message) || e)) } finally { setBusy(false) }
+      }
+      const callUse = async () => {
+        setBusy(true); setErr(''); setResult(null)
+        try {
+          const r = await api('setup.use', { dir: dirValue })
+          if (r && r.ok) { setResult(r); await onDone() } else { setErr((r && r.error) || '没认下来（宿主没给原因）') }
+        } catch (e) { setErr('' + ((e && e.message) || e)) } finally { setBusy(false) }
+      }
+      const steps = (result && result.steps) || []
+      const wf = (result && result.workspaceFile) || null
+      return h('div', { className: 'kcb', 'data-role': 'cip-setup', style: { margin: '10px 14px 0' } },
+        h('div', { className: 'k64' }, '① 先把这台机器配好'),
+        h('div', { className: 'kd1' }, '课程面板要读一份**课程工作区**（课件、结构索引、问题池都在里面）。'
+          + '这台机器还没有它 —— 填一个地址，插件替你把它取下来。'),
+        // 「宿主说这次没找到工作区的过程」原来是 `k57`（正文色）。它是**诊断信息**，
+        // 排在两句说明之间会把主张与细节混在一起，所以压成一行小字、颜色调暗。
+        sp.how ? h('div', { className: 'k57' }, '这次没找到工作区的过程：' + sp.how) : null,
+        h('div', { className: 'kce' },
+          h('span', { className: 'k57' }, '公开仓地址'),
+          h('input', {
+            className: 'k61', style: { flex: '1 1 320px', maxWidth: '460px' },
+            value: repo, placeholder: 'https://github.com/<owner>/<仓名>.git（老师发的那一条）',
+            onChange: (e) => setRepo(e.target.value),
+          })),
+        h('div', { className: 'kce' },
+          h('span', { className: 'k57' }, '放到哪里'),
+          h('input', {
+            className: 'k61', style: { flex: '1 1 320px', maxWidth: '460px' },
+            value: dirValue, onChange: (e) => setDir(e.target.value),
+          })),
+        h('div', { className: 'k57' }, '默认落在这里（可以改）：' + suggestedDir),
+        h('div', { className: 'kca' },
+          // 主按钮：实心品牌蓝 + 白字（panel.css 的 --accent / --on-accent）。
+          // 这里额外加粗并给一个最小宽度 —— 上一版它和旁边的次级按钮长得太像，
+          // 用户反馈「分不清哪个是要点的那个」。
+          h('button', {
+            className: 'k42 k11', disabled: busy || !repo.trim(),
+            style: { fontWeight: 650, minWidth: '132px' }, onClick: callClone,
+          }, busy ? '处理中…' : '取下来，配好'),
+          h('button', { className: 'k42', disabled: busy, onClick: () => setOpen(!open) },
+            open ? '收起更多选项' : '更多选项')),
+        busy
+          ? h('div', { className: 'k57' }, '第一次 clone 可能要几十秒（取决于仓的大小与网速）；'
+            + '这期间界面可以继续用，别关掉面板。')
+          : null,
+        open
+          ? h('div', null,
+            h('div', { className: 'k64' }, '工作区已经在别的目录'),
+            h('div', { className: 'k57' }, '手里已经有这个仓了（U 盘拷的、上次装的、老师给的压缩包）？'
+              + '填它的目录，插件只做校验和登记，不联网、不 clone。'),
+            h('div', { className: 'kca' },
+              h('button', { className: 'k42', disabled: busy || !dirValue.trim(), onClick: callUse },
+                busy ? '处理中…' : '就用这个目录')))
+          : null,
+        // 成功：**留下证据**，不只是说一句「好了」——用户要能核对
+        // 「课名对不对」「落在哪」「配置文件写没写进去」。
+        result
+          ? h('div', { className: 'kc7', 'data-ok': '1' },
+            h('div', { className: 'kc8' },
+              bdg('已配好', 'var(--dsw-alias-state-success-primary)'),
+              h('span', { className: 'k57' }, (result.course ? ('课程：' + result.course + '　') : '')
+                + '工作区：' + result.dir + (result.mode === 'clone' ? '（刚 clone 下来）' : '（用的已有目录）'))),
+            h('div', { className: 'k57' }, '配置文件：' + ((wf && wf.file) || sp.workspaceFile || '')
+              + (wf && wf.ok ? '（已写入）' : '　⚠ 没写进去，下次启动要再来一遍：' + ((wf && wf.error) || ''))),
+            result.courseConfig && !result.courseConfig.ok
+              ? h('div', { className: 'k57' }, '⚠ 课名没写进 课程配置.json：' + result.courseConfig.error)
+              : null,
+            h('div', { className: 'k57' }, '面板已经切到这个工作区了，**不用重启**；下面几块现在就有内容。'))
+          : null,
+        // 失败：**红边 + 红字**是刻意的。这一条必须一眼看出「没成功」——
+        // 上一版它和成功态用的是同一个类（只差一个 data 属性，而那两个属性
+        // 在样式表里还没有规则），于是失败看着像一句普通说明，用户会继续往下找。
+        err
+          ? h('div', {
+            className: 'kc7', 'data-err': '1',
+            style: { borderColor: 'var(--dsw-alias-state-error-primary)' },
+          },
+            h('div', { className: 'kc8' },
+              bdg('没成功', 'var(--dsw-alias-state-error-primary)'),
+              h('span', { className: 'k57', style: { color: 'var(--dsw-alias-state-error-primary)' } }, err)),
+            // 命令与退出码压成一行：好几条的时候竖着排会把它撑得很长，
+            // 而这里要传达的只是「跑的是什么、退了多少」。
+            steps.length
+              ? h('div', { className: 'k57' }, '跑过的命令：' + steps.map((s) => s.cmd + '（exit ' + s.code + '）').join('；'))
+              : null,
+            h('div', { className: 'k57' }, '修好之后点上面的按钮重试即可 —— 已经 clone 下来的东西不会被删。'))
+          : null)
+    }
+
+    // ── 资料页（课件原件 / 讲义 PDF / 数据集）──
+    /**
+     * 老师那句「课件、ppt、资料放哪，学生从哪连」的学生侧答案。
+     *
+     * 每一项给学生**三个**入口，而不是一个"下载"：
+     *   · 在线看原件 —— pdf 用 `<iframe>`（浏览器自带阅读器），图片/视频直接显示
+     *   · 去课件页框选 —— **这条才是这个插件的核心动作**：跳到课件页那一章，
+     *     学生就能框选一块 PPT 图区、就地提问（老师原话：「学生端需要对照 ppt 截图提问」）
+     *   · 下载 —— 目标可能是仓内相对路径（随课程包 clone 下来），也可能是
+     *     Releases / 对象存储的 http 直链
+     *
+     * ⚠️ 为什么"预览"要分几种模式（iframe / img / video / slides）：
+     *    浏览器**没有 pptx 渲染器**。所以 pptx 那一档不能假装能内嵌 ——
+     *    要么用同目录转好的 PDF（清单里 `slides.pdf`），要么引导去课件页框选。
+     *    给一个点了没反应的「预览」按钮，比不给更糟。
+     *
+     * ⚠️ 这一层只用宿主算好的三个字段：`it.preview.mode` / `it.jump` / `it.ok`，
+     *    **不自己按扩展名推断**。判据在 core/src/resources.js（唯一来源）——
+     *    两处各推一份必然漂移，这个项目已经吃过几次（file 双前缀、路径归属）。
+     */
+    function MaterialCard({ it, st, set, onJump, matPrefix }) {
+      const pv = it.preview || { mode: 'none', src: '' }
+      const open = st.matOpen && st.matOpen.title === it.title
+      const kindLabel = it.kind === 'slides' ? '课件原件'
+        : (it.kind === 'pdf' ? 'PDF' : (it.kind === 'image' ? '图片' : (it.kind === 'video' ? '视频' : '文件')))
+      const href = it.remote ? it.target : (matPrefix + '/' + encodeURI(it.target))
+      return h('div', { className: 'kc7', 'data-ok': it.ok ? '1' : '0' },
+        h('div', { className: 'kc8' },
+          bdg(kindLabel, 'var(--dsw-alias-bg-layer-1)'),
+          h('span', { className: 'k57', style: { fontWeight: 600, color: 'var(--text)' } }, it.title),
+          it.sizeText ? h('span', { className: 'k57' }, it.sizeText) : null,
+          it.remote ? h('span', { className: 'k57' }, '（外部直链）') : null,
+          // 仓里没有这个文件时**明说**，而不是给一个点开 404 的按钮。
+          // 这是最容易让老师困惑的一档：他明明写了清单，学生却点不动。
+          !it.ok ? h('span', { className: 'k57', style: { color: 'var(--dsw-alias-state-warn-primary)' } },
+            '⚠ ' + (it.missingWhy || '仓里没有这个文件')) : null),
+        it.note ? h('div', { className: 'k57' }, it.note) : null,
+        h('div', { className: 'kca' },
+          it.ok && pv.mode !== 'none' && pv.mode !== 'slides'
+            ? h('button', {
+              className: 'k42 k11',
+              onClick: () => set({ matOpen: open ? null : { title: it.title, mode: pv.mode, src: pv.src } }),
+            }, open ? '收起预览' : '在线看原件')
+            : null,
+          it.jump ? h('button', {
+            className: 'k42',
+            disabled: !it.ok,
+            title: '跳到课件页的「' + it.jump.chapter + '」，在那里可以框选一块图区提问',
+            onClick: () => onJump(it.jump),
+          }, '去课件页框选提问') : null,
+          it.ok ? h('a', {
+            className: 'k42', href, target: '_blank', rel: 'noreferrer',
+            style: {
+              textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
+              padding: '4px 10px', borderRadius: '5px', border: '1px solid var(--line-2)',
+              fontSize: '12px', color: 'var(--text)',
+            },
+          }, '下载') : null),
+        open && pv.mode === 'iframe'
+          ? h('div', null,
+            h('iframe', {
+              src: pv.src, title: it.title,
+              style: { width: '100%', height: '460px', border: '1px solid var(--line)', borderRadius: 'var(--r1)', background: '#fff' },
+            }),
+            h('div', { className: 'k57' }, '翻到想看的那一页，截图或框选之后回到课件页提问。'))
+          : null,
+        open && pv.mode === 'img'
+          ? h('img', {
+            src: pv.src, alt: it.title,
+            style: { maxWidth: '100%', border: '1px solid var(--line)', borderRadius: 'var(--r1)' },
+          })
+          : null,
+        open && pv.mode === 'video'
+          ? h('video', { src: pv.src, controls: true, style: { width: '100%', maxHeight: '420px', background: '#000', borderRadius: 'var(--r1)' } })
+          : null)
+    }
+
+    function Materials({ st, set, onJump, matPrefix }) {
+      const m = st.materials
+      if (!m) return h('div', { className: 'k21' }, '资料清单加载中…')
+      if (m.readError) return h('div', { className: 'k52 k53', style: { margin: '8px 14px 0' } }, m.readError)
+      if (!m.items || !m.items.length) {
+        return h('div', { className: 'k46' },
+          h('div', { className: 'k64' }, '资料'),
+          h('div', { className: 'kd1' }, '老师还没有发布课件原件 / 讲义。'),
+          h('div', { className: 'k57' }, '课件图仍然可以在「课件」页看；这一页只放**原件**（能下载、能在线看的那种）。'))
+      }
+      return h('div', { className: 'k46' },
+        h('div', { className: 'k64' }, '资料（' + m.count + ' 项）'),
+        h('div', { className: 'kd1' }, '课件原件、讲义 PDF 都在这儿。**要对着某一页提问**，'
+          + '点「去课件页框选提问」—— 那里能框一块图区就地提问，比截图发群里清楚得多。'),
+        // 坏项单列：某项从清单里静默消失是最难查的一类（老师会说"我明明写了"）
+        (m.bad && m.bad.length)
+          ? h('div', { className: 'k57', style: { color: 'var(--dsw-alias-state-warn-primary)' } },
+            '⚠ 清单里有 ' + m.bad.length + ' 项没法显示：' + m.bad.slice(0, 3).join('；'))
+          : null,
+        (m.items || []).map((it, i) => h(MaterialCard, { key: 'mat' + i, it, st, set, onJump, matPrefix })),
+        m.updated ? h('div', { className: 'k57' }, '清单更新于 ' + m.updated) : null)
+    }
+
     // ── 面板 ──
     function Panel() {
       const init = {
@@ -1406,6 +1654,9 @@ window.__ModuleLoader__.load({
         me: null, meOpen: false, meForm: null, identifyHint: '', meConfirm: false, meMissing: '',
         // 就绪清单与首次设置向导
         readiness: null, wizardOpen: false, wizardStep: 1, wizardSkipped: false,
+        // 资料页：materials = materials.list 的返回；matOpen = 哪一项的预览展开了
+        // （存 `{title, mode, src}` 而不是下标 —— 清单会刷新，下标会漂）
+        materials: null, matOpen: null,
       }
       const pair = React.useState(init)
       const st = pair[0] || init          // 状态为 null/undefined 时也不至于崩
@@ -1454,6 +1705,18 @@ window.__ModuleLoader__.load({
         try {
           const info = await api('info', {})
           set({ info })
+          // ── 这台机器还没配过工作区时**到此为止**，后面的动作一个都不发 ────────
+          //
+          // 为什么必须早退（这是实机截图里暴露出来的）：那些动作全都建立在
+          // 「有一个能读的课程工作区」之上，工作区不存在时它们必然失败，
+          // 而失败会渲染成一条红色「加载失败：读课程数据失败：课程结构索引不存在」。
+          // 后果有两层：
+          //   ① 面板第一眼看到的是「坏了」，而真实情况是「还没配」——
+          //      用户会去查插件，而该做的是点上面的向导；
+          //   ② 那条红条**把向导挤到下面**，看着像插件报错而不是它在教人修。
+          // 上面的 SetupWizard 已经把那件事说清楚了（而且它就在红条上面），
+          // 所以这里静默返回即可 —— 不是吞掉错误，是**这个错误在这一档没有意义**。
+          if (info && info.setup && info.setup.workspaceResolved === false) return
           const tree = (await api('tree', {})).tree
           set({ tree })
           const ch = (info.chapters && info.chapters[0]) || '第一章'
@@ -1473,6 +1736,11 @@ window.__ModuleLoader__.load({
         // 旧宿主上这个动作不存在，会返回「未知动作」。写在同一个 try 里，
         // 后果是整页只显示一条报错、连课件都看不了（踩过一次）。
         // 新加的动作不该有能力把已经能用的面板弄坏。
+        // 资料清单：同样是**新动作**，旧宿主上没有。单独一段 try ——
+        // 少了它只是「资料」页空着，不该影响提问/课件这些主功能（踩过一次）。
+        try {
+          set({ materials: await api('materials.list', {}) })
+        } catch (err) { /* 没资料清单也能用 */ }
         // 就绪清单：同样是**新动作**，旧宿主上不存在。
         // 单独一段 try —— 新加的动作不该有能力把已经能用的面板弄坏（踩过一次）。
         try {
@@ -1525,8 +1793,22 @@ window.__ModuleLoader__.load({
         set({ chapter: ch, slideIndex: 0, picked: [], slides: null })  // picked 永远是数组，不能给 null
         set({ slides: await api('slides', { chapter: ch }) })
       }, [])
-      const openThread = React.useCallback(async (path) => {
-        try {
+      /**
+       * 「去课件页框选提问」—— 资料页 → 课件页的那一跳。
+       *
+       * 老师原话是「学生端需要对照 ppt 截图提问」，所以这一跳必须落在一个
+       * **能立刻框选**的地方：切到课件页、换到那一章、滚到最前面。
+       * `slides.from` 只是清单给的建议范围；面板的课件页按 `<章>.json` 渲染，
+       * 所以这里**不按 from 定位页**（页序不一定一一对应，跳错页比不跳更糟）——
+       * 宁可落在那一章的第 1 页，也不假装精确。
+       */
+      const goMaterialsJump = React.useCallback(async (jump) => {
+        if (!jump || !jump.chapter) return
+        set({ view: 'slides', slideIndex: 0, picked: [], matOpen: null })
+        await switchChapter(jump.chapter)
+        set({ notice: '已切到「' + jump.chapter + '」的课件页：拖一下框选一块图区，就能就着它提问' })
+      }, [switchChapter])
+      const openThread = React.useCallback(async (path) => {        try {
           set({ thread: await api('thread', { path }), selPath: path, view: 'thread', followup: '' })
         } catch (err) { set({ error: '读取失败：' + ((err && err.message) || String(err)) }) }
       }, [])
@@ -1804,6 +2086,9 @@ window.__ModuleLoader__.load({
       const views = [
         { id: 'outline', label: '大纲' },
         { id: 'slides', label: '课件' },
+        // 「资料」放第三个：学生第一个想找的通常是"原件在哪"（老师那句
+        // 「ppt 放哪」就是学生视角的问题），而它现在终于有地方可去了。
+        { id: 'materials', label: '资料' },
         { id: 'threads', label: '我的提问' },
         { id: 'public', label: '公开问答' },
         { id: 'lesson', label: '课时作业' },
@@ -1833,15 +2118,29 @@ window.__ModuleLoader__.load({
           }, v.label))),
           h('button', { className: 'k42', disabled: st.busy, onClick: load }, st.busy ? '处理中…' : '刷新')),
 
-        // ── 「你是这个班的谁」────────────────────────────────────────
-        // 只在两种情况出现：还没填过（identified=false，那时学号是
-        // 系统用户名 Administrator 这种），或者自己点名字要改。
-        // 不填也能用，但老师那边看到的提问者就是一串机器用户名 ——
-        // 所以这里要把后果说清楚，而不是强制填。
+        // ── 首次启动向导：**顺序是刻意的，放在最前面** ──────────────────────
+        //
+        // 它只在「这台机器没配过课程工作区」时出现（配好了返回 null）。
+        // 为什么必须排在就绪清单与红条**前面**：没有工作区的时候，
+        // 就绪清单说的那几件事全是空谈（课都没有，谈什么就绪），
+        // 而「加载失败：读课程数据失败」那条红条会把它往下挤 ——
+        // 用户看到的第一个东西应该正好是「现在该做的那一件事」。
+        h(SetupWizard, { info: st.info, api: api, onDone: load }),
+        // 媒体源**配了但无效**时吭一声：那是「图全都加载不出来」里最难查的一档 ——
+        // 地址拼错时取回来的是 404，界面上的表现与「这张图本来就没有」一模一样，
+        // 而配置文件看起来完全正确。正常配置下一声不吭，不占地方。
+        (st.info && st.info.media && !st.info.media.configured && st.info.media.how)
+          ? h('div', {
+            className: 'k57',
+            style: { margin: '6px 14px 0', color: 'var(--dsw-alias-state-warn-primary)' },
+          }, '⚠ ' + st.info.media.how)
+          : null,
         // 就绪清单 / 首次设置向导。
         // 原来这里只有一个「我是谁」卡片，现在扩成三件事的清单 ——
         // 「面板是空的」有四种完全不同的原因，而界面上看起来一模一样。
-        h(ReadinessCard, { st, set, onIdentify }),
+        // ⚠️ 工作区**配好了**才有意义：没配过时它列的是「工作区 缺 / 课程 缺」，
+        //    而上面的向导已经在说同一件事，两块并排会让人以为是两个问题。
+        (st.info && st.info.setup && st.info.setup.workspaceResolved === false) ? null : h(ReadinessCard, { st, set, onIdentify }),
         st.error ? h('div', { className: 'k52 k53', style: { margin: '8px 14px 0' } }, st.error) : null,
         st.notice ? h('div', { className: 'k52 k62', style: { margin: '8px 14px 0' } }, st.notice) : null,
         st.katexError ? h('div', { className: 'k52 k53', style: { margin: '8px 14px 0' } }, '公式渲染不可用：' + st.katexError) : null,
@@ -1880,8 +2179,16 @@ window.__ModuleLoader__.load({
               h('div', { className: 'k91' },
                 h(Slides, { st, set, onAddPick: addPick, pageHasPick: pageHasPick, slideRef: slideRef })),
               h(AskPanel, { st, set, onAsk: onAsk, onRemovePick: removePick, onClearPicks: clearPicks }))) : null,
-            st.view === 'threads' ? h(PanelBoundary, { label: '我的提问' }, h('div', { className: 'k27' }, h(ThreadList, { st, set, onOpen: openThread, onShare: shareItem, onShareBatch: shareBatch }))) : null,
-            st.view === 'public' ? h(PanelBoundary, { label: '公开问答' }, h('div', { className: 'k27' }, h(PublicQA, { st, set, onOpen: openThread, onSync }))) : null,
+            st.view === 'materials' ? h(PanelBoundary, { label: '资料' },
+              h(Materials, {
+                st, set, onJump: goMaterialsJump,
+                // 前缀从**宿主下发的 info.prefixes** 取，不写死：
+                // 写死会让"换前缀就整块坏掉"，而这个项目已经为写死前缀吃过一次亏
+                // （教师面板去请求学生端路由，满屏「未知动作」）。回落值只是为了
+                // 老宿主上不至于崩 —— 那种情况下这一页本来也是空的。
+                matPrefix: (st.info && st.info.prefixes && st.info.prefixes.mat) || '/cip-stu-mat',
+              })) : null,
+            st.view === 'threads' ? h(PanelBoundary, { label: '我的提问' }, h('div', { className: 'k27' }, h(ThreadList, { st, set, onOpen: openThread, onShare: shareItem, onShareBatch: shareBatch }))) : null,            st.view === 'public' ? h(PanelBoundary, { label: '公开问答' }, h('div', { className: 'k27' }, h(PublicQA, { st, set, onOpen: openThread, onSync }))) : null,
             st.view === 'thread' ? h(PanelBoundary, { label: '问答详情' }, h('div', { className: 'k27' }, h(ThreadView, { st, set, onFollowup }))) : null,
             st.view === 'lesson' ? h(PanelBoundary, { label: '课时作业' }, h('div', { className: 'k27' }, h(LessonPage, { st, set, onGrade: onGrade, onAssignPick: assignPick }))) : null,
             st.view === 'submit' ? h(PanelBoundary, { label: '提交历史' }, h('div', { className: 'k27' }, h(SubmissionHistory, { st, set, onGrade: onGrade, onOpenLesson: openLesson }))) : null,
@@ -1959,7 +2266,7 @@ window.__ModuleLoader__.load({
     // SlideTextChip / pickLabel：框内取字与证据条标题（纯逻辑，决定跨页证据到底带上了什么）
     // LessonForm / LessonPage / Markdown：课时页的验收靠单独驱动它们 ——
     //   三个提交页签是条件渲染的，只渲染外层看不到另外两页的文案。
-    exports.__components = { Panel: Panel, ReadinessCard: ReadinessCard, SlideTextChip: textInBox, pickLabel: pickLabel, LessonForm: LessonForm, LessonPage: LessonPage, Markdown: Markdown }
+    exports.__components = { Panel: Panel, ReadinessCard: ReadinessCard, SetupWizard: SetupWizard, SlideTextChip: textInBox, pickLabel: pickLabel, LessonForm: LessonForm, LessonPage: LessonPage, Markdown: Markdown }
     return module.exports
   },
 })
